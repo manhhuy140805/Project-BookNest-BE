@@ -4,29 +4,46 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
-generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
-}
-
 datasource db {
   provider = "postgresql"
+}
+
+generator client {
+  provider      = "prisma-client"
+  output        = "../src/generated/prisma"
+  moduleFormat  = "cjs"
 }
 
 model User {
   id        Int      @id @default(autoincrement())
   email     String   @unique
-  name      String?
-  posts     Post[]
+  hashPassword  String
+  ratings   Rating[]
   createdAt DateTime @default(now())
 }
 
-model Post {
+model Book {
+  id          Int        @id @default(autoincrement())
+  title       String
+  author      String
+  categoryId  Int
+  category    Category   @relation(fields: [categoryId], references: [id])
+  ratings     Rating[]
+  createdAt   DateTime   @default(now())
+}
+
+model Category {
+  id     Int     @id @default(autoincrement())
+  name   String  @unique
+  books  Book[]
+}
+
+model Rating {
   id        Int      @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean  @default(false)
-  authorId  Int
-  author    User     @relation(fields: [authorId], references: [id])
+  score     Int
+  userId    Int
+  bookId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  book      Book     @relation(fields: [bookId], references: [id])
   createdAt DateTime @default(now())
 }

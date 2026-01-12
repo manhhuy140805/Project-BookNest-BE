@@ -283,3 +283,220 @@ JwtModule.register({
 - [ ] Test protected endpoint bằng token
 
 ---
+
+## 11. RolesGuard - Kiểm Soát Quyền Truy Cập
+
+### File: `src/modules/auth/guards/roles.guard.ts`
+
+**Vai trò:**
+
+- Kiểm tra role của user
+- So sánh user.role với required roles từ `@Roles()` decorator
+- Throw ForbiddenException nếu role không match
+
+**Cách hoạt động:**
+
+1. Dùng `Reflector` để đọc metadata từ `@Roles()` decorator
+2. Nếu không có `@Roles()`, cho phép tất cả authenticated users
+3. Lấy user.role từ request (được set bởi JwtStrategy)
+4. So sánh user.role với required roles
+5. Nếu match → allow, nếu không → throw ForbiddenException
+
+**Ví dụ sử dụng:**
+
+```typescript
+import { RolesGuard } from 'src/modules/auth/guards';
+import { Roles, Role } from 'src/common/decorator';
+
+@Controller('admin')
+export class AdminController {
+  // ✅ Chỉ ADMIN mới được xóa user
+  @Delete(':id')
+  @UseGuards(MyJwtGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  deleteUser(@Param('id') id: number) {
+    return this.userService.delete(id);
+  }
+
+  // ✅ ADMIN hoặc MODERATOR được phép
+  @Get('dashboard')
+  @UseGuards(MyJwtGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.MODERATOR)
+  dashboard() {
+    return this.adminService.getDashboard();
+  }
+
+  // ✅ Tất cả authenticated users được phép (không cần @Roles)
+  @Get('profile')
+  @UseGuards(MyJwtGuard)
+  getProfile(@UserData() user: User) {
+    return user;
+  }
+}
+```
+
+**Lưu ý quan trọng:**
+
+- RolesGuard phải dùng **với** JwtGuard
+- Thứ tự: `@UseGuards(MyJwtGuard, RolesGuard)` - JWT trước, role sau
+- User phải authenticate (có JWT token) trước khi check role
+- `@Roles()` là tùy chọn - nếu không có, tất cả authenticated users được phép
+- Role được define trong Prisma schema `enum Role { USER, ADMIN, MODERATOR }`
+
+**Error Messages:**
+
+```
+Bạn cần đăng nhập để truy cập           → User chưa authenticate
+User không có role được gán              → User.role = null
+Bạn cần có role ADMIN hoặc MODERATOR    → Role không match
+```
+
+---
+
+## 12. Decorator Placement - Thứ Tự Đặt Decorator
+
+**Đúng cách (từ trên xuống):**
+
+```typescript
+@Get(':id')
+@UseGuards(MyJwtGuard, RolesGuard)      // 1️⃣ Guards - Kiểm tra quyền
+@Roles(Role.ADMIN)                      // 2️⃣ Metadata - Role required
+@Cache({ ttl: 3600 })                   // 3️⃣ Metadata - Cache
+@RateLimit({ max: 10, windowMs: 60000 }) // 4️⃣ Metadata - Rate limit
+async getUser(
+  @Param('id') id: string,              // 5️⃣ Parameters - URL params
+  @UserData() user: User,               // 5️⃣ Parameters - User data
+  @Query() query: QueryDto,             // 5️⃣ Parameters - Query string
+) {
+  return user;
+}
+```
+
+**Quy tắc:**
+
+- Method decorators (HTTP methods) ở trên cùng
+- Guards → Metadata → Parameters (từ trên xuống)
+- Guards kiểm tra quyền **trước** các decorator khác
+- Parameters decorators **không có thứ tự** (tất cả là parameter)
+
+---
+
+## 13. Common Patterns & Best Practices
+
+### Pattern 1: Public vs Protected Routes
+
+```typescript
+// Public route - không cần JWT
+@Post('login')
+@IsPublic()  // Bỏ qua JwtGuard check
+login(@Body() authDto: AuthDto) {
+  return this.authService.login(authDto);
+}
+
+// Protected route - cần JWT
+@Get('profile')
+@UseGuards(MyJwtGuard)
+getProfile(@UserData() user: User) {
+  return user;
+}
+
+// Admin only
+@Delete(':id')
+@UseGuards(MyJwtGuard, RolesGuard)
+@Roles(Role.ADMIN)
+delete(@Param('id') id: number) {
+  return this.service.delete(id);
+}
+```
+
+### Pattern 2: Rate Limiting Sensitive Endpoints
+
+```typescript
+// Brute force protection
+@Post('login')
+@RateLimit({ max: 5, windowMs: 60000 })  // 5 tries per minute
+login(@Body() authDto: AuthDto) {
+  return this.authService.login(authDto);
+}
+
+// Send OTP
+@Post('send-otp')
+@RateLimit({ max: 3, windowMs: 300000 })  // 3 times per 5 minutes
+sendOtp(@Body() body: SendOtpDto) {
+  return this.authService.sendOtp(body);
+}
+```
+
+### Pattern 3: Caching Read-Only Endpoints
+
+```typescript
+// Cache popular data
+@Get('popular-books')
+@Cache({ ttl: 3600, key: 'popular-books' })  // Cache 1 hour
+getPopularBooks() {
+  return this.bookService.getPopular();
+}
+
+// Cache categories
+@Get('categories')
+@Cache({ ttl: 86400 })  // Cache 1 day
+getCategories() {
+  return this.categoryService.getAll();
+}
+```
+
+---
+
+## 14. Update AuthModule (Sau Khi Tạo RolesGuard)
+
+```typescript
+import { Module } from '@nestjs/common';
+import { AuthService } from './auth.service';
+import { AuthController } from './auth.controller';
+import { PassportModule } from '@nestjs/passport';
+import { JwtModule } from '@nestjs/jwt';
+import { JwtStrategy } from './stratery/jwt.strategy';
+import { RolesGuard } from './guards/roles.guard'; // ✅ Import
+import { PrismaService } from '../prisma/prisma.service';
+
+@Module({
+  imports: [
+    PassportModule.register({ defaultStrategy: 'jwt' }),
+    JwtModule.register({
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: '1h' },
+    }),
+  ],
+  controllers: [AuthController],
+  providers: [
+    AuthService,
+    JwtStrategy,
+    RolesGuard, // ✅ Thêm vào providers
+    PrismaService,
+  ],
+  exports: [
+    AuthService,
+    PassportModule,
+    JwtModule,
+    RolesGuard, // ✅ Export để modules khác dùng
+  ],
+})
+export class AuthModule {}
+```
+
+---
+
+## 15. Checklist Complete Setup
+
+- [x] Cài đặt packages (JWT, Passport)
+- [x] Thêm JWT_SECRET vào .env
+- [x] Tạo JwtStrategy
+- [x] Tạo JwtAuthGuard (MyJwtGuard)
+- [x] Tạo Decorators (UserData, IsPublic, Roles, RateLimit, Cache)
+- [x] Tạo RolesGuard
+- [ ] Update AuthModule để export RolesGuard
+- [ ] Tạo CacheInterceptor (tùy chọn)
+- [ ] Tạo RateLimitInterceptor (tùy chọn)
+- [ ] Test các guards + decorators
+- [ ] Update Prisma schema với Role enum
+- [ ] Test login + protected endpoints

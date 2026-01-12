@@ -18,8 +18,22 @@ export class AuthService {
         data: {
           email: authDto.email,
           hashPassword: hashPassword,
+          fullName: authDto.fullName,
+          avatarUrl:
+            'https://thumbs.dreamstime.com/b/d-icon-avatar-cute-smiling-woman-cartoon-hipster-character-people-close-up-portrait-isolated-transparent-png-background-352288997.jpg',
         },
-        select: { id: true, email: true, createdAt: true },
+        select: {
+          id: true,
+          email: true,
+          fullName: true,
+          avatarUrl: true,
+          bio: true,
+          dateOfBirth: true,
+          role: true,
+          ratings: true,
+          favoriteBooks: true,
+          createdAt: true,
+        },
       });
       return user;
     } catch (error) {

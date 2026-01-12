@@ -14,12 +14,26 @@ generator client {
   moduleFormat  = "cjs"
 }
 
+enum Role {
+  USER
+  ADMIN
+  MODERATOR
+}
+
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
+  id            Int       @id @default(autoincrement())
+  email         String    @unique
   hashPassword  String
-  ratings   Rating[]
-  createdAt DateTime @default(now())
+  fullName      String?
+  avatarUrl     String?
+  bio           String?
+  dateOfBirth   DateTime?
+  role          Role      @default(USER)
+  ratings       Rating[]
+  favoriteBooks Book[]
+  isActive      Boolean   @default(true)
+  isVerified    Boolean   @default(false)
+  createdAt     DateTime  @default(now())
 }
 
 model Book {
@@ -30,6 +44,8 @@ model Book {
   category    Category   @relation(fields: [categoryId], references: [id])
   ratings     Rating[]
   createdAt   DateTime   @default(now())
+
+  users User[]
 }
 
 model Category {

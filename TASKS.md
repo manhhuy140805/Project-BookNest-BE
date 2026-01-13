@@ -24,8 +24,8 @@ Hệ thống quản lý sách với chức năng đánh giá, yêu thích và ph
 
 ## 👤 Task 3: User Module
 
-- [ ] CRUD User (findAll, findOne, update, remove, create)
-- [ ] Update profile (fullName, bio, avatarUrl, dateOfBirth)
+- [x] CRUD User (findAll, findOne, update, remove, create)
+- [x] Update profile (fullName, bio, avatarUrl, dateOfBirth)
 - [ ] Favorite books (add, remove, list)
 
 ---

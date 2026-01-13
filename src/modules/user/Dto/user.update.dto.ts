@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
-export class AuthDto {
+export class UserUpdate {
   @IsEmail()
+  @IsString()
   @IsNotEmpty()
   email: string;
 
@@ -13,4 +13,16 @@ export class AuthDto {
   @IsString()
   @IsNotEmpty()
   fullName: string;
+
+  @IsString()
+  avatarUrl: string;
+
+  @IsString()
+  bio: string;
+
+  @IsString()
+  dateOfBirth: string;
+
+  @IsString()
+  role: string;
 }

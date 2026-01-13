@@ -37,20 +37,11 @@ import { createParamDecorator, ExecutionContext } from '@nestjs/common';
  */
 export const UserData = createParamDecorator(
   (data: string, ctx: ExecutionContext) => {
-    // Lấy request từ HTTP context
     const request = ctx.switchToHttp().getRequest();
-
-    // Lấy user từ request (được set bởi JwtStrategy)
     const user = request.user;
-
-    // Nếu có tham số data, lấy property cụ thể
-    // @UserData('id') → return user.id
     if (data) {
       return user?.[data];
     }
-
-    // Nếu không có tham số, trả về toàn bộ user
-    // @UserData() → return user
     return user;
   },
 );

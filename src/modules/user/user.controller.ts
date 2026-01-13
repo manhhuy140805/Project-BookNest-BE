@@ -1,16 +1,16 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
-import { MyJwtGuard } from '../auth/guards';
-import { UserData } from 'src/common/decorator';
-import type { User } from 'src/generated/prisma/client';
+import { Roles, UserData, Role } from 'src/common/decorator';
+import { type User } from 'src/generated/prisma/client';
+import { RolesGuard } from 'src/common/guards';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
-
-  @Get('profile')
-  @UseGuards(MyJwtGuard)
-  getProfile(@UserData() user: User) {
-    return user;
-  }
+  // constructor(private readonly userService: UserService) {}
+  // @UseGuards(RolesGuard)
+  // @Roles(Role.ADMIN)
+  // @Get()
+  // getAll(@UserData() user: User) {
+  //   return user;
+  // }
 }

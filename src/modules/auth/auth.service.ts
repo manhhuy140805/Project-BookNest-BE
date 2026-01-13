@@ -1,5 +1,5 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import type { AuthDto } from './dto';
+import type { AuthLoginDto, AuthRegisterDto } from './dto';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
@@ -11,7 +11,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async register(authDto: AuthDto) {
+  async register(authDto: AuthRegisterDto) {
     const hashPassword = await bcrypt.hash(authDto.password, 10);
     try {
       const user = await this.prisma.user.create({
@@ -26,13 +26,6 @@ export class AuthService {
           id: true,
           email: true,
           fullName: true,
-          avatarUrl: true,
-          bio: true,
-          dateOfBirth: true,
-          role: true,
-          ratings: true,
-          favoriteBooks: true,
-          createdAt: true,
         },
       });
       return user;
@@ -44,7 +37,7 @@ export class AuthService {
     }
   }
 
-  async login(authDto: AuthDto) {
+  async login(authDto: AuthLoginDto) {
     const user = await this.prisma.user.findUnique({
       where: { email: authDto.email },
     });

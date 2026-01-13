@@ -9,9 +9,9 @@ import { SetMetadata } from '@nestjs/common';
  * - MODERATOR: Người điều hành (quyền cao hơn user)
  */
 export enum Role {
-  ADMIN = 'admin',
-  USER = 'user',
-  MODERATOR = 'moderator',
+  ADMIN = 'ADMIN',
+  USER = 'USER',
+  MODERATOR = 'MODERATOR',
 }
 
 export const ROLES_KEY = 'roles';

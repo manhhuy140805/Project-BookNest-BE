@@ -1,8 +1,9 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthRegisterDto, AuthLoginDto } from './dto';
 import 'dotenv/config';
-import { IsPublic } from 'src/common/decorator';
+import { IsPublic, UserData } from 'src/common/decorator';
+import type { User } from 'src/generated/prisma/client';
 
 @Controller('auth')
 export class AuthController {
@@ -18,5 +19,10 @@ export class AuthController {
   @IsPublic()
   login(@Body() authDto: AuthLoginDto) {
     return this.authService.login(authDto);
+  }
+
+  @Get('me')
+  getMe(@UserData() user: User) {
+    return this.authService.getMe(user);
   }
 }

@@ -1,29 +1,106 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { UserCreate, UserUpdate } from './Dto';
 import { PrismaService } from '../prisma/prisma.service';
+import { Role } from 'src/generated/prisma/enums';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
-//   constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {}
 
-//   findAll() {
-//     const users = this.prismaService.user.findMany();
-//     return users;
-//   }
+  async findAll() {
+    const users = await this.prismaService.user.findMany();
+    return users;
+  }
 
-//   findOne(id: number) {
-//     return `This action returns a #${id} user`;
-//   }
+  async findOne(id: number) {
+    const user = await this.prismaService.user.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        email: true,
+        fullName: true,
+        avatarUrl: true,
+        bio: true,
+        dateOfBirth: true,
+        role: true,
+      },
+    });
 
-//   remove(id: number) {
-//     return `This action removes a #${id} user`;
-//   }
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
 
-//   update(id: number, userUpdate: UserUpdate) {
-//     return `This action updates a #${id} user`;
-//   }
+    return user;
+  }
 
-//   create(userCreate: UserCreate) {
-//     return 'This action adds a new user';
-//   }
+  async remove(id: number) {
+    const user = await this.prismaService.user.findUnique({ where: { id } });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    await this.prismaService.user.delete({ where: { id } });
+    return `This action removes user ${user.fullName} - id #${user.id}`;
+  }
+
+  async update(id: number, userUpdate: UserUpdate) {
+    const user = await this.prismaService.user.findUnique({ where: { id } });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    if (
+      userUpdate.role &&
+      !Object.values(Role).includes(userUpdate.role as Role)
+    ) {
+      throw new BadRequestException(
+        `Role không hợp lệ. Chỉ chấp nhận: ${Object.values(Role).join(', ')}`,
+      );
+    }
+
+    const updatedUser = await this.prismaService.user.update({
+      where: { id },
+      data: {
+        fullName: userUpdate.fullName,
+        avatarUrl: userUpdate.avatarUrl,
+        bio: userUpdate.bio,
+        role: userUpdate.role as Role,
+      },
+    });
+    return updatedUser;
+  }
+
+  async create(userCreate: UserCreate) {
+    const hashPassword = await bcrypt.hash(userCreate.password, 10);
+    try {
+      const user = await this.prismaService.user.create({
+        data: {
+          email: userCreate.email,
+          hashPassword: hashPassword,
+          fullName: userCreate.fullName,
+          avatarUrl:
+            'https://thumbs.dreamstime.com/b/d-icon-avatar-cute-smiling-woman-cartoon-hipster-character-people-close-up-portrait-isolated-transparent-png-background-352288997.jpg',
+        },
+        select: {
+          id: true,
+          email: true,
+          fullName: true,
+        },
+      });
+      return user;
+    } catch (error) {
+      if (error instanceof Error && 'code' in error && error.code === 'P2002') {
+        throw new ForbiddenException('Email already exists');
+      }
+      throw error;
+    }
+  }
 }

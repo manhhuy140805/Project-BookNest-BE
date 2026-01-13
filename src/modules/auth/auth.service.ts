@@ -3,6 +3,7 @@ import type { AuthLoginDto, AuthRegisterDto } from './dto';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
+import type { User } from 'src/generated/prisma/client';
 
 @Injectable()
 export class AuthService {
@@ -52,6 +53,10 @@ export class AuthService {
       throw new ForbiddenException('Tài khoản hoặc mật khẩu không đúng');
     }
     return this.signToken(user.id, user.email);
+  }
+
+  getMe(user: User) {
+    return user;
   }
 
   async signToken(

@@ -1,15 +1,6 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class UserUpdate {
-  @IsEmail()
-  @IsString()
-  @IsNotEmpty()
-  email: string;
-
-  @IsString()
-  @IsNotEmpty()
-  password: string;
-
   @IsString()
   @IsNotEmpty()
   fullName: string;
@@ -19,9 +10,6 @@ export class UserUpdate {
 
   @IsString()
   bio: string;
-
-  @IsString()
-  dateOfBirth: string;
 
   @IsString()
   role: string;

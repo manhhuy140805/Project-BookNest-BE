@@ -14,17 +14,10 @@ import { MyJwtGuard } from './common/guards';
   controllers: [AppController],
   providers: [
     AppService,
-
-    // ✅ Đăng ký global guard
-    // MyJwtGuard sẽ bảo vệ tất cả routes
-    // Routes có @IsPublic() sẽ skip JWT check
     {
       provide: APP_GUARD,
       useClass: MyJwtGuard,
     },
-
-    // ✅ Đăng ký global interceptors
-    // Thứ tự: RateLimitInterceptor trước → CacheInterceptor sau
     {
       provide: APP_INTERCEPTOR,
       useClass: RateLimitInterceptor, // Kiểm tra rate limit trước

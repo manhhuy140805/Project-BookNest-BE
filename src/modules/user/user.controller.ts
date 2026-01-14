@@ -9,9 +9,10 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { Roles, Role } from 'src/common/decorator';
+import { Roles, Role, UserData } from 'src/common/decorator';
 import { RolesGuard } from 'src/common/guards';
 import { UserCreate, UserUpdate } from './Dto';
+import type { User } from 'src/generated/prisma/client';
 
 @Controller('user')
 export class UserController {
@@ -50,5 +51,20 @@ export class UserController {
   @Post('create')
   create(@Body() userCreate: UserCreate) {
     return this.userService.create(userCreate);
+  }
+
+  @Post('favorite/add/:bookId')
+  addFavoriteBook(@Param('bookId') bookId: string, @UserData() user: User) {
+    return this.userService.addFavoriteBook(user, Number(bookId));
+  }
+
+  @Post('favorite/remove/:bookId')
+  removeFavoriteBook(@Param('bookId') bookId: string, @UserData() user: User) {
+    return this.userService.removeFavoriteBook(user, Number(bookId));
+  }
+
+  @Get('favoriteBoks')
+  checkFavorite(@Param('bookId') bookId: string, @UserData() user: User) {
+    return this.userService.getListFavoriteBooks(user);
   }
 }

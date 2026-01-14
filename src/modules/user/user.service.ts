@@ -8,6 +8,7 @@ import { UserCreate, UserUpdate } from './Dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { Role } from 'src/generated/prisma/enums';
 import * as bcrypt from 'bcrypt';
+import { User } from 'src/generated/prisma/client';
 
 @Injectable()
 export class UserService {
@@ -102,5 +103,114 @@ export class UserService {
       }
       throw error;
     }
+  }
+
+  async addFavoriteBook(user: User, bookId: number) {
+    const book = await this.prismaService.book.findUnique({
+      where: { id: bookId },
+    });
+    if (!book) {
+      throw new NotFoundException('Book not found');
+    }
+
+    if (await this.checkFavorite(user, bookId)) {
+      throw new BadRequestException('Book is already in favorites');
+    }
+
+    await this.prismaService.user.update({
+      where: { id: user.id },
+      data: {
+        favoriteBooks: {
+          connect: { id: bookId },
+        },
+      },
+    });
+
+    const listFavoriteBooks = await this.prismaService.user.findUnique({
+      where: { id: user.id },
+      select: {
+        id: true,
+        fullName: true,
+        favoriteBooks: {
+          where: { id: bookId },
+          select: {
+            id: true,
+            title: true,
+            author: true,
+          },
+        },
+      },
+    });
+
+    return listFavoriteBooks;
+  }
+
+  async removeFavoriteBook(user: User, bookId: number) {
+    const book = await this.prismaService.book.findUnique({
+      where: { id: bookId },
+    });
+
+    if (!book) {
+      throw new NotFoundException('Book not found');
+    }
+
+    if (!(await this.checkFavorite(user, bookId))) {
+      throw new BadRequestException('Book is not in favorites');
+    }
+
+    await this.prismaService.user.update({
+      where: { id: user.id },
+      data: {
+        favoriteBooks: {
+          disconnect: { id: bookId },
+        },
+      },
+    });
+
+    const listFavoriteBooks = await this.prismaService.user.findUnique({
+      where: { id: user.id },
+      select: {
+        id: true,
+        fullName: true,
+        favoriteBooks: {
+          where: { id: bookId },
+          select: {
+            id: true,
+            title: true,
+            author: true,
+          },
+        },
+      },
+    });
+    return listFavoriteBooks;
+  }
+
+  async checkFavorite(user: User, bookId: number) {
+    const isFavorite = await this.prismaService.user.findFirst({
+      where: {
+        id: user.id,
+        favoriteBooks: {
+          some: { id: bookId }, // Kiểm tra quan hệ giữa user và book
+        },
+      },
+    });
+    return Boolean(isFavorite);
+  }
+
+  async getListFavoriteBooks(user: User) {
+    return await this.prismaService.user.findUnique({
+      where: { id: user.id },
+      select: {
+        id: true,
+        fullName: true,
+        favoriteBooks: {
+          select: {
+            id: true,
+            title: true,
+            author: true,
+          },
+        },
+      },
+    });
   }
 }

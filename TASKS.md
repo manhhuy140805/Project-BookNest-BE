@@ -26,7 +26,7 @@ Hệ thống quản lý sách với chức năng đánh giá, yêu thích và ph
 
 - [x] CRUD User (findAll, findOne, update, remove, create)
 - [x] Update profile (fullName, bio, avatarUrl, dateOfBirth)
-- [ ] Favorite books (add, remove, list)
+- [x] Favorite books (add, remove, list)
 
 ---
 

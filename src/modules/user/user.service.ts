@@ -75,6 +75,15 @@ export class UserService {
         bio: userUpdate.bio,
         role: userUpdate.role as Role,
       },
+      select: {
+        id: true,
+        email: true,
+        fullName: true,
+        avatarUrl: true,
+        bio: true,
+        dateOfBirth: true,
+        role: true,
+      },
     });
     return updatedUser;
   }

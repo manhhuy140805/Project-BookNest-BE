@@ -58,7 +58,7 @@ export class UserController {
     return this.userService.addFavoriteBook(user, Number(bookId));
   }
 
-  @Post('favorite/remove/:bookId')
+  @Delete('favorite/remove/:bookId')
   removeFavoriteBook(@Param('bookId') bookId: string, @UserData() user: User) {
     return this.userService.removeFavoriteBook(user, Number(bookId));
   }

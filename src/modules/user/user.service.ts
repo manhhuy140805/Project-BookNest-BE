@@ -48,7 +48,7 @@ export class UserService {
     }
 
     await this.prismaService.user.delete({ where: { id } });
-    return `This action removes user ${user.fullName} - id #${user.id}`;
+    return `This action removes user ${user.fullName} with ID #${user.id}`;
   }
 
   async update(id: number, userUpdate: UserUpdate) {

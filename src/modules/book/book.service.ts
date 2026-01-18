@@ -23,7 +23,10 @@ export class BookService {
   }
 
   async getAllBooks() {
-    const books = await this.prismaService.book.findMany();
+    const books = await this.prismaService.book.findMany({
+      orderBy: { id: 'desc' },
+      include: { category: true },
+    });
     return books;
   }
 
@@ -104,6 +107,7 @@ export class BookService {
             },
           ],
         },
+        orderBy: { id: 'desc' },
       }),
     ]);
 

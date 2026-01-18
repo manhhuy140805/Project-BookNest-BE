@@ -8,10 +8,11 @@ import { PrismaModule } from './modules/prisma/prisma.module';
 import { CacheInterceptor, RateLimitInterceptor } from './common/interceptors';
 import { MyJwtGuard } from './common/guards';
 import { BookModule } from './modules/book/book.module';
+import { CategoryModule } from './modules/category/category.module';
 
 @Global()
 @Module({
-  imports: [UserModule, AuthModule, PrismaModule, BookModule],
+  imports: [UserModule, AuthModule, PrismaModule, BookModule, CategoryModule],
   controllers: [AppController],
   providers: [
     AppService,

@@ -48,7 +48,7 @@ export class UserService {
     }
 
     await this.prismaService.user.delete({ where: { id } });
-    return `This action removes user ${user.fullName} - id #${user.id}`;
+    return `This action removes user ${user.fullName} with ID #${user.id}`;
   }
 
   async update(id: number, userUpdate: UserUpdate) {
@@ -221,5 +221,47 @@ export class UserService {
         },
       },
     });
+  }
+
+  async searchUser(
+    keyword: string,
+    role: string,
+    page: number = 1,
+    limit: number = 10,
+  ) {
+    const roleValues = Object.values(Role);
+
+    const skip = (page - 1) * limit;
+
+    const whereCondition = {
+      OR: [
+        {
+          email: { contains: keyword, mode: 'insensitive' as const },
+        },
+        {
+          fullName: { contains: keyword, mode: 'insensitive' as const },
+        },
+      ],
+      ...(role && roleValues.includes(role as Role) && { role: role as Role }),
+    };
+
+    const [users, total] = await Promise.all([
+      this.prismaService.user.findMany({
+        where: whereCondition,
+        skip,
+        take: limit,
+      }),
+      this.prismaService.user.count({
+        where: whereCondition,
+      }),
+    ]);
+
+    return {
+      data: users,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    };
   }
 }

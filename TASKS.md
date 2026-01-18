@@ -32,10 +32,10 @@ Hệ thống quản lý sách với chức năng đánh giá, yêu thích và ph
 
 ## 📚 Task 4: Book Module
 
-- [ ] CRUD Book (create, findAll, findOne, update, remove)
-- [ ] Search & filter (title, author, category)
-- [ ] Pagination & sort
-- [ ] Calculate average rating
+- [x] CRUD Book (create, findAll, findOne, update, remove)
+- [x] Search & filter (title, author, category)
+- [x] Pagination & sort
+- [x] Calculate average rating
 
 ---
 

@@ -5,11 +5,12 @@ import {
   Get,
   Param,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { BookService } from './book.service';
 import { BookDto } from './Dto';
-import { Role, Roles } from 'src/common/decorator';
+import { IsPublic, Role, Roles } from 'src/common/decorator';
 import { RolesGuard } from 'src/common/guards';
 
 @Controller('book')
@@ -23,12 +24,14 @@ export class BookController {
     return this.bookService.createBook(bookDto);
   }
 
+  @IsPublic()
   @Get()
   async getAllBooks() {
     return this.bookService.getAllBooks();
   }
 
-  @Get(':id')
+  @IsPublic()
+  @Get('id/:id')
   async getBookById(@Param('id') id: string) {
     return this.bookService.getBookById(Number(id));
   }
@@ -45,5 +48,21 @@ export class BookController {
   @Roles(Role.ADMIN)
   async deleteBook(@Param('id') id: string) {
     return this.bookService.deleteBook(Number(id));
+  }
+
+  @IsPublic()
+  @Get('search')
+  async searchBooks(
+    @Query('keyword') keyword: string,
+    @Query('categoryId') categoryId: string,
+    @Query('page') page: string = '1',
+    @Query('limit') limit: string = '10',
+  ) {
+    return this.bookService.searchBooks(
+      keyword,
+      Number(categoryId),
+      Number(page),
+      Number(limit),
+    );
   }
 }

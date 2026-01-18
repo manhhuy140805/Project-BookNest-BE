@@ -64,7 +64,12 @@ export class BookService {
     return `Book ${book.title} with ID #${id} has been deleted`;
   }
 
-  async searchBooks(keyword: string, page: number = 1, limit: number = 10) {
+  async searchBooks(
+    keyword: string,
+    categoryId: number,
+    page: number = 1,
+    limit: number = 10,
+  ) {
     const skip = (page - 1) * limit;
 
     const [books, total] = await Promise.all([
@@ -72,47 +77,30 @@ export class BookService {
         where: {
           OR: [
             {
-              title: {
-                contains: keyword,
-                mode: 'insensitive',
-              },
+              title: { contains: keyword, mode: 'insensitive' },
             },
             {
-              author: {
-                contains: keyword,
-                mode: 'insensitive',
-              },
+              author: { contains: keyword, mode: 'insensitive' },
             },
           ],
+          AND: categoryId
+            ? {
+                categoryId: categoryId,
+              }
+            : {},
         },
+        include: { category: true, ratings: true },
         skip,
         take: limit,
-        include: {
-          category: true,
-          ratings: {
-            select: {
-              score: true,
-            },
-          },
-        },
-        orderBy: {
-          createdAt: 'desc',
-        },
       }),
       this.prismaService.book.count({
         where: {
           OR: [
             {
-              title: {
-                contains: keyword,
-                mode: 'insensitive',
-              },
+              title: { contains: keyword, mode: 'insensitive' },
             },
             {
-              author: {
-                contains: keyword,
-                mode: 'insensitive',
-              },
+              author: { contains: keyword, mode: 'insensitive' },
             },
           ],
         },
@@ -120,27 +108,24 @@ export class BookService {
     ]);
 
     const booksWithAvgRating = books.map((book) => {
+      const totalRatings = book.ratings.length;
       const avgRating =
-        book.ratings.length > 0
-          ? book.ratings.reduce((sum, r) => sum + r.score, 0) /
-            book.ratings.length
+        totalRatings > 0
+          ? book.ratings.reduce((sum, rating) => sum + rating.score, 0) /
+            totalRatings
           : 0;
-
       return {
         ...book,
-        averageRating: Number(avgRating.toFixed(1)),
-        totalRatings: book.ratings.length,
+        avgRating: parseFloat(avgRating.toFixed(2)),
       };
     });
 
     return {
       data: booksWithAvgRating,
-      meta: {
-        total,
-        page,
-        limit,
-        totalPages: Math.ceil(total / limit),
-      },
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
     };
   }
 

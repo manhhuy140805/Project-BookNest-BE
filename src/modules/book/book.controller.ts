@@ -31,17 +31,7 @@ export class BookController {
   }
 
   @IsPublic()
-  @Get('search')
-  async searchBooks(
-    @Query('keyword') keyword: string,
-    @Query('page') page: string = '1',
-    @Query('limit') limit: string = '10',
-  ) {
-    return this.bookService.searchBooks(keyword, Number(page), Number(limit));
-  }
-
-  @IsPublic()
-  @Get(':id')
+  @Get('id/:id')
   async getBookById(@Param('id') id: string) {
     return this.bookService.getBookById(Number(id));
   }
@@ -58,5 +48,21 @@ export class BookController {
   @Roles(Role.ADMIN)
   async deleteBook(@Param('id') id: string) {
     return this.bookService.deleteBook(Number(id));
+  }
+
+  @IsPublic()
+  @Get('search')
+  async searchBooks(
+    @Query('keyword') keyword: string,
+    @Query('categoryId') categoryId: string,
+    @Query('page') page: string = '1',
+    @Query('limit') limit: string = '10',
+  ) {
+    return this.bookService.searchBooks(
+      keyword,
+      Number(categoryId),
+      Number(page),
+      Number(limit),
+    );
   }
 }

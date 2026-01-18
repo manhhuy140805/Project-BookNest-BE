@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
@@ -66,5 +67,22 @@ export class UserController {
   @Get('favoriteBoks')
   checkFavorite(@Param('bookId') bookId: string, @UserData() user: User) {
     return this.userService.getListFavoriteBooks(user);
+  }
+
+  @Get('search')
+  @UseGuards(RolesGuard)
+  @Roles(Role.ADMIN)
+  searchUser(
+    @Query('keyword') keyword: string,
+    @Query('role') role: string,
+    @Query('page') page: string = '1',
+    @Query('limit') limit: string = '10',
+  ) {
+    return this.userService.searchUser(
+      keyword,
+      role,
+      Number(page),
+      Number(limit),
+    );
   }
 }

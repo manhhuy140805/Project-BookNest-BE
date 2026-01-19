@@ -41,16 +41,16 @@ Hệ thống quản lý sách với chức năng đánh giá, yêu thích và ph
 
 ## 🏷️ Task 5: Category Module
 
-- [ ] CRUD Category (create, findAll, findOne, update, remove)
-- [ ] Get books by category
+- [x] CRUD Category (create, findAll, findOne, update, remove)
+- [x] Get books by category
 
 ---
 
 ## ⭐ Task 6: Rating Module
 
-- [ ] Create rating (1-5 sao, 1 user/book chỉ rate 1 lần)
-- [ ] Update/delete own rating
-- [ ] Get ratings by book/user
+- [x] Create rating (1-5 sao, 1 user/book chỉ rate 1 lần)
+- [x] Update/delete own rating
+- [x] Get ratings by book/user
 
 ---
 
@@ -65,9 +65,9 @@ Hệ thống quản lý sách với chức năng đánh giá, yêu thích và ph
 
 ## ✅ Task 8: Validation & Error Handling
 
-- [ ] Setup Global ValidationPipe trong `main.ts`
-- [ ] Validation DTO với class-validator
-- [ ] Tạo PrismaExceptionFilter (xử lý P2002, P2025, P2003)
+- [x] Setup Global ValidationPipe trong `main.ts`
+- [x] Validation DTO với class-validator
+- [x] Tạo PrismaExceptionFilter (xử lý P2002, P2025, P2003)
 
 ---
 

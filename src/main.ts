@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common/pipes/validation.pipe';
+import { PrismaExceptionFilter } from './common/filters';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -16,6 +17,9 @@ async function bootstrap() {
       },
     }),
   );
+
+  // Đăng ký global exception filter
+  app.useGlobalFilters(new PrismaExceptionFilter());
 
   await app.listen(process.env.PORT ?? 8080);
 }

@@ -9,10 +9,11 @@ import { CacheInterceptor, RateLimitInterceptor } from './common/interceptors';
 import { MyJwtGuard } from './common/guards';
 import { BookModule } from './modules/book/book.module';
 import { CategoryModule } from './modules/category/category.module';
+import { RatingModule } from './modules/rating/rating.module';
 
 @Global()
 @Module({
-  imports: [UserModule, AuthModule, PrismaModule, BookModule, CategoryModule],
+  imports: [UserModule, AuthModule, PrismaModule, BookModule, CategoryModule, RatingModule],
   controllers: [AppController],
   providers: [
     AppService,

@@ -27,9 +27,14 @@ export class UserService {
         email: true,
         fullName: true,
         avatarUrl: true,
+        avatarCloudinaryId: true,
         bio: true,
         dateOfBirth: true,
         role: true,
+        isVerified: true,
+        isActive: true,
+        createdAt: true,
+        updatedAt: true,
       },
     });
 
@@ -58,31 +63,47 @@ export class UserService {
       throw new NotFoundException('User not found');
     }
 
-    if (
-      userUpdate.role &&
-      !Object.values(Role).includes(userUpdate.role as Role)
-    ) {
-      throw new BadRequestException(
-        `Role không hợp lệ. Chỉ chấp nhận: ${Object.values(Role).join(', ')}`,
-      );
+    const updateData: any = {};
+
+    if (userUpdate.fullName !== undefined) {
+      updateData.fullName = userUpdate.fullName;
+    }
+
+    if (userUpdate.avatarUrl !== undefined) {
+      updateData.avatarUrl = userUpdate.avatarUrl;
+    }
+
+    if (userUpdate.avatarCloudinaryId !== undefined) {
+      updateData.avatarCloudinaryId = userUpdate.avatarCloudinaryId;
+    }
+
+    if (userUpdate.bio !== undefined) {
+      updateData.bio = userUpdate.bio;
+    }
+
+    if (userUpdate.dateOfBirth !== undefined) {
+      updateData.dateOfBirth = new Date(userUpdate.dateOfBirth);
+    }
+
+    if (userUpdate.role !== undefined) {
+      updateData.role = userUpdate.role;
     }
 
     const updatedUser = await this.prismaService.user.update({
       where: { id },
-      data: {
-        fullName: userUpdate.fullName,
-        avatarUrl: userUpdate.avatarUrl,
-        bio: userUpdate.bio,
-        role: userUpdate.role as Role,
-      },
+      data: updateData,
       select: {
         id: true,
         email: true,
         fullName: true,
         avatarUrl: true,
+        avatarCloudinaryId: true,
         bio: true,
         dateOfBirth: true,
         role: true,
+        isVerified: true,
+        isActive: true,
+        updatedAt: true,
       },
     });
     return updatedUser;
@@ -90,28 +111,24 @@ export class UserService {
 
   async create(userCreate: UserCreate) {
     const hashPassword = await bcrypt.hash(userCreate.password, 10);
-    try {
-      const user = await this.prismaService.user.create({
-        data: {
-          email: userCreate.email,
-          hashPassword: hashPassword,
-          fullName: userCreate.fullName,
-          avatarUrl:
-            'https://thumbs.dreamstime.com/b/d-icon-avatar-cute-smiling-woman-cartoon-hipster-character-people-close-up-portrait-isolated-transparent-png-background-352288997.jpg',
-        },
-        select: {
-          id: true,
-          email: true,
-          fullName: true,
-        },
-      });
-      return user;
-    } catch (error) {
-      if (error instanceof Error && 'code' in error && error.code === 'P2002') {
-        throw new ForbiddenException('Email already exists');
-      }
-      throw error;
-    }
+    const user = await this.prismaService.user.create({
+      data: {
+        email: userCreate.email,
+        hashPassword: hashPassword,
+        fullName: userCreate.fullName,
+        avatarUrl:
+          'https://thumbs.dreamstime.com/b/d-icon-avatar-cute-smiling-woman-cartoon-hipster-character-people-close-up-portrait-isolated-transparent-png-background-352288997.jpg',
+        isVerified: false,
+        isActive: true,
+        role: 'USER',
+      },
+      select: {
+        id: true,
+        email: true,
+        fullName: true,
+      },
+    });
+    return user;
   }
 
   async addFavoriteBook(user: User, bookId: number) {

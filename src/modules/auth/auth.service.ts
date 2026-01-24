@@ -14,28 +14,27 @@ export class AuthService {
 
   async register(authDto: AuthRegisterDto) {
     const hashPassword = await bcrypt.hash(authDto.password, 10);
-    try {
-      const user = await this.prisma.user.create({
-        data: {
-          email: authDto.email,
-          hashPassword: hashPassword,
-          fullName: authDto.fullName,
-          avatarUrl:
-            'https://thumbs.dreamstime.com/b/d-icon-avatar-cute-smiling-woman-cartoon-hipster-character-people-close-up-portrait-isolated-transparent-png-background-352288997.jpg',
-        },
-        select: {
-          id: true,
-          email: true,
-          fullName: true,
-        },
-      });
-      return user;
-    } catch (error) {
-      if (error instanceof Error && 'code' in error && error.code === 'P2002') {
-        throw new ForbiddenException('Email already exists');
-      }
-      throw error;
-    }
+    const user = await this.prisma.user.create({
+      data: {
+        email: authDto.email,
+        hashPassword: hashPassword,
+        fullName: authDto.fullName,
+        avatarUrl:
+          'https://thumbs.dreamstime.com/b/d-icon-avatar-cute-smiling-woman-cartoon-hipster-character-people-close-up-portrait-isolated-transparent-png-background-352288997.jpg',
+        isVerified: false,
+        isActive: true,
+        role: 'USER',
+      },
+      select: {
+        id: true,
+        email: true,
+        fullName: true,
+        role: true,
+        isVerified: true,
+        isActive: true,
+      },
+    });
+    return user;
   }
 
   async login(authDto: AuthLoginDto) {
@@ -44,6 +43,9 @@ export class AuthService {
     });
     if (!user) {
       throw new ForbiddenException('Tài khoản hoặc mật khẩu không đúng');
+    }
+    if (!user.isActive) {
+      throw new ForbiddenException('Tài khoản đã bị vô hiệu hóa');
     }
     const passwordMatches = await bcrypt.compare(
       authDto.password,

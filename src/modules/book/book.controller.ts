@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { BookService } from './book.service';
-import { BookDto } from './Dto';
+import { CreateBookDto, UpdateBookDto } from './Dto';
 import { IsPublic, Role, Roles } from 'src/common/decorator';
 import { RolesGuard } from 'src/common/guards';
 
@@ -20,8 +20,8 @@ export class BookController {
   @Post('create')
   @UseGuards(RolesGuard)
   @Roles(Role.ADMIN)
-  async createBook(@Body() bookDto: BookDto) {
-    return this.bookService.createBook(bookDto);
+  async createBook(@Body() createBookDto: CreateBookDto) {
+    return this.bookService.createBook(createBookDto);
   }
 
   @IsPublic()
@@ -39,8 +39,11 @@ export class BookController {
   @Post('update/:id')
   @UseGuards(RolesGuard)
   @Roles(Role.ADMIN)
-  async updateBook(@Param('id') id: string, @Body() bookDto: BookDto) {
-    return this.bookService.updateBook(Number(id), bookDto);
+  async updateBook(
+    @Param('id') id: string,
+    @Body() updateBookDto: UpdateBookDto,
+  ) {
+    return this.bookService.updateBook(Number(id), updateBookDto);
   }
 
   @Delete('delete/:id')

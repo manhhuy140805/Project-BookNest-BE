@@ -28,11 +28,15 @@ export type AggregateBook = {
 
 export type BookAvgAggregateOutputType = {
   id: number | null
+  pdfSize: number | null
+  pdfUploadedBy: number | null
   categoryId: number | null
 }
 
 export type BookSumAggregateOutputType = {
   id: number | null
+  pdfSize: number | null
+  pdfUploadedBy: number | null
   categoryId: number | null
 }
 
@@ -40,35 +44,69 @@ export type BookMinAggregateOutputType = {
   id: number | null
   title: string | null
   author: string | null
+  description: string | null
+  coverUrl: string | null
+  coverCloudinaryId: string | null
+  pdfUrl: string | null
+  pdfFileId: string | null
+  pdfFileName: string | null
+  pdfSize: number | null
+  pdfUploadedAt: Date | null
+  pdfUploadedBy: number | null
   categoryId: number | null
   createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type BookMaxAggregateOutputType = {
   id: number | null
   title: string | null
   author: string | null
+  description: string | null
+  coverUrl: string | null
+  coverCloudinaryId: string | null
+  pdfUrl: string | null
+  pdfFileId: string | null
+  pdfFileName: string | null
+  pdfSize: number | null
+  pdfUploadedAt: Date | null
+  pdfUploadedBy: number | null
   categoryId: number | null
   createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type BookCountAggregateOutputType = {
   id: number
   title: number
   author: number
+  description: number
+  coverUrl: number
+  coverCloudinaryId: number
+  pdfUrl: number
+  pdfFileId: number
+  pdfFileName: number
+  pdfSize: number
+  pdfUploadedAt: number
+  pdfUploadedBy: number
   categoryId: number
   createdAt: number
+  updatedAt: number
   _all: number
 }
 
 
 export type BookAvgAggregateInputType = {
   id?: true
+  pdfSize?: true
+  pdfUploadedBy?: true
   categoryId?: true
 }
 
 export type BookSumAggregateInputType = {
   id?: true
+  pdfSize?: true
+  pdfUploadedBy?: true
   categoryId?: true
 }
 
@@ -76,24 +114,54 @@ export type BookMinAggregateInputType = {
   id?: true
   title?: true
   author?: true
+  description?: true
+  coverUrl?: true
+  coverCloudinaryId?: true
+  pdfUrl?: true
+  pdfFileId?: true
+  pdfFileName?: true
+  pdfSize?: true
+  pdfUploadedAt?: true
+  pdfUploadedBy?: true
   categoryId?: true
   createdAt?: true
+  updatedAt?: true
 }
 
 export type BookMaxAggregateInputType = {
   id?: true
   title?: true
   author?: true
+  description?: true
+  coverUrl?: true
+  coverCloudinaryId?: true
+  pdfUrl?: true
+  pdfFileId?: true
+  pdfFileName?: true
+  pdfSize?: true
+  pdfUploadedAt?: true
+  pdfUploadedBy?: true
   categoryId?: true
   createdAt?: true
+  updatedAt?: true
 }
 
 export type BookCountAggregateInputType = {
   id?: true
   title?: true
   author?: true
+  description?: true
+  coverUrl?: true
+  coverCloudinaryId?: true
+  pdfUrl?: true
+  pdfFileId?: true
+  pdfFileName?: true
+  pdfSize?: true
+  pdfUploadedAt?: true
+  pdfUploadedBy?: true
   categoryId?: true
   createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -187,8 +255,18 @@ export type BookGroupByOutputType = {
   id: number
   title: string
   author: string
+  description: string | null
+  coverUrl: string | null
+  coverCloudinaryId: string | null
+  pdfUrl: string | null
+  pdfFileId: string | null
+  pdfFileName: string | null
+  pdfSize: number | null
+  pdfUploadedAt: Date | null
+  pdfUploadedBy: number | null
   categoryId: number
   createdAt: Date
+  updatedAt: Date
   _count: BookCountAggregateOutputType | null
   _avg: BookAvgAggregateOutputType | null
   _sum: BookSumAggregateOutputType | null
@@ -218,22 +296,44 @@ export type BookWhereInput = {
   id?: Prisma.IntFilter<"Book"> | number
   title?: Prisma.StringFilter<"Book"> | string
   author?: Prisma.StringFilter<"Book"> | string
+  description?: Prisma.StringNullableFilter<"Book"> | string | null
+  coverUrl?: Prisma.StringNullableFilter<"Book"> | string | null
+  coverCloudinaryId?: Prisma.StringNullableFilter<"Book"> | string | null
+  pdfUrl?: Prisma.StringNullableFilter<"Book"> | string | null
+  pdfFileId?: Prisma.StringNullableFilter<"Book"> | string | null
+  pdfFileName?: Prisma.StringNullableFilter<"Book"> | string | null
+  pdfSize?: Prisma.IntNullableFilter<"Book"> | number | null
+  pdfUploadedAt?: Prisma.DateTimeNullableFilter<"Book"> | Date | string | null
+  pdfUploadedBy?: Prisma.IntNullableFilter<"Book"> | number | null
   categoryId?: Prisma.IntFilter<"Book"> | number
   createdAt?: Prisma.DateTimeFilter<"Book"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Book"> | Date | string
   category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>
   ratings?: Prisma.RatingListRelationFilter
   users?: Prisma.UserListRelationFilter
+  uploader?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }
 
 export type BookOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   author?: Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
+  coverUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  coverCloudinaryId?: Prisma.SortOrderInput | Prisma.SortOrder
+  pdfUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  pdfFileId?: Prisma.SortOrderInput | Prisma.SortOrder
+  pdfFileName?: Prisma.SortOrderInput | Prisma.SortOrder
+  pdfSize?: Prisma.SortOrderInput | Prisma.SortOrder
+  pdfUploadedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  pdfUploadedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   category?: Prisma.CategoryOrderByWithRelationInput
   ratings?: Prisma.RatingOrderByRelationAggregateInput
   users?: Prisma.UserOrderByRelationAggregateInput
+  uploader?: Prisma.UserOrderByWithRelationInput
 }
 
 export type BookWhereUniqueInput = Prisma.AtLeast<{
@@ -243,19 +343,40 @@ export type BookWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.BookWhereInput | Prisma.BookWhereInput[]
   title?: Prisma.StringFilter<"Book"> | string
   author?: Prisma.StringFilter<"Book"> | string
+  description?: Prisma.StringNullableFilter<"Book"> | string | null
+  coverUrl?: Prisma.StringNullableFilter<"Book"> | string | null
+  coverCloudinaryId?: Prisma.StringNullableFilter<"Book"> | string | null
+  pdfUrl?: Prisma.StringNullableFilter<"Book"> | string | null
+  pdfFileId?: Prisma.StringNullableFilter<"Book"> | string | null
+  pdfFileName?: Prisma.StringNullableFilter<"Book"> | string | null
+  pdfSize?: Prisma.IntNullableFilter<"Book"> | number | null
+  pdfUploadedAt?: Prisma.DateTimeNullableFilter<"Book"> | Date | string | null
+  pdfUploadedBy?: Prisma.IntNullableFilter<"Book"> | number | null
   categoryId?: Prisma.IntFilter<"Book"> | number
   createdAt?: Prisma.DateTimeFilter<"Book"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Book"> | Date | string
   category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>
   ratings?: Prisma.RatingListRelationFilter
   users?: Prisma.UserListRelationFilter
+  uploader?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }, "id">
 
 export type BookOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   author?: Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
+  coverUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  coverCloudinaryId?: Prisma.SortOrderInput | Prisma.SortOrder
+  pdfUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  pdfFileId?: Prisma.SortOrderInput | Prisma.SortOrder
+  pdfFileName?: Prisma.SortOrderInput | Prisma.SortOrder
+  pdfSize?: Prisma.SortOrderInput | Prisma.SortOrder
+  pdfUploadedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  pdfUploadedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.BookCountOrderByAggregateInput
   _avg?: Prisma.BookAvgOrderByAggregateInput
   _max?: Prisma.BookMaxOrderByAggregateInput
@@ -270,25 +391,55 @@ export type BookScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"Book"> | number
   title?: Prisma.StringWithAggregatesFilter<"Book"> | string
   author?: Prisma.StringWithAggregatesFilter<"Book"> | string
+  description?: Prisma.StringNullableWithAggregatesFilter<"Book"> | string | null
+  coverUrl?: Prisma.StringNullableWithAggregatesFilter<"Book"> | string | null
+  coverCloudinaryId?: Prisma.StringNullableWithAggregatesFilter<"Book"> | string | null
+  pdfUrl?: Prisma.StringNullableWithAggregatesFilter<"Book"> | string | null
+  pdfFileId?: Prisma.StringNullableWithAggregatesFilter<"Book"> | string | null
+  pdfFileName?: Prisma.StringNullableWithAggregatesFilter<"Book"> | string | null
+  pdfSize?: Prisma.IntNullableWithAggregatesFilter<"Book"> | number | null
+  pdfUploadedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Book"> | Date | string | null
+  pdfUploadedBy?: Prisma.IntNullableWithAggregatesFilter<"Book"> | number | null
   categoryId?: Prisma.IntWithAggregatesFilter<"Book"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Book"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Book"> | Date | string
 }
 
 export type BookCreateInput = {
   title: string
   author: string
+  description?: string | null
+  coverUrl?: string | null
+  coverCloudinaryId?: string | null
+  pdfUrl?: string | null
+  pdfFileId?: string | null
+  pdfFileName?: string | null
+  pdfSize?: number | null
+  pdfUploadedAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   category: Prisma.CategoryCreateNestedOneWithoutBooksInput
   ratings?: Prisma.RatingCreateNestedManyWithoutBookInput
   users?: Prisma.UserCreateNestedManyWithoutFavoriteBooksInput
+  uploader?: Prisma.UserCreateNestedOneWithoutUploadedPdfsInput
 }
 
 export type BookUncheckedCreateInput = {
   id?: number
   title: string
   author: string
+  description?: string | null
+  coverUrl?: string | null
+  coverCloudinaryId?: string | null
+  pdfUrl?: string | null
+  pdfFileId?: string | null
+  pdfFileName?: string | null
+  pdfSize?: number | null
+  pdfUploadedAt?: Date | string | null
+  pdfUploadedBy?: number | null
   categoryId: number
   createdAt?: Date | string
+  updatedAt?: Date | string
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutBookInput
   users?: Prisma.UserUncheckedCreateNestedManyWithoutFavoriteBooksInput
 }
@@ -296,18 +447,38 @@ export type BookUncheckedCreateInput = {
 export type BookUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   author?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverCloudinaryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pdfUploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   category?: Prisma.CategoryUpdateOneRequiredWithoutBooksNestedInput
   ratings?: Prisma.RatingUpdateManyWithoutBookNestedInput
   users?: Prisma.UserUpdateManyWithoutFavoriteBooksNestedInput
+  uploader?: Prisma.UserUpdateOneWithoutUploadedPdfsNestedInput
 }
 
 export type BookUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   author?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverCloudinaryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pdfUploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pdfUploadedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   categoryId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutBookNestedInput
   users?: Prisma.UserUncheckedUpdateManyWithoutFavoriteBooksNestedInput
 }
@@ -316,22 +487,51 @@ export type BookCreateManyInput = {
   id?: number
   title: string
   author: string
+  description?: string | null
+  coverUrl?: string | null
+  coverCloudinaryId?: string | null
+  pdfUrl?: string | null
+  pdfFileId?: string | null
+  pdfFileName?: string | null
+  pdfSize?: number | null
+  pdfUploadedAt?: Date | string | null
+  pdfUploadedBy?: number | null
   categoryId: number
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type BookUpdateManyMutationInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   author?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverCloudinaryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pdfUploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type BookUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   author?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverCloudinaryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pdfUploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pdfUploadedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   categoryId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type BookListRelationFilter = {
@@ -348,12 +548,24 @@ export type BookCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   author?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  coverUrl?: Prisma.SortOrder
+  coverCloudinaryId?: Prisma.SortOrder
+  pdfUrl?: Prisma.SortOrder
+  pdfFileId?: Prisma.SortOrder
+  pdfFileName?: Prisma.SortOrder
+  pdfSize?: Prisma.SortOrder
+  pdfUploadedAt?: Prisma.SortOrder
+  pdfUploadedBy?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type BookAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  pdfSize?: Prisma.SortOrder
+  pdfUploadedBy?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
 }
 
@@ -361,20 +573,42 @@ export type BookMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   author?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  coverUrl?: Prisma.SortOrder
+  coverCloudinaryId?: Prisma.SortOrder
+  pdfUrl?: Prisma.SortOrder
+  pdfFileId?: Prisma.SortOrder
+  pdfFileName?: Prisma.SortOrder
+  pdfSize?: Prisma.SortOrder
+  pdfUploadedAt?: Prisma.SortOrder
+  pdfUploadedBy?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type BookMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   author?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  coverUrl?: Prisma.SortOrder
+  coverCloudinaryId?: Prisma.SortOrder
+  pdfUrl?: Prisma.SortOrder
+  pdfFileId?: Prisma.SortOrder
+  pdfFileName?: Prisma.SortOrder
+  pdfSize?: Prisma.SortOrder
+  pdfUploadedAt?: Prisma.SortOrder
+  pdfUploadedBy?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type BookSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  pdfSize?: Prisma.SortOrder
+  pdfUploadedBy?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
 }
 
@@ -389,9 +623,23 @@ export type BookCreateNestedManyWithoutUsersInput = {
   connect?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
 }
 
+export type BookCreateNestedManyWithoutUploaderInput = {
+  create?: Prisma.XOR<Prisma.BookCreateWithoutUploaderInput, Prisma.BookUncheckedCreateWithoutUploaderInput> | Prisma.BookCreateWithoutUploaderInput[] | Prisma.BookUncheckedCreateWithoutUploaderInput[]
+  connectOrCreate?: Prisma.BookCreateOrConnectWithoutUploaderInput | Prisma.BookCreateOrConnectWithoutUploaderInput[]
+  createMany?: Prisma.BookCreateManyUploaderInputEnvelope
+  connect?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+}
+
 export type BookUncheckedCreateNestedManyWithoutUsersInput = {
   create?: Prisma.XOR<Prisma.BookCreateWithoutUsersInput, Prisma.BookUncheckedCreateWithoutUsersInput> | Prisma.BookCreateWithoutUsersInput[] | Prisma.BookUncheckedCreateWithoutUsersInput[]
   connectOrCreate?: Prisma.BookCreateOrConnectWithoutUsersInput | Prisma.BookCreateOrConnectWithoutUsersInput[]
+  connect?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+}
+
+export type BookUncheckedCreateNestedManyWithoutUploaderInput = {
+  create?: Prisma.XOR<Prisma.BookCreateWithoutUploaderInput, Prisma.BookUncheckedCreateWithoutUploaderInput> | Prisma.BookCreateWithoutUploaderInput[] | Prisma.BookUncheckedCreateWithoutUploaderInput[]
+  connectOrCreate?: Prisma.BookCreateOrConnectWithoutUploaderInput | Prisma.BookCreateOrConnectWithoutUploaderInput[]
+  createMany?: Prisma.BookCreateManyUploaderInputEnvelope
   connect?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
 }
 
@@ -408,6 +656,20 @@ export type BookUpdateManyWithoutUsersNestedInput = {
   deleteMany?: Prisma.BookScalarWhereInput | Prisma.BookScalarWhereInput[]
 }
 
+export type BookUpdateManyWithoutUploaderNestedInput = {
+  create?: Prisma.XOR<Prisma.BookCreateWithoutUploaderInput, Prisma.BookUncheckedCreateWithoutUploaderInput> | Prisma.BookCreateWithoutUploaderInput[] | Prisma.BookUncheckedCreateWithoutUploaderInput[]
+  connectOrCreate?: Prisma.BookCreateOrConnectWithoutUploaderInput | Prisma.BookCreateOrConnectWithoutUploaderInput[]
+  upsert?: Prisma.BookUpsertWithWhereUniqueWithoutUploaderInput | Prisma.BookUpsertWithWhereUniqueWithoutUploaderInput[]
+  createMany?: Prisma.BookCreateManyUploaderInputEnvelope
+  set?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+  disconnect?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+  delete?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+  connect?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+  update?: Prisma.BookUpdateWithWhereUniqueWithoutUploaderInput | Prisma.BookUpdateWithWhereUniqueWithoutUploaderInput[]
+  updateMany?: Prisma.BookUpdateManyWithWhereWithoutUploaderInput | Prisma.BookUpdateManyWithWhereWithoutUploaderInput[]
+  deleteMany?: Prisma.BookScalarWhereInput | Prisma.BookScalarWhereInput[]
+}
+
 export type BookUncheckedUpdateManyWithoutUsersNestedInput = {
   create?: Prisma.XOR<Prisma.BookCreateWithoutUsersInput, Prisma.BookUncheckedCreateWithoutUsersInput> | Prisma.BookCreateWithoutUsersInput[] | Prisma.BookUncheckedCreateWithoutUsersInput[]
   connectOrCreate?: Prisma.BookCreateOrConnectWithoutUsersInput | Prisma.BookCreateOrConnectWithoutUsersInput[]
@@ -419,6 +681,28 @@ export type BookUncheckedUpdateManyWithoutUsersNestedInput = {
   update?: Prisma.BookUpdateWithWhereUniqueWithoutUsersInput | Prisma.BookUpdateWithWhereUniqueWithoutUsersInput[]
   updateMany?: Prisma.BookUpdateManyWithWhereWithoutUsersInput | Prisma.BookUpdateManyWithWhereWithoutUsersInput[]
   deleteMany?: Prisma.BookScalarWhereInput | Prisma.BookScalarWhereInput[]
+}
+
+export type BookUncheckedUpdateManyWithoutUploaderNestedInput = {
+  create?: Prisma.XOR<Prisma.BookCreateWithoutUploaderInput, Prisma.BookUncheckedCreateWithoutUploaderInput> | Prisma.BookCreateWithoutUploaderInput[] | Prisma.BookUncheckedCreateWithoutUploaderInput[]
+  connectOrCreate?: Prisma.BookCreateOrConnectWithoutUploaderInput | Prisma.BookCreateOrConnectWithoutUploaderInput[]
+  upsert?: Prisma.BookUpsertWithWhereUniqueWithoutUploaderInput | Prisma.BookUpsertWithWhereUniqueWithoutUploaderInput[]
+  createMany?: Prisma.BookCreateManyUploaderInputEnvelope
+  set?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+  disconnect?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+  delete?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+  connect?: Prisma.BookWhereUniqueInput | Prisma.BookWhereUniqueInput[]
+  update?: Prisma.BookUpdateWithWhereUniqueWithoutUploaderInput | Prisma.BookUpdateWithWhereUniqueWithoutUploaderInput[]
+  updateMany?: Prisma.BookUpdateManyWithWhereWithoutUploaderInput | Prisma.BookUpdateManyWithWhereWithoutUploaderInput[]
+  deleteMany?: Prisma.BookScalarWhereInput | Prisma.BookScalarWhereInput[]
+}
+
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type BookCreateNestedManyWithoutCategoryInput = {
@@ -480,23 +764,90 @@ export type BookUpdateOneRequiredWithoutRatingsNestedInput = {
 export type BookCreateWithoutUsersInput = {
   title: string
   author: string
+  description?: string | null
+  coverUrl?: string | null
+  coverCloudinaryId?: string | null
+  pdfUrl?: string | null
+  pdfFileId?: string | null
+  pdfFileName?: string | null
+  pdfSize?: number | null
+  pdfUploadedAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   category: Prisma.CategoryCreateNestedOneWithoutBooksInput
   ratings?: Prisma.RatingCreateNestedManyWithoutBookInput
+  uploader?: Prisma.UserCreateNestedOneWithoutUploadedPdfsInput
 }
 
 export type BookUncheckedCreateWithoutUsersInput = {
   id?: number
   title: string
   author: string
+  description?: string | null
+  coverUrl?: string | null
+  coverCloudinaryId?: string | null
+  pdfUrl?: string | null
+  pdfFileId?: string | null
+  pdfFileName?: string | null
+  pdfSize?: number | null
+  pdfUploadedAt?: Date | string | null
+  pdfUploadedBy?: number | null
   categoryId: number
   createdAt?: Date | string
+  updatedAt?: Date | string
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutBookInput
 }
 
 export type BookCreateOrConnectWithoutUsersInput = {
   where: Prisma.BookWhereUniqueInput
   create: Prisma.XOR<Prisma.BookCreateWithoutUsersInput, Prisma.BookUncheckedCreateWithoutUsersInput>
+}
+
+export type BookCreateWithoutUploaderInput = {
+  title: string
+  author: string
+  description?: string | null
+  coverUrl?: string | null
+  coverCloudinaryId?: string | null
+  pdfUrl?: string | null
+  pdfFileId?: string | null
+  pdfFileName?: string | null
+  pdfSize?: number | null
+  pdfUploadedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  category: Prisma.CategoryCreateNestedOneWithoutBooksInput
+  ratings?: Prisma.RatingCreateNestedManyWithoutBookInput
+  users?: Prisma.UserCreateNestedManyWithoutFavoriteBooksInput
+}
+
+export type BookUncheckedCreateWithoutUploaderInput = {
+  id?: number
+  title: string
+  author: string
+  description?: string | null
+  coverUrl?: string | null
+  coverCloudinaryId?: string | null
+  pdfUrl?: string | null
+  pdfFileId?: string | null
+  pdfFileName?: string | null
+  pdfSize?: number | null
+  pdfUploadedAt?: Date | string | null
+  categoryId: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutBookInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutFavoriteBooksInput
+}
+
+export type BookCreateOrConnectWithoutUploaderInput = {
+  where: Prisma.BookWhereUniqueInput
+  create: Prisma.XOR<Prisma.BookCreateWithoutUploaderInput, Prisma.BookUncheckedCreateWithoutUploaderInput>
+}
+
+export type BookCreateManyUploaderInputEnvelope = {
+  data: Prisma.BookCreateManyUploaderInput | Prisma.BookCreateManyUploaderInput[]
+  skipDuplicates?: boolean
 }
 
 export type BookUpsertWithWhereUniqueWithoutUsersInput = {
@@ -522,23 +873,69 @@ export type BookScalarWhereInput = {
   id?: Prisma.IntFilter<"Book"> | number
   title?: Prisma.StringFilter<"Book"> | string
   author?: Prisma.StringFilter<"Book"> | string
+  description?: Prisma.StringNullableFilter<"Book"> | string | null
+  coverUrl?: Prisma.StringNullableFilter<"Book"> | string | null
+  coverCloudinaryId?: Prisma.StringNullableFilter<"Book"> | string | null
+  pdfUrl?: Prisma.StringNullableFilter<"Book"> | string | null
+  pdfFileId?: Prisma.StringNullableFilter<"Book"> | string | null
+  pdfFileName?: Prisma.StringNullableFilter<"Book"> | string | null
+  pdfSize?: Prisma.IntNullableFilter<"Book"> | number | null
+  pdfUploadedAt?: Prisma.DateTimeNullableFilter<"Book"> | Date | string | null
+  pdfUploadedBy?: Prisma.IntNullableFilter<"Book"> | number | null
   categoryId?: Prisma.IntFilter<"Book"> | number
   createdAt?: Prisma.DateTimeFilter<"Book"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Book"> | Date | string
+}
+
+export type BookUpsertWithWhereUniqueWithoutUploaderInput = {
+  where: Prisma.BookWhereUniqueInput
+  update: Prisma.XOR<Prisma.BookUpdateWithoutUploaderInput, Prisma.BookUncheckedUpdateWithoutUploaderInput>
+  create: Prisma.XOR<Prisma.BookCreateWithoutUploaderInput, Prisma.BookUncheckedCreateWithoutUploaderInput>
+}
+
+export type BookUpdateWithWhereUniqueWithoutUploaderInput = {
+  where: Prisma.BookWhereUniqueInput
+  data: Prisma.XOR<Prisma.BookUpdateWithoutUploaderInput, Prisma.BookUncheckedUpdateWithoutUploaderInput>
+}
+
+export type BookUpdateManyWithWhereWithoutUploaderInput = {
+  where: Prisma.BookScalarWhereInput
+  data: Prisma.XOR<Prisma.BookUpdateManyMutationInput, Prisma.BookUncheckedUpdateManyWithoutUploaderInput>
 }
 
 export type BookCreateWithoutCategoryInput = {
   title: string
   author: string
+  description?: string | null
+  coverUrl?: string | null
+  coverCloudinaryId?: string | null
+  pdfUrl?: string | null
+  pdfFileId?: string | null
+  pdfFileName?: string | null
+  pdfSize?: number | null
+  pdfUploadedAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   ratings?: Prisma.RatingCreateNestedManyWithoutBookInput
   users?: Prisma.UserCreateNestedManyWithoutFavoriteBooksInput
+  uploader?: Prisma.UserCreateNestedOneWithoutUploadedPdfsInput
 }
 
 export type BookUncheckedCreateWithoutCategoryInput = {
   id?: number
   title: string
   author: string
+  description?: string | null
+  coverUrl?: string | null
+  coverCloudinaryId?: string | null
+  pdfUrl?: string | null
+  pdfFileId?: string | null
+  pdfFileName?: string | null
+  pdfSize?: number | null
+  pdfUploadedAt?: Date | string | null
+  pdfUploadedBy?: number | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutBookInput
   users?: Prisma.UserUncheckedCreateNestedManyWithoutFavoriteBooksInput
 }
@@ -572,17 +969,37 @@ export type BookUpdateManyWithWhereWithoutCategoryInput = {
 export type BookCreateWithoutRatingsInput = {
   title: string
   author: string
+  description?: string | null
+  coverUrl?: string | null
+  coverCloudinaryId?: string | null
+  pdfUrl?: string | null
+  pdfFileId?: string | null
+  pdfFileName?: string | null
+  pdfSize?: number | null
+  pdfUploadedAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   category: Prisma.CategoryCreateNestedOneWithoutBooksInput
   users?: Prisma.UserCreateNestedManyWithoutFavoriteBooksInput
+  uploader?: Prisma.UserCreateNestedOneWithoutUploadedPdfsInput
 }
 
 export type BookUncheckedCreateWithoutRatingsInput = {
   id?: number
   title: string
   author: string
+  description?: string | null
+  coverUrl?: string | null
+  coverCloudinaryId?: string | null
+  pdfUrl?: string | null
+  pdfFileId?: string | null
+  pdfFileName?: string | null
+  pdfSize?: number | null
+  pdfUploadedAt?: Date | string | null
+  pdfUploadedBy?: number | null
   categoryId: number
   createdAt?: Date | string
+  updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutFavoriteBooksInput
 }
 
@@ -605,34 +1022,91 @@ export type BookUpdateToOneWithWhereWithoutRatingsInput = {
 export type BookUpdateWithoutRatingsInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   author?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverCloudinaryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pdfUploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   category?: Prisma.CategoryUpdateOneRequiredWithoutBooksNestedInput
   users?: Prisma.UserUpdateManyWithoutFavoriteBooksNestedInput
+  uploader?: Prisma.UserUpdateOneWithoutUploadedPdfsNestedInput
 }
 
 export type BookUncheckedUpdateWithoutRatingsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   author?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverCloudinaryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pdfUploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pdfUploadedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   categoryId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutFavoriteBooksNestedInput
+}
+
+export type BookCreateManyUploaderInput = {
+  id?: number
+  title: string
+  author: string
+  description?: string | null
+  coverUrl?: string | null
+  coverCloudinaryId?: string | null
+  pdfUrl?: string | null
+  pdfFileId?: string | null
+  pdfFileName?: string | null
+  pdfSize?: number | null
+  pdfUploadedAt?: Date | string | null
+  categoryId: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type BookUpdateWithoutUsersInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   author?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverCloudinaryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pdfUploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   category?: Prisma.CategoryUpdateOneRequiredWithoutBooksNestedInput
   ratings?: Prisma.RatingUpdateManyWithoutBookNestedInput
+  uploader?: Prisma.UserUpdateOneWithoutUploadedPdfsNestedInput
 }
 
 export type BookUncheckedUpdateWithoutUsersInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   author?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverCloudinaryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pdfUploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pdfUploadedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   categoryId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutBookNestedInput
 }
 
@@ -640,30 +1114,124 @@ export type BookUncheckedUpdateManyWithoutUsersInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   author?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverCloudinaryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pdfUploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pdfUploadedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   categoryId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type BookUpdateWithoutUploaderInput = {
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  author?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverCloudinaryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pdfUploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  category?: Prisma.CategoryUpdateOneRequiredWithoutBooksNestedInput
+  ratings?: Prisma.RatingUpdateManyWithoutBookNestedInput
+  users?: Prisma.UserUpdateManyWithoutFavoriteBooksNestedInput
+}
+
+export type BookUncheckedUpdateWithoutUploaderInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  author?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverCloudinaryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pdfUploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  categoryId?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ratings?: Prisma.RatingUncheckedUpdateManyWithoutBookNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutFavoriteBooksNestedInput
+}
+
+export type BookUncheckedUpdateManyWithoutUploaderInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  author?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverCloudinaryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pdfUploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  categoryId?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type BookCreateManyCategoryInput = {
   id?: number
   title: string
   author: string
+  description?: string | null
+  coverUrl?: string | null
+  coverCloudinaryId?: string | null
+  pdfUrl?: string | null
+  pdfFileId?: string | null
+  pdfFileName?: string | null
+  pdfSize?: number | null
+  pdfUploadedAt?: Date | string | null
+  pdfUploadedBy?: number | null
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type BookUpdateWithoutCategoryInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   author?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverCloudinaryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pdfUploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ratings?: Prisma.RatingUpdateManyWithoutBookNestedInput
   users?: Prisma.UserUpdateManyWithoutFavoriteBooksNestedInput
+  uploader?: Prisma.UserUpdateOneWithoutUploadedPdfsNestedInput
 }
 
 export type BookUncheckedUpdateWithoutCategoryInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   author?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverCloudinaryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pdfUploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pdfUploadedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutBookNestedInput
   users?: Prisma.UserUncheckedUpdateManyWithoutFavoriteBooksNestedInput
 }
@@ -672,7 +1240,17 @@ export type BookUncheckedUpdateManyWithoutCategoryInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   author?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverCloudinaryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfFileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pdfSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pdfUploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pdfUploadedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -719,11 +1297,22 @@ export type BookSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   id?: boolean
   title?: boolean
   author?: boolean
+  description?: boolean
+  coverUrl?: boolean
+  coverCloudinaryId?: boolean
+  pdfUrl?: boolean
+  pdfFileId?: boolean
+  pdfFileName?: boolean
+  pdfSize?: boolean
+  pdfUploadedAt?: boolean
+  pdfUploadedBy?: boolean
   categoryId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
   ratings?: boolean | Prisma.Book$ratingsArgs<ExtArgs>
   users?: boolean | Prisma.Book$usersArgs<ExtArgs>
+  uploader?: boolean | Prisma.Book$uploaderArgs<ExtArgs>
   _count?: boolean | Prisma.BookCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["book"]>
 
@@ -731,40 +1320,75 @@ export type BookSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   id?: boolean
   title?: boolean
   author?: boolean
+  description?: boolean
+  coverUrl?: boolean
+  coverCloudinaryId?: boolean
+  pdfUrl?: boolean
+  pdfFileId?: boolean
+  pdfFileName?: boolean
+  pdfSize?: boolean
+  pdfUploadedAt?: boolean
+  pdfUploadedBy?: boolean
   categoryId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
+  uploader?: boolean | Prisma.Book$uploaderArgs<ExtArgs>
 }, ExtArgs["result"]["book"]>
 
 export type BookSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
   author?: boolean
+  description?: boolean
+  coverUrl?: boolean
+  coverCloudinaryId?: boolean
+  pdfUrl?: boolean
+  pdfFileId?: boolean
+  pdfFileName?: boolean
+  pdfSize?: boolean
+  pdfUploadedAt?: boolean
+  pdfUploadedBy?: boolean
   categoryId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
+  uploader?: boolean | Prisma.Book$uploaderArgs<ExtArgs>
 }, ExtArgs["result"]["book"]>
 
 export type BookSelectScalar = {
   id?: boolean
   title?: boolean
   author?: boolean
+  description?: boolean
+  coverUrl?: boolean
+  coverCloudinaryId?: boolean
+  pdfUrl?: boolean
+  pdfFileId?: boolean
+  pdfFileName?: boolean
+  pdfSize?: boolean
+  pdfUploadedAt?: boolean
+  pdfUploadedBy?: boolean
   categoryId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type BookOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "author" | "categoryId" | "createdAt", ExtArgs["result"]["book"]>
+export type BookOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "author" | "description" | "coverUrl" | "coverCloudinaryId" | "pdfUrl" | "pdfFileId" | "pdfFileName" | "pdfSize" | "pdfUploadedAt" | "pdfUploadedBy" | "categoryId" | "createdAt" | "updatedAt", ExtArgs["result"]["book"]>
 export type BookInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
   ratings?: boolean | Prisma.Book$ratingsArgs<ExtArgs>
   users?: boolean | Prisma.Book$usersArgs<ExtArgs>
+  uploader?: boolean | Prisma.Book$uploaderArgs<ExtArgs>
   _count?: boolean | Prisma.BookCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type BookIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
+  uploader?: boolean | Prisma.Book$uploaderArgs<ExtArgs>
 }
 export type BookIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
+  uploader?: boolean | Prisma.Book$uploaderArgs<ExtArgs>
 }
 
 export type $BookPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -773,13 +1397,24 @@ export type $BookPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     category: Prisma.$CategoryPayload<ExtArgs>
     ratings: Prisma.$RatingPayload<ExtArgs>[]
     users: Prisma.$UserPayload<ExtArgs>[]
+    uploader: Prisma.$UserPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     title: string
     author: string
+    description: string | null
+    coverUrl: string | null
+    coverCloudinaryId: string | null
+    pdfUrl: string | null
+    pdfFileId: string | null
+    pdfFileName: string | null
+    pdfSize: number | null
+    pdfUploadedAt: Date | null
+    pdfUploadedBy: number | null
     categoryId: number
     createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["book"]>
   composites: {}
 }
@@ -1177,6 +1812,7 @@ export interface Prisma__BookClient<T, Null = never, ExtArgs extends runtime.Typ
   category<T extends Prisma.CategoryDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CategoryDefaultArgs<ExtArgs>>): Prisma.Prisma__CategoryClient<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   ratings<T extends Prisma.Book$ratingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Book$ratingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   users<T extends Prisma.Book$usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Book$usersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  uploader<T extends Prisma.Book$uploaderArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Book$uploaderArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1209,8 +1845,18 @@ export interface BookFieldRefs {
   readonly id: Prisma.FieldRef<"Book", 'Int'>
   readonly title: Prisma.FieldRef<"Book", 'String'>
   readonly author: Prisma.FieldRef<"Book", 'String'>
+  readonly description: Prisma.FieldRef<"Book", 'String'>
+  readonly coverUrl: Prisma.FieldRef<"Book", 'String'>
+  readonly coverCloudinaryId: Prisma.FieldRef<"Book", 'String'>
+  readonly pdfUrl: Prisma.FieldRef<"Book", 'String'>
+  readonly pdfFileId: Prisma.FieldRef<"Book", 'String'>
+  readonly pdfFileName: Prisma.FieldRef<"Book", 'String'>
+  readonly pdfSize: Prisma.FieldRef<"Book", 'Int'>
+  readonly pdfUploadedAt: Prisma.FieldRef<"Book", 'DateTime'>
+  readonly pdfUploadedBy: Prisma.FieldRef<"Book", 'Int'>
   readonly categoryId: Prisma.FieldRef<"Book", 'Int'>
   readonly createdAt: Prisma.FieldRef<"Book", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"Book", 'DateTime'>
 }
     
 
@@ -1652,6 +2298,25 @@ export type Book$usersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
   take?: number
   skip?: number
   distinct?: Prisma.UserScalarFieldEnum | Prisma.UserScalarFieldEnum[]
+}
+
+/**
+ * Book.uploader
+ */
+export type Book$uploaderArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
 }
 
 /**

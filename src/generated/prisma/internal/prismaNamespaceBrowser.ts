@@ -52,9 +52,11 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
+  RefreshToken: 'RefreshToken',
   Book: 'Book',
   Category: 'Category',
-  Rating: 'Rating'
+  Rating: 'Rating',
+  SearchHistory: 'SearchHistory'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -79,23 +81,55 @@ export const UserScalarFieldEnum = {
   hashPassword: 'hashPassword',
   fullName: 'fullName',
   avatarUrl: 'avatarUrl',
+  avatarCloudinaryId: 'avatarCloudinaryId',
   bio: 'bio',
   dateOfBirth: 'dateOfBirth',
   role: 'role',
-  isActive: 'isActive',
   isVerified: 'isVerified',
-  createdAt: 'createdAt'
+  verificationToken: 'verificationToken',
+  verificationExpires: 'verificationExpires',
+  googleId: 'googleId',
+  googleEmail: 'googleEmail',
+  resetPasswordToken: 'resetPasswordToken',
+  resetPasswordExpires: 'resetPasswordExpires',
+  twoFactorEnabled: 'twoFactorEnabled',
+  twoFactorSecret: 'twoFactorSecret',
+  backupCodes: 'backupCodes',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const RefreshTokenScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  token: 'token',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+} as const
+
+export type RefreshTokenScalarFieldEnum = (typeof RefreshTokenScalarFieldEnum)[keyof typeof RefreshTokenScalarFieldEnum]
 
 
 export const BookScalarFieldEnum = {
   id: 'id',
   title: 'title',
   author: 'author',
+  description: 'description',
+  coverUrl: 'coverUrl',
+  coverCloudinaryId: 'coverCloudinaryId',
+  pdfUrl: 'pdfUrl',
+  pdfFileId: 'pdfFileId',
+  pdfFileName: 'pdfFileName',
+  pdfSize: 'pdfSize',
+  pdfUploadedAt: 'pdfUploadedAt',
+  pdfUploadedBy: 'pdfUploadedBy',
   categoryId: 'categoryId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type BookScalarFieldEnum = (typeof BookScalarFieldEnum)[keyof typeof BookScalarFieldEnum]
@@ -103,7 +137,9 @@ export type BookScalarFieldEnum = (typeof BookScalarFieldEnum)[keyof typeof Book
 
 export const CategoryScalarFieldEnum = {
   id: 'id',
-  name: 'name'
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
@@ -112,12 +148,25 @@ export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typ
 export const RatingScalarFieldEnum = {
   id: 'id',
   score: 'score',
+  comment: 'comment',
   userId: 'userId',
   bookId: 'bookId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type RatingScalarFieldEnum = (typeof RatingScalarFieldEnum)[keyof typeof RatingScalarFieldEnum]
+
+
+export const SearchHistoryScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  query: 'query',
+  results: 'results',
+  createdAt: 'createdAt'
+} as const
+
+export type SearchHistoryScalarFieldEnum = (typeof SearchHistoryScalarFieldEnum)[keyof typeof SearchHistoryScalarFieldEnum]
 
 
 export const SortOrder = {

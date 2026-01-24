@@ -1,6 +1,15 @@
-import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { RatingService } from './rating.service';
 import { UserData } from 'src/common/decorator';
+import { CreateRatingDto, UpdateRatingDto } from './dto';
 
 @Controller('rating')
 export class RatingController {
@@ -12,36 +21,38 @@ export class RatingController {
   }
 
   @Get(':id')
-  async getById(id: number) {
-    return this.ratingService.getById(id);
+  async getById(@Param('id') id: string) {
+    return this.ratingService.getById(Number(id));
   }
 
   @Get('book/:bookId')
-  async getByBookId(bookId: string) {
+  async getByBookId(@Param('bookId') bookId: string) {
     return this.ratingService.getByBookId(Number(bookId));
   }
 
   @Get('user/:userId')
-  async getByUserId(userId: string) {
+  async getByUserId(@Param('userId') userId: string) {
     return this.ratingService.getByUserId(Number(userId));
   }
 
   @Post()
   async create(
     @UserData('id') userId: string,
-    @Body('bookId') bookId: string,
-    @Body('score') score: number,
+    @Body() createRatingDto: CreateRatingDto,
   ) {
-    return this.ratingService.create(Number(bookId), Number(userId), score);
+    return this.ratingService.create(Number(userId), createRatingDto);
   }
 
   @Delete(':id')
-  async delete(id: string) {
+  async delete(@Param('id') id: string) {
     return this.ratingService.delete(Number(id));
   }
 
   @Put(':id')
-  async update(@Body('score') score: number, id: string) {
-    return this.ratingService.update(Number(id), score);
+  async update(
+    @Param('id') id: string,
+    @Body() updateRatingDto: UpdateRatingDto,
+  ) {
+    return this.ratingService.update(Number(id), updateRatingDto);
   }
 }

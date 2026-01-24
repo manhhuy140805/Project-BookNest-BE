@@ -21,45 +21,123 @@ enum Role {
 }
 
 model User {
-  id            Int       @id @default(autoincrement())
-  email         String    @unique
-  hashPassword  String
-  fullName      String?
-  avatarUrl     String?
-  bio           String?
-  dateOfBirth   DateTime?
-  role          Role      @default(USER)
-  ratings       Rating[]
-  favoriteBooks Book[]
-  isActive      Boolean   @default(true)
-  isVerified    Boolean   @default(false)
-  createdAt     DateTime  @default(now())
+  id                        Int              @id @default(autoincrement())
+  email                     String           @unique
+  hashPassword              String
+  fullName                  String?
+  avatarUrl                 String?
+  avatarCloudinaryId        String?
+  bio                       String?
+  dateOfBirth               DateTime?
+  role                      Role             @default(USER)
+  
+  // Email Verification
+  isVerified                Boolean          @default(false)
+  verificationToken         String?
+  verificationExpires       DateTime?
+  
+  // Google OAuth
+  googleId                  String?          @unique
+  googleEmail               String?
+  
+  // Password Reset
+  resetPasswordToken        String?
+  resetPasswordExpires      DateTime?
+  
+  // Two-Factor Authentication
+  twoFactorEnabled          Boolean          @default(false)
+  twoFactorSecret           String?
+  backupCodes               String[]
+  
+  // Relationships
+  ratings                   Rating[]
+  favoriteBooks             Book[]
+  refreshTokens             RefreshToken[]
+  uploadedPdfs              Book[]           @relation("PdfUploadedBy")
+  searchHistory             SearchHistory[]
+  
+  // Account Status
+  isActive                  Boolean          @default(true)
+  createdAt                 DateTime         @default(now())
+  updatedAt                 DateTime         @updatedAt
+}
+
+model RefreshToken {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
 }
 
 model Book {
-  id          Int        @id @default(autoincrement())
-  title       String
-  author      String
-  categoryId  Int
-  category    Category   @relation(fields: [categoryId], references: [id])
-  ratings     Rating[]
-  createdAt   DateTime   @default(now())
-
-  users User[]
+  id                Int       @id @default(autoincrement())
+  title             String
+  author            String
+  description       String?
+  
+  // File Storage
+  coverUrl          String?
+  coverCloudinaryId String?
+  pdfUrl            String?
+  pdfFileId         String?
+  pdfFileName       String?
+  pdfSize           Int?
+  pdfUploadedAt     DateTime?
+  pdfUploadedBy     Int?
+  
+  // Category
+  categoryId        Int
+  category          Category   @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  
+  // Relationships
+  ratings           Rating[]
+  users             User[]
+  uploader          User?      @relation("PdfUploadedBy", fields: [pdfUploadedBy], references: [id], onDelete: SetNull)
+  
+  // Timestamps
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  
+  @@index([categoryId])
+  @@index([pdfUploadedBy])
 }
 
 model Category {
-  id     Int     @id @default(autoincrement())
-  name   String  @unique
-  books  Book[]
+  id        Int     @id @default(autoincrement())
+  name      String  @unique
+  books     Book[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Rating {
-  id        Int      @id @default(autoincrement())
+  id        Int     @id @default(autoincrement())
   score     Int
+  comment   String?
   userId    Int
   bookId    Int
-  user      User     @relation(fields: [userId], references: [id])
-  book      Book     @relation(fields: [bookId], references: [id])
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  book      Book    @relation(fields: [bookId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@unique([userId, bookId])
+  @@index([userId])
+  @@index([bookId])
+}
+
+model SearchHistory {
+  id        Int     @id @default(autoincrement())
+  userId    Int
+  query     String
+  results   Int     @default(0)
+  createdAt DateTime @default(now())
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@index([createdAt])
 }

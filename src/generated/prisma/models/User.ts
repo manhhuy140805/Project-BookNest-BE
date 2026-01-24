@@ -40,12 +40,22 @@ export type UserMinAggregateOutputType = {
   hashPassword: string | null
   fullName: string | null
   avatarUrl: string | null
+  avatarCloudinaryId: string | null
   bio: string | null
   dateOfBirth: Date | null
   role: $Enums.Role | null
-  isActive: boolean | null
   isVerified: boolean | null
+  verificationToken: string | null
+  verificationExpires: Date | null
+  googleId: string | null
+  googleEmail: string | null
+  resetPasswordToken: string | null
+  resetPasswordExpires: Date | null
+  twoFactorEnabled: boolean | null
+  twoFactorSecret: string | null
+  isActive: boolean | null
   createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -54,12 +64,22 @@ export type UserMaxAggregateOutputType = {
   hashPassword: string | null
   fullName: string | null
   avatarUrl: string | null
+  avatarCloudinaryId: string | null
   bio: string | null
   dateOfBirth: Date | null
   role: $Enums.Role | null
-  isActive: boolean | null
   isVerified: boolean | null
+  verificationToken: string | null
+  verificationExpires: Date | null
+  googleId: string | null
+  googleEmail: string | null
+  resetPasswordToken: string | null
+  resetPasswordExpires: Date | null
+  twoFactorEnabled: boolean | null
+  twoFactorSecret: string | null
+  isActive: boolean | null
   createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -68,12 +88,23 @@ export type UserCountAggregateOutputType = {
   hashPassword: number
   fullName: number
   avatarUrl: number
+  avatarCloudinaryId: number
   bio: number
   dateOfBirth: number
   role: number
-  isActive: number
   isVerified: number
+  verificationToken: number
+  verificationExpires: number
+  googleId: number
+  googleEmail: number
+  resetPasswordToken: number
+  resetPasswordExpires: number
+  twoFactorEnabled: number
+  twoFactorSecret: number
+  backupCodes: number
+  isActive: number
   createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -92,12 +123,22 @@ export type UserMinAggregateInputType = {
   hashPassword?: true
   fullName?: true
   avatarUrl?: true
+  avatarCloudinaryId?: true
   bio?: true
   dateOfBirth?: true
   role?: true
-  isActive?: true
   isVerified?: true
+  verificationToken?: true
+  verificationExpires?: true
+  googleId?: true
+  googleEmail?: true
+  resetPasswordToken?: true
+  resetPasswordExpires?: true
+  twoFactorEnabled?: true
+  twoFactorSecret?: true
+  isActive?: true
   createdAt?: true
+  updatedAt?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -106,12 +147,22 @@ export type UserMaxAggregateInputType = {
   hashPassword?: true
   fullName?: true
   avatarUrl?: true
+  avatarCloudinaryId?: true
   bio?: true
   dateOfBirth?: true
   role?: true
-  isActive?: true
   isVerified?: true
+  verificationToken?: true
+  verificationExpires?: true
+  googleId?: true
+  googleEmail?: true
+  resetPasswordToken?: true
+  resetPasswordExpires?: true
+  twoFactorEnabled?: true
+  twoFactorSecret?: true
+  isActive?: true
   createdAt?: true
+  updatedAt?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -120,12 +171,23 @@ export type UserCountAggregateInputType = {
   hashPassword?: true
   fullName?: true
   avatarUrl?: true
+  avatarCloudinaryId?: true
   bio?: true
   dateOfBirth?: true
   role?: true
-  isActive?: true
   isVerified?: true
+  verificationToken?: true
+  verificationExpires?: true
+  googleId?: true
+  googleEmail?: true
+  resetPasswordToken?: true
+  resetPasswordExpires?: true
+  twoFactorEnabled?: true
+  twoFactorSecret?: true
+  backupCodes?: true
+  isActive?: true
   createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -221,12 +283,23 @@ export type UserGroupByOutputType = {
   hashPassword: string
   fullName: string | null
   avatarUrl: string | null
+  avatarCloudinaryId: string | null
   bio: string | null
   dateOfBirth: Date | null
   role: $Enums.Role
-  isActive: boolean
   isVerified: boolean
+  verificationToken: string | null
+  verificationExpires: Date | null
+  googleId: string | null
+  googleEmail: string | null
+  resetPasswordToken: string | null
+  resetPasswordExpires: Date | null
+  twoFactorEnabled: boolean
+  twoFactorSecret: string | null
+  backupCodes: string[]
+  isActive: boolean
   createdAt: Date
+  updatedAt: Date
   _count: UserCountAggregateOutputType | null
   _avg: UserAvgAggregateOutputType | null
   _sum: UserSumAggregateOutputType | null
@@ -258,14 +331,28 @@ export type UserWhereInput = {
   hashPassword?: Prisma.StringFilter<"User"> | string
   fullName?: Prisma.StringNullableFilter<"User"> | string | null
   avatarUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  avatarCloudinaryId?: Prisma.StringNullableFilter<"User"> | string | null
   bio?: Prisma.StringNullableFilter<"User"> | string | null
   dateOfBirth?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
-  isActive?: Prisma.BoolFilter<"User"> | boolean
   isVerified?: Prisma.BoolFilter<"User"> | boolean
+  verificationToken?: Prisma.StringNullableFilter<"User"> | string | null
+  verificationExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  googleId?: Prisma.StringNullableFilter<"User"> | string | null
+  googleEmail?: Prisma.StringNullableFilter<"User"> | string | null
+  resetPasswordToken?: Prisma.StringNullableFilter<"User"> | string | null
+  resetPasswordExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  twoFactorEnabled?: Prisma.BoolFilter<"User"> | boolean
+  twoFactorSecret?: Prisma.StringNullableFilter<"User"> | string | null
+  backupCodes?: Prisma.StringNullableListFilter<"User">
+  isActive?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   ratings?: Prisma.RatingListRelationFilter
   favoriteBooks?: Prisma.BookListRelationFilter
+  refreshTokens?: Prisma.RefreshTokenListRelationFilter
+  uploadedPdfs?: Prisma.BookListRelationFilter
+  searchHistory?: Prisma.SearchHistoryListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -274,34 +361,62 @@ export type UserOrderByWithRelationInput = {
   hashPassword?: Prisma.SortOrder
   fullName?: Prisma.SortOrderInput | Prisma.SortOrder
   avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  avatarCloudinaryId?: Prisma.SortOrderInput | Prisma.SortOrder
   bio?: Prisma.SortOrderInput | Prisma.SortOrder
   dateOfBirth?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
   isVerified?: Prisma.SortOrder
+  verificationToken?: Prisma.SortOrderInput | Prisma.SortOrder
+  verificationExpires?: Prisma.SortOrderInput | Prisma.SortOrder
+  googleId?: Prisma.SortOrderInput | Prisma.SortOrder
+  googleEmail?: Prisma.SortOrderInput | Prisma.SortOrder
+  resetPasswordToken?: Prisma.SortOrderInput | Prisma.SortOrder
+  resetPasswordExpires?: Prisma.SortOrderInput | Prisma.SortOrder
+  twoFactorEnabled?: Prisma.SortOrder
+  twoFactorSecret?: Prisma.SortOrderInput | Prisma.SortOrder
+  backupCodes?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   ratings?: Prisma.RatingOrderByRelationAggregateInput
   favoriteBooks?: Prisma.BookOrderByRelationAggregateInput
+  refreshTokens?: Prisma.RefreshTokenOrderByRelationAggregateInput
+  uploadedPdfs?: Prisma.BookOrderByRelationAggregateInput
+  searchHistory?: Prisma.SearchHistoryOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
   id?: number
   email?: string
+  googleId?: string
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   hashPassword?: Prisma.StringFilter<"User"> | string
   fullName?: Prisma.StringNullableFilter<"User"> | string | null
   avatarUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  avatarCloudinaryId?: Prisma.StringNullableFilter<"User"> | string | null
   bio?: Prisma.StringNullableFilter<"User"> | string | null
   dateOfBirth?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
-  isActive?: Prisma.BoolFilter<"User"> | boolean
   isVerified?: Prisma.BoolFilter<"User"> | boolean
+  verificationToken?: Prisma.StringNullableFilter<"User"> | string | null
+  verificationExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  googleEmail?: Prisma.StringNullableFilter<"User"> | string | null
+  resetPasswordToken?: Prisma.StringNullableFilter<"User"> | string | null
+  resetPasswordExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  twoFactorEnabled?: Prisma.BoolFilter<"User"> | boolean
+  twoFactorSecret?: Prisma.StringNullableFilter<"User"> | string | null
+  backupCodes?: Prisma.StringNullableListFilter<"User">
+  isActive?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   ratings?: Prisma.RatingListRelationFilter
   favoriteBooks?: Prisma.BookListRelationFilter
-}, "id" | "email">
+  refreshTokens?: Prisma.RefreshTokenListRelationFilter
+  uploadedPdfs?: Prisma.BookListRelationFilter
+  searchHistory?: Prisma.SearchHistoryListRelationFilter
+}, "id" | "email" | "googleId">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -309,12 +424,23 @@ export type UserOrderByWithAggregationInput = {
   hashPassword?: Prisma.SortOrder
   fullName?: Prisma.SortOrderInput | Prisma.SortOrder
   avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  avatarCloudinaryId?: Prisma.SortOrderInput | Prisma.SortOrder
   bio?: Prisma.SortOrderInput | Prisma.SortOrder
   dateOfBirth?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
   isVerified?: Prisma.SortOrder
+  verificationToken?: Prisma.SortOrderInput | Prisma.SortOrder
+  verificationExpires?: Prisma.SortOrderInput | Prisma.SortOrder
+  googleId?: Prisma.SortOrderInput | Prisma.SortOrder
+  googleEmail?: Prisma.SortOrderInput | Prisma.SortOrder
+  resetPasswordToken?: Prisma.SortOrderInput | Prisma.SortOrder
+  resetPasswordExpires?: Prisma.SortOrderInput | Prisma.SortOrder
+  twoFactorEnabled?: Prisma.SortOrder
+  twoFactorSecret?: Prisma.SortOrderInput | Prisma.SortOrder
+  backupCodes?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
@@ -331,12 +457,23 @@ export type UserScalarWhereWithAggregatesInput = {
   hashPassword?: Prisma.StringWithAggregatesFilter<"User"> | string
   fullName?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   avatarUrl?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  avatarCloudinaryId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   bio?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   dateOfBirth?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   role?: Prisma.EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
-  isActive?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   isVerified?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  verificationToken?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  verificationExpires?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  googleId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  googleEmail?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  resetPasswordToken?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  resetPasswordExpires?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  twoFactorEnabled?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  twoFactorSecret?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  backupCodes?: Prisma.StringNullableListFilter<"User">
+  isActive?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
 
 export type UserCreateInput = {
@@ -344,14 +481,28 @@ export type UserCreateInput = {
   hashPassword: string
   fullName?: string | null
   avatarUrl?: string | null
+  avatarCloudinaryId?: string | null
   bio?: string | null
   dateOfBirth?: Date | string | null
   role?: $Enums.Role
-  isActive?: boolean
   isVerified?: boolean
+  verificationToken?: string | null
+  verificationExpires?: Date | string | null
+  googleId?: string | null
+  googleEmail?: string | null
+  resetPasswordToken?: string | null
+  resetPasswordExpires?: Date | string | null
+  twoFactorEnabled?: boolean
+  twoFactorSecret?: string | null
+  backupCodes?: Prisma.UserCreatebackupCodesInput | string[]
+  isActive?: boolean
   createdAt?: Date | string
+  updatedAt?: Date | string
   ratings?: Prisma.RatingCreateNestedManyWithoutUserInput
   favoriteBooks?: Prisma.BookCreateNestedManyWithoutUsersInput
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  uploadedPdfs?: Prisma.BookCreateNestedManyWithoutUploaderInput
+  searchHistory?: Prisma.SearchHistoryCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -360,14 +511,28 @@ export type UserUncheckedCreateInput = {
   hashPassword: string
   fullName?: string | null
   avatarUrl?: string | null
+  avatarCloudinaryId?: string | null
   bio?: string | null
   dateOfBirth?: Date | string | null
   role?: $Enums.Role
-  isActive?: boolean
   isVerified?: boolean
+  verificationToken?: string | null
+  verificationExpires?: Date | string | null
+  googleId?: string | null
+  googleEmail?: string | null
+  resetPasswordToken?: string | null
+  resetPasswordExpires?: Date | string | null
+  twoFactorEnabled?: boolean
+  twoFactorSecret?: string | null
+  backupCodes?: Prisma.UserCreatebackupCodesInput | string[]
+  isActive?: boolean
   createdAt?: Date | string
+  updatedAt?: Date | string
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutUserInput
   favoriteBooks?: Prisma.BookUncheckedCreateNestedManyWithoutUsersInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  uploadedPdfs?: Prisma.BookUncheckedCreateNestedManyWithoutUploaderInput
+  searchHistory?: Prisma.SearchHistoryUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -375,14 +540,28 @@ export type UserUpdateInput = {
   hashPassword?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarCloudinaryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  twoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  backupCodes?: Prisma.UserUpdatebackupCodesInput | string[]
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ratings?: Prisma.RatingUpdateManyWithoutUserNestedInput
   favoriteBooks?: Prisma.BookUpdateManyWithoutUsersNestedInput
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  uploadedPdfs?: Prisma.BookUpdateManyWithoutUploaderNestedInput
+  searchHistory?: Prisma.SearchHistoryUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -391,14 +570,28 @@ export type UserUncheckedUpdateInput = {
   hashPassword?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarCloudinaryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  twoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  backupCodes?: Prisma.UserUpdatebackupCodesInput | string[]
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutUserNestedInput
   favoriteBooks?: Prisma.BookUncheckedUpdateManyWithoutUsersNestedInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  uploadedPdfs?: Prisma.BookUncheckedUpdateManyWithoutUploaderNestedInput
+  searchHistory?: Prisma.SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -407,12 +600,23 @@ export type UserCreateManyInput = {
   hashPassword: string
   fullName?: string | null
   avatarUrl?: string | null
+  avatarCloudinaryId?: string | null
   bio?: string | null
   dateOfBirth?: Date | string | null
   role?: $Enums.Role
-  isActive?: boolean
   isVerified?: boolean
+  verificationToken?: string | null
+  verificationExpires?: Date | string | null
+  googleId?: string | null
+  googleEmail?: string | null
+  resetPasswordToken?: string | null
+  resetPasswordExpires?: Date | string | null
+  twoFactorEnabled?: boolean
+  twoFactorSecret?: string | null
+  backupCodes?: Prisma.UserCreatebackupCodesInput | string[]
+  isActive?: boolean
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type UserUpdateManyMutationInput = {
@@ -420,12 +624,23 @@ export type UserUpdateManyMutationInput = {
   hashPassword?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarCloudinaryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  twoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  backupCodes?: Prisma.UserUpdatebackupCodesInput | string[]
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -434,12 +649,31 @@ export type UserUncheckedUpdateManyInput = {
   hashPassword?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarCloudinaryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  twoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  backupCodes?: Prisma.UserUpdatebackupCodesInput | string[]
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type StringNullableListFilter<$PrismaModel = never> = {
+  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
+  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
+  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -448,12 +682,23 @@ export type UserCountOrderByAggregateInput = {
   hashPassword?: Prisma.SortOrder
   fullName?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
+  avatarCloudinaryId?: Prisma.SortOrder
   bio?: Prisma.SortOrder
   dateOfBirth?: Prisma.SortOrder
   role?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
   isVerified?: Prisma.SortOrder
+  verificationToken?: Prisma.SortOrder
+  verificationExpires?: Prisma.SortOrder
+  googleId?: Prisma.SortOrder
+  googleEmail?: Prisma.SortOrder
+  resetPasswordToken?: Prisma.SortOrder
+  resetPasswordExpires?: Prisma.SortOrder
+  twoFactorEnabled?: Prisma.SortOrder
+  twoFactorSecret?: Prisma.SortOrder
+  backupCodes?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type UserAvgOrderByAggregateInput = {
@@ -466,12 +711,22 @@ export type UserMaxOrderByAggregateInput = {
   hashPassword?: Prisma.SortOrder
   fullName?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
+  avatarCloudinaryId?: Prisma.SortOrder
   bio?: Prisma.SortOrder
   dateOfBirth?: Prisma.SortOrder
   role?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
   isVerified?: Prisma.SortOrder
+  verificationToken?: Prisma.SortOrder
+  verificationExpires?: Prisma.SortOrder
+  googleId?: Prisma.SortOrder
+  googleEmail?: Prisma.SortOrder
+  resetPasswordToken?: Prisma.SortOrder
+  resetPasswordExpires?: Prisma.SortOrder
+  twoFactorEnabled?: Prisma.SortOrder
+  twoFactorSecret?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -480,16 +735,31 @@ export type UserMinOrderByAggregateInput = {
   hashPassword?: Prisma.SortOrder
   fullName?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
+  avatarCloudinaryId?: Prisma.SortOrder
   bio?: Prisma.SortOrder
   dateOfBirth?: Prisma.SortOrder
   role?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
   isVerified?: Prisma.SortOrder
+  verificationToken?: Prisma.SortOrder
+  verificationExpires?: Prisma.SortOrder
+  googleId?: Prisma.SortOrder
+  googleEmail?: Prisma.SortOrder
+  resetPasswordToken?: Prisma.SortOrder
+  resetPasswordExpires?: Prisma.SortOrder
+  twoFactorEnabled?: Prisma.SortOrder
+  twoFactorSecret?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type UserSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+}
+
+export type UserScalarRelationFilter = {
+  is?: Prisma.UserWhereInput
+  isNot?: Prisma.UserWhereInput
 }
 
 export type UserListRelationFilter = {
@@ -498,13 +768,17 @@ export type UserListRelationFilter = {
   none?: Prisma.UserWhereInput
 }
 
+export type UserNullableScalarRelationFilter = {
+  is?: Prisma.UserWhereInput | null
+  isNot?: Prisma.UserWhereInput | null
+}
+
 export type UserOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type UserScalarRelationFilter = {
-  is?: Prisma.UserWhereInput
-  isNot?: Prisma.UserWhereInput
+export type UserCreatebackupCodesInput = {
+  set: string[]
 }
 
 export type StringFieldUpdateOperationsInput = {
@@ -527,6 +801,11 @@ export type BoolFieldUpdateOperationsInput = {
   set?: boolean
 }
 
+export type UserUpdatebackupCodesInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
@@ -539,10 +818,30 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type UserCreateNestedOneWithoutRefreshTokensInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRefreshTokensInput, Prisma.UserUncheckedCreateWithoutRefreshTokensInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRefreshTokensInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutRefreshTokensNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRefreshTokensInput, Prisma.UserUncheckedCreateWithoutRefreshTokensInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRefreshTokensInput
+  upsert?: Prisma.UserUpsertWithoutRefreshTokensInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutRefreshTokensInput, Prisma.UserUpdateWithoutRefreshTokensInput>, Prisma.UserUncheckedUpdateWithoutRefreshTokensInput>
+}
+
 export type UserCreateNestedManyWithoutFavoriteBooksInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutFavoriteBooksInput, Prisma.UserUncheckedCreateWithoutFavoriteBooksInput> | Prisma.UserCreateWithoutFavoriteBooksInput[] | Prisma.UserUncheckedCreateWithoutFavoriteBooksInput[]
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutFavoriteBooksInput | Prisma.UserCreateOrConnectWithoutFavoriteBooksInput[]
   connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+}
+
+export type UserCreateNestedOneWithoutUploadedPdfsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutUploadedPdfsInput, Prisma.UserUncheckedCreateWithoutUploadedPdfsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUploadedPdfsInput
+  connect?: Prisma.UserWhereUniqueInput
 }
 
 export type UserUncheckedCreateNestedManyWithoutFavoriteBooksInput = {
@@ -562,6 +861,16 @@ export type UserUpdateManyWithoutFavoriteBooksNestedInput = {
   update?: Prisma.UserUpdateWithWhereUniqueWithoutFavoriteBooksInput | Prisma.UserUpdateWithWhereUniqueWithoutFavoriteBooksInput[]
   updateMany?: Prisma.UserUpdateManyWithWhereWithoutFavoriteBooksInput | Prisma.UserUpdateManyWithWhereWithoutFavoriteBooksInput[]
   deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+}
+
+export type UserUpdateOneWithoutUploadedPdfsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutUploadedPdfsInput, Prisma.UserUncheckedCreateWithoutUploadedPdfsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUploadedPdfsInput
+  upsert?: Prisma.UserUpsertWithoutUploadedPdfsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutUploadedPdfsInput, Prisma.UserUpdateWithoutUploadedPdfsInput>, Prisma.UserUncheckedUpdateWithoutUploadedPdfsInput>
 }
 
 export type UserUncheckedUpdateManyWithoutFavoriteBooksNestedInput = {
@@ -591,18 +900,176 @@ export type UserUpdateOneRequiredWithoutRatingsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutRatingsInput, Prisma.UserUpdateWithoutRatingsInput>, Prisma.UserUncheckedUpdateWithoutRatingsInput>
 }
 
+export type UserCreateNestedOneWithoutSearchHistoryInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSearchHistoryInput, Prisma.UserUncheckedCreateWithoutSearchHistoryInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSearchHistoryInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutSearchHistoryNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSearchHistoryInput, Prisma.UserUncheckedCreateWithoutSearchHistoryInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSearchHistoryInput
+  upsert?: Prisma.UserUpsertWithoutSearchHistoryInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSearchHistoryInput, Prisma.UserUpdateWithoutSearchHistoryInput>, Prisma.UserUncheckedUpdateWithoutSearchHistoryInput>
+}
+
+export type UserCreateWithoutRefreshTokensInput = {
+  email: string
+  hashPassword: string
+  fullName?: string | null
+  avatarUrl?: string | null
+  avatarCloudinaryId?: string | null
+  bio?: string | null
+  dateOfBirth?: Date | string | null
+  role?: $Enums.Role
+  isVerified?: boolean
+  verificationToken?: string | null
+  verificationExpires?: Date | string | null
+  googleId?: string | null
+  googleEmail?: string | null
+  resetPasswordToken?: string | null
+  resetPasswordExpires?: Date | string | null
+  twoFactorEnabled?: boolean
+  twoFactorSecret?: string | null
+  backupCodes?: Prisma.UserCreatebackupCodesInput | string[]
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  ratings?: Prisma.RatingCreateNestedManyWithoutUserInput
+  favoriteBooks?: Prisma.BookCreateNestedManyWithoutUsersInput
+  uploadedPdfs?: Prisma.BookCreateNestedManyWithoutUploaderInput
+  searchHistory?: Prisma.SearchHistoryCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutRefreshTokensInput = {
+  id?: number
+  email: string
+  hashPassword: string
+  fullName?: string | null
+  avatarUrl?: string | null
+  avatarCloudinaryId?: string | null
+  bio?: string | null
+  dateOfBirth?: Date | string | null
+  role?: $Enums.Role
+  isVerified?: boolean
+  verificationToken?: string | null
+  verificationExpires?: Date | string | null
+  googleId?: string | null
+  googleEmail?: string | null
+  resetPasswordToken?: string | null
+  resetPasswordExpires?: Date | string | null
+  twoFactorEnabled?: boolean
+  twoFactorSecret?: string | null
+  backupCodes?: Prisma.UserCreatebackupCodesInput | string[]
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutUserInput
+  favoriteBooks?: Prisma.BookUncheckedCreateNestedManyWithoutUsersInput
+  uploadedPdfs?: Prisma.BookUncheckedCreateNestedManyWithoutUploaderInput
+  searchHistory?: Prisma.SearchHistoryUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutRefreshTokensInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutRefreshTokensInput, Prisma.UserUncheckedCreateWithoutRefreshTokensInput>
+}
+
+export type UserUpsertWithoutRefreshTokensInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutRefreshTokensInput, Prisma.UserUncheckedUpdateWithoutRefreshTokensInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutRefreshTokensInput, Prisma.UserUncheckedCreateWithoutRefreshTokensInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutRefreshTokensInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutRefreshTokensInput, Prisma.UserUncheckedUpdateWithoutRefreshTokensInput>
+}
+
+export type UserUpdateWithoutRefreshTokensInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  hashPassword?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarCloudinaryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  twoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  backupCodes?: Prisma.UserUpdatebackupCodesInput | string[]
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ratings?: Prisma.RatingUpdateManyWithoutUserNestedInput
+  favoriteBooks?: Prisma.BookUpdateManyWithoutUsersNestedInput
+  uploadedPdfs?: Prisma.BookUpdateManyWithoutUploaderNestedInput
+  searchHistory?: Prisma.SearchHistoryUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutRefreshTokensInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  hashPassword?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarCloudinaryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  twoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  backupCodes?: Prisma.UserUpdatebackupCodesInput | string[]
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ratings?: Prisma.RatingUncheckedUpdateManyWithoutUserNestedInput
+  favoriteBooks?: Prisma.BookUncheckedUpdateManyWithoutUsersNestedInput
+  uploadedPdfs?: Prisma.BookUncheckedUpdateManyWithoutUploaderNestedInput
+  searchHistory?: Prisma.SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
+}
+
 export type UserCreateWithoutFavoriteBooksInput = {
   email: string
   hashPassword: string
   fullName?: string | null
   avatarUrl?: string | null
+  avatarCloudinaryId?: string | null
   bio?: string | null
   dateOfBirth?: Date | string | null
   role?: $Enums.Role
-  isActive?: boolean
   isVerified?: boolean
+  verificationToken?: string | null
+  verificationExpires?: Date | string | null
+  googleId?: string | null
+  googleEmail?: string | null
+  resetPasswordToken?: string | null
+  resetPasswordExpires?: Date | string | null
+  twoFactorEnabled?: boolean
+  twoFactorSecret?: string | null
+  backupCodes?: Prisma.UserCreatebackupCodesInput | string[]
+  isActive?: boolean
   createdAt?: Date | string
+  updatedAt?: Date | string
   ratings?: Prisma.RatingCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  uploadedPdfs?: Prisma.BookCreateNestedManyWithoutUploaderInput
+  searchHistory?: Prisma.SearchHistoryCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutFavoriteBooksInput = {
@@ -611,18 +1078,94 @@ export type UserUncheckedCreateWithoutFavoriteBooksInput = {
   hashPassword: string
   fullName?: string | null
   avatarUrl?: string | null
+  avatarCloudinaryId?: string | null
   bio?: string | null
   dateOfBirth?: Date | string | null
   role?: $Enums.Role
-  isActive?: boolean
   isVerified?: boolean
+  verificationToken?: string | null
+  verificationExpires?: Date | string | null
+  googleId?: string | null
+  googleEmail?: string | null
+  resetPasswordToken?: string | null
+  resetPasswordExpires?: Date | string | null
+  twoFactorEnabled?: boolean
+  twoFactorSecret?: string | null
+  backupCodes?: Prisma.UserCreatebackupCodesInput | string[]
+  isActive?: boolean
   createdAt?: Date | string
+  updatedAt?: Date | string
   ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  uploadedPdfs?: Prisma.BookUncheckedCreateNestedManyWithoutUploaderInput
+  searchHistory?: Prisma.SearchHistoryUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutFavoriteBooksInput = {
   where: Prisma.UserWhereUniqueInput
   create: Prisma.XOR<Prisma.UserCreateWithoutFavoriteBooksInput, Prisma.UserUncheckedCreateWithoutFavoriteBooksInput>
+}
+
+export type UserCreateWithoutUploadedPdfsInput = {
+  email: string
+  hashPassword: string
+  fullName?: string | null
+  avatarUrl?: string | null
+  avatarCloudinaryId?: string | null
+  bio?: string | null
+  dateOfBirth?: Date | string | null
+  role?: $Enums.Role
+  isVerified?: boolean
+  verificationToken?: string | null
+  verificationExpires?: Date | string | null
+  googleId?: string | null
+  googleEmail?: string | null
+  resetPasswordToken?: string | null
+  resetPasswordExpires?: Date | string | null
+  twoFactorEnabled?: boolean
+  twoFactorSecret?: string | null
+  backupCodes?: Prisma.UserCreatebackupCodesInput | string[]
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  ratings?: Prisma.RatingCreateNestedManyWithoutUserInput
+  favoriteBooks?: Prisma.BookCreateNestedManyWithoutUsersInput
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutUploadedPdfsInput = {
+  id?: number
+  email: string
+  hashPassword: string
+  fullName?: string | null
+  avatarUrl?: string | null
+  avatarCloudinaryId?: string | null
+  bio?: string | null
+  dateOfBirth?: Date | string | null
+  role?: $Enums.Role
+  isVerified?: boolean
+  verificationToken?: string | null
+  verificationExpires?: Date | string | null
+  googleId?: string | null
+  googleEmail?: string | null
+  resetPasswordToken?: string | null
+  resetPasswordExpires?: Date | string | null
+  twoFactorEnabled?: boolean
+  twoFactorSecret?: string | null
+  backupCodes?: Prisma.UserCreatebackupCodesInput | string[]
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutUserInput
+  favoriteBooks?: Prisma.BookUncheckedCreateNestedManyWithoutUsersInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  searchHistory?: Prisma.SearchHistoryUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutUploadedPdfsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutUploadedPdfsInput, Prisma.UserUncheckedCreateWithoutUploadedPdfsInput>
 }
 
 export type UserUpsertWithWhereUniqueWithoutFavoriteBooksInput = {
@@ -650,12 +1193,91 @@ export type UserScalarWhereInput = {
   hashPassword?: Prisma.StringFilter<"User"> | string
   fullName?: Prisma.StringNullableFilter<"User"> | string | null
   avatarUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  avatarCloudinaryId?: Prisma.StringNullableFilter<"User"> | string | null
   bio?: Prisma.StringNullableFilter<"User"> | string | null
   dateOfBirth?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
-  isActive?: Prisma.BoolFilter<"User"> | boolean
   isVerified?: Prisma.BoolFilter<"User"> | boolean
+  verificationToken?: Prisma.StringNullableFilter<"User"> | string | null
+  verificationExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  googleId?: Prisma.StringNullableFilter<"User"> | string | null
+  googleEmail?: Prisma.StringNullableFilter<"User"> | string | null
+  resetPasswordToken?: Prisma.StringNullableFilter<"User"> | string | null
+  resetPasswordExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  twoFactorEnabled?: Prisma.BoolFilter<"User"> | boolean
+  twoFactorSecret?: Prisma.StringNullableFilter<"User"> | string | null
+  backupCodes?: Prisma.StringNullableListFilter<"User">
+  isActive?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+}
+
+export type UserUpsertWithoutUploadedPdfsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutUploadedPdfsInput, Prisma.UserUncheckedUpdateWithoutUploadedPdfsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutUploadedPdfsInput, Prisma.UserUncheckedCreateWithoutUploadedPdfsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutUploadedPdfsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutUploadedPdfsInput, Prisma.UserUncheckedUpdateWithoutUploadedPdfsInput>
+}
+
+export type UserUpdateWithoutUploadedPdfsInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  hashPassword?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarCloudinaryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  twoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  backupCodes?: Prisma.UserUpdatebackupCodesInput | string[]
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ratings?: Prisma.RatingUpdateManyWithoutUserNestedInput
+  favoriteBooks?: Prisma.BookUpdateManyWithoutUsersNestedInput
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutUploadedPdfsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  hashPassword?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarCloudinaryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  twoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  backupCodes?: Prisma.UserUpdatebackupCodesInput | string[]
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ratings?: Prisma.RatingUncheckedUpdateManyWithoutUserNestedInput
+  favoriteBooks?: Prisma.BookUncheckedUpdateManyWithoutUsersNestedInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  searchHistory?: Prisma.SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutRatingsInput = {
@@ -663,13 +1285,27 @@ export type UserCreateWithoutRatingsInput = {
   hashPassword: string
   fullName?: string | null
   avatarUrl?: string | null
+  avatarCloudinaryId?: string | null
   bio?: string | null
   dateOfBirth?: Date | string | null
   role?: $Enums.Role
-  isActive?: boolean
   isVerified?: boolean
+  verificationToken?: string | null
+  verificationExpires?: Date | string | null
+  googleId?: string | null
+  googleEmail?: string | null
+  resetPasswordToken?: string | null
+  resetPasswordExpires?: Date | string | null
+  twoFactorEnabled?: boolean
+  twoFactorSecret?: string | null
+  backupCodes?: Prisma.UserCreatebackupCodesInput | string[]
+  isActive?: boolean
   createdAt?: Date | string
+  updatedAt?: Date | string
   favoriteBooks?: Prisma.BookCreateNestedManyWithoutUsersInput
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  uploadedPdfs?: Prisma.BookCreateNestedManyWithoutUploaderInput
+  searchHistory?: Prisma.SearchHistoryCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutRatingsInput = {
@@ -678,13 +1314,27 @@ export type UserUncheckedCreateWithoutRatingsInput = {
   hashPassword: string
   fullName?: string | null
   avatarUrl?: string | null
+  avatarCloudinaryId?: string | null
   bio?: string | null
   dateOfBirth?: Date | string | null
   role?: $Enums.Role
-  isActive?: boolean
   isVerified?: boolean
+  verificationToken?: string | null
+  verificationExpires?: Date | string | null
+  googleId?: string | null
+  googleEmail?: string | null
+  resetPasswordToken?: string | null
+  resetPasswordExpires?: Date | string | null
+  twoFactorEnabled?: boolean
+  twoFactorSecret?: string | null
+  backupCodes?: Prisma.UserCreatebackupCodesInput | string[]
+  isActive?: boolean
   createdAt?: Date | string
+  updatedAt?: Date | string
   favoriteBooks?: Prisma.BookUncheckedCreateNestedManyWithoutUsersInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  uploadedPdfs?: Prisma.BookUncheckedCreateNestedManyWithoutUploaderInput
+  searchHistory?: Prisma.SearchHistoryUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutRatingsInput = {
@@ -708,13 +1358,27 @@ export type UserUpdateWithoutRatingsInput = {
   hashPassword?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarCloudinaryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  twoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  backupCodes?: Prisma.UserUpdatebackupCodesInput | string[]
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   favoriteBooks?: Prisma.BookUpdateManyWithoutUsersNestedInput
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  uploadedPdfs?: Prisma.BookUpdateManyWithoutUploaderNestedInput
+  searchHistory?: Prisma.SearchHistoryUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRatingsInput = {
@@ -723,13 +1387,157 @@ export type UserUncheckedUpdateWithoutRatingsInput = {
   hashPassword?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarCloudinaryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  twoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  backupCodes?: Prisma.UserUpdatebackupCodesInput | string[]
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   favoriteBooks?: Prisma.BookUncheckedUpdateManyWithoutUsersNestedInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  uploadedPdfs?: Prisma.BookUncheckedUpdateManyWithoutUploaderNestedInput
+  searchHistory?: Prisma.SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutSearchHistoryInput = {
+  email: string
+  hashPassword: string
+  fullName?: string | null
+  avatarUrl?: string | null
+  avatarCloudinaryId?: string | null
+  bio?: string | null
+  dateOfBirth?: Date | string | null
+  role?: $Enums.Role
+  isVerified?: boolean
+  verificationToken?: string | null
+  verificationExpires?: Date | string | null
+  googleId?: string | null
+  googleEmail?: string | null
+  resetPasswordToken?: string | null
+  resetPasswordExpires?: Date | string | null
+  twoFactorEnabled?: boolean
+  twoFactorSecret?: string | null
+  backupCodes?: Prisma.UserCreatebackupCodesInput | string[]
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  ratings?: Prisma.RatingCreateNestedManyWithoutUserInput
+  favoriteBooks?: Prisma.BookCreateNestedManyWithoutUsersInput
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  uploadedPdfs?: Prisma.BookCreateNestedManyWithoutUploaderInput
+}
+
+export type UserUncheckedCreateWithoutSearchHistoryInput = {
+  id?: number
+  email: string
+  hashPassword: string
+  fullName?: string | null
+  avatarUrl?: string | null
+  avatarCloudinaryId?: string | null
+  bio?: string | null
+  dateOfBirth?: Date | string | null
+  role?: $Enums.Role
+  isVerified?: boolean
+  verificationToken?: string | null
+  verificationExpires?: Date | string | null
+  googleId?: string | null
+  googleEmail?: string | null
+  resetPasswordToken?: string | null
+  resetPasswordExpires?: Date | string | null
+  twoFactorEnabled?: boolean
+  twoFactorSecret?: string | null
+  backupCodes?: Prisma.UserCreatebackupCodesInput | string[]
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  ratings?: Prisma.RatingUncheckedCreateNestedManyWithoutUserInput
+  favoriteBooks?: Prisma.BookUncheckedCreateNestedManyWithoutUsersInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  uploadedPdfs?: Prisma.BookUncheckedCreateNestedManyWithoutUploaderInput
+}
+
+export type UserCreateOrConnectWithoutSearchHistoryInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutSearchHistoryInput, Prisma.UserUncheckedCreateWithoutSearchHistoryInput>
+}
+
+export type UserUpsertWithoutSearchHistoryInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutSearchHistoryInput, Prisma.UserUncheckedUpdateWithoutSearchHistoryInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSearchHistoryInput, Prisma.UserUncheckedCreateWithoutSearchHistoryInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutSearchHistoryInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutSearchHistoryInput, Prisma.UserUncheckedUpdateWithoutSearchHistoryInput>
+}
+
+export type UserUpdateWithoutSearchHistoryInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  hashPassword?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarCloudinaryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  twoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  backupCodes?: Prisma.UserUpdatebackupCodesInput | string[]
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ratings?: Prisma.RatingUpdateManyWithoutUserNestedInput
+  favoriteBooks?: Prisma.BookUpdateManyWithoutUsersNestedInput
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  uploadedPdfs?: Prisma.BookUpdateManyWithoutUploaderNestedInput
+}
+
+export type UserUncheckedUpdateWithoutSearchHistoryInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  hashPassword?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarCloudinaryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  twoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  backupCodes?: Prisma.UserUpdatebackupCodesInput | string[]
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ratings?: Prisma.RatingUncheckedUpdateManyWithoutUserNestedInput
+  favoriteBooks?: Prisma.BookUncheckedUpdateManyWithoutUsersNestedInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  uploadedPdfs?: Prisma.BookUncheckedUpdateManyWithoutUploaderNestedInput
 }
 
 export type UserUpdateWithoutFavoriteBooksInput = {
@@ -737,13 +1545,27 @@ export type UserUpdateWithoutFavoriteBooksInput = {
   hashPassword?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarCloudinaryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  twoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  backupCodes?: Prisma.UserUpdatebackupCodesInput | string[]
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ratings?: Prisma.RatingUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  uploadedPdfs?: Prisma.BookUpdateManyWithoutUploaderNestedInput
+  searchHistory?: Prisma.SearchHistoryUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutFavoriteBooksInput = {
@@ -752,13 +1574,27 @@ export type UserUncheckedUpdateWithoutFavoriteBooksInput = {
   hashPassword?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarCloudinaryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  twoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  backupCodes?: Prisma.UserUpdatebackupCodesInput | string[]
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ratings?: Prisma.RatingUncheckedUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  uploadedPdfs?: Prisma.BookUncheckedUpdateManyWithoutUploaderNestedInput
+  searchHistory?: Prisma.SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutFavoriteBooksInput = {
@@ -767,12 +1603,23 @@ export type UserUncheckedUpdateManyWithoutFavoriteBooksInput = {
   hashPassword?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarCloudinaryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  twoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  backupCodes?: Prisma.UserUpdatebackupCodesInput | string[]
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -783,11 +1630,17 @@ export type UserUncheckedUpdateManyWithoutFavoriteBooksInput = {
 export type UserCountOutputType = {
   ratings: number
   favoriteBooks: number
+  refreshTokens: number
+  uploadedPdfs: number
+  searchHistory: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   ratings?: boolean | UserCountOutputTypeCountRatingsArgs
   favoriteBooks?: boolean | UserCountOutputTypeCountFavoriteBooksArgs
+  refreshTokens?: boolean | UserCountOutputTypeCountRefreshTokensArgs
+  uploadedPdfs?: boolean | UserCountOutputTypeCountUploadedPdfsArgs
+  searchHistory?: boolean | UserCountOutputTypeCountSearchHistoryArgs
 }
 
 /**
@@ -814,6 +1667,27 @@ export type UserCountOutputTypeCountFavoriteBooksArgs<ExtArgs extends runtime.Ty
   where?: Prisma.BookWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountRefreshTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RefreshTokenWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountUploadedPdfsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BookWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountSearchHistoryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SearchHistoryWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -821,14 +1695,28 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   hashPassword?: boolean
   fullName?: boolean
   avatarUrl?: boolean
+  avatarCloudinaryId?: boolean
   bio?: boolean
   dateOfBirth?: boolean
   role?: boolean
-  isActive?: boolean
   isVerified?: boolean
+  verificationToken?: boolean
+  verificationExpires?: boolean
+  googleId?: boolean
+  googleEmail?: boolean
+  resetPasswordToken?: boolean
+  resetPasswordExpires?: boolean
+  twoFactorEnabled?: boolean
+  twoFactorSecret?: boolean
+  backupCodes?: boolean
+  isActive?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   ratings?: boolean | Prisma.User$ratingsArgs<ExtArgs>
   favoriteBooks?: boolean | Prisma.User$favoriteBooksArgs<ExtArgs>
+  refreshTokens?: boolean | Prisma.User$refreshTokensArgs<ExtArgs>
+  uploadedPdfs?: boolean | Prisma.User$uploadedPdfsArgs<ExtArgs>
+  searchHistory?: boolean | Prisma.User$searchHistoryArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -838,12 +1726,23 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   hashPassword?: boolean
   fullName?: boolean
   avatarUrl?: boolean
+  avatarCloudinaryId?: boolean
   bio?: boolean
   dateOfBirth?: boolean
   role?: boolean
-  isActive?: boolean
   isVerified?: boolean
+  verificationToken?: boolean
+  verificationExpires?: boolean
+  googleId?: boolean
+  googleEmail?: boolean
+  resetPasswordToken?: boolean
+  resetPasswordExpires?: boolean
+  twoFactorEnabled?: boolean
+  twoFactorSecret?: boolean
+  backupCodes?: boolean
+  isActive?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -852,12 +1751,23 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   hashPassword?: boolean
   fullName?: boolean
   avatarUrl?: boolean
+  avatarCloudinaryId?: boolean
   bio?: boolean
   dateOfBirth?: boolean
   role?: boolean
-  isActive?: boolean
   isVerified?: boolean
+  verificationToken?: boolean
+  verificationExpires?: boolean
+  googleId?: boolean
+  googleEmail?: boolean
+  resetPasswordToken?: boolean
+  resetPasswordExpires?: boolean
+  twoFactorEnabled?: boolean
+  twoFactorSecret?: boolean
+  backupCodes?: boolean
+  isActive?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -866,18 +1776,32 @@ export type UserSelectScalar = {
   hashPassword?: boolean
   fullName?: boolean
   avatarUrl?: boolean
+  avatarCloudinaryId?: boolean
   bio?: boolean
   dateOfBirth?: boolean
   role?: boolean
-  isActive?: boolean
   isVerified?: boolean
+  verificationToken?: boolean
+  verificationExpires?: boolean
+  googleId?: boolean
+  googleEmail?: boolean
+  resetPasswordToken?: boolean
+  resetPasswordExpires?: boolean
+  twoFactorEnabled?: boolean
+  twoFactorSecret?: boolean
+  backupCodes?: boolean
+  isActive?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "hashPassword" | "fullName" | "avatarUrl" | "bio" | "dateOfBirth" | "role" | "isActive" | "isVerified" | "createdAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "hashPassword" | "fullName" | "avatarUrl" | "avatarCloudinaryId" | "bio" | "dateOfBirth" | "role" | "isVerified" | "verificationToken" | "verificationExpires" | "googleId" | "googleEmail" | "resetPasswordToken" | "resetPasswordExpires" | "twoFactorEnabled" | "twoFactorSecret" | "backupCodes" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   ratings?: boolean | Prisma.User$ratingsArgs<ExtArgs>
   favoriteBooks?: boolean | Prisma.User$favoriteBooksArgs<ExtArgs>
+  refreshTokens?: boolean | Prisma.User$refreshTokensArgs<ExtArgs>
+  uploadedPdfs?: boolean | Prisma.User$uploadedPdfsArgs<ExtArgs>
+  searchHistory?: boolean | Prisma.User$searchHistoryArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -888,6 +1812,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     ratings: Prisma.$RatingPayload<ExtArgs>[]
     favoriteBooks: Prisma.$BookPayload<ExtArgs>[]
+    refreshTokens: Prisma.$RefreshTokenPayload<ExtArgs>[]
+    uploadedPdfs: Prisma.$BookPayload<ExtArgs>[]
+    searchHistory: Prisma.$SearchHistoryPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -895,12 +1822,23 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     hashPassword: string
     fullName: string | null
     avatarUrl: string | null
+    avatarCloudinaryId: string | null
     bio: string | null
     dateOfBirth: Date | null
     role: $Enums.Role
-    isActive: boolean
     isVerified: boolean
+    verificationToken: string | null
+    verificationExpires: Date | null
+    googleId: string | null
+    googleEmail: string | null
+    resetPasswordToken: string | null
+    resetPasswordExpires: Date | null
+    twoFactorEnabled: boolean
+    twoFactorSecret: string | null
+    backupCodes: string[]
+    isActive: boolean
     createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -1297,6 +2235,9 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   ratings<T extends Prisma.User$ratingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ratingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   favoriteBooks<T extends Prisma.User$favoriteBooksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$favoriteBooksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  refreshTokens<T extends Prisma.User$refreshTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$refreshTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RefreshTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  uploadedPdfs<T extends Prisma.User$uploadedPdfsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$uploadedPdfsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  searchHistory<T extends Prisma.User$searchHistoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$searchHistoryArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SearchHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1331,12 +2272,23 @@ export interface UserFieldRefs {
   readonly hashPassword: Prisma.FieldRef<"User", 'String'>
   readonly fullName: Prisma.FieldRef<"User", 'String'>
   readonly avatarUrl: Prisma.FieldRef<"User", 'String'>
+  readonly avatarCloudinaryId: Prisma.FieldRef<"User", 'String'>
   readonly bio: Prisma.FieldRef<"User", 'String'>
   readonly dateOfBirth: Prisma.FieldRef<"User", 'DateTime'>
   readonly role: Prisma.FieldRef<"User", 'Role'>
-  readonly isActive: Prisma.FieldRef<"User", 'Boolean'>
   readonly isVerified: Prisma.FieldRef<"User", 'Boolean'>
+  readonly verificationToken: Prisma.FieldRef<"User", 'String'>
+  readonly verificationExpires: Prisma.FieldRef<"User", 'DateTime'>
+  readonly googleId: Prisma.FieldRef<"User", 'String'>
+  readonly googleEmail: Prisma.FieldRef<"User", 'String'>
+  readonly resetPasswordToken: Prisma.FieldRef<"User", 'String'>
+  readonly resetPasswordExpires: Prisma.FieldRef<"User", 'DateTime'>
+  readonly twoFactorEnabled: Prisma.FieldRef<"User", 'Boolean'>
+  readonly twoFactorSecret: Prisma.FieldRef<"User", 'String'>
+  readonly backupCodes: Prisma.FieldRef<"User", 'String[]'>
+  readonly isActive: Prisma.FieldRef<"User", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
 }
     
 
@@ -1770,6 +2722,78 @@ export type User$favoriteBooksArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.BookScalarFieldEnum | Prisma.BookScalarFieldEnum[]
+}
+
+/**
+ * User.refreshTokens
+ */
+export type User$refreshTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RefreshToken
+   */
+  select?: Prisma.RefreshTokenSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RefreshToken
+   */
+  omit?: Prisma.RefreshTokenOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RefreshTokenInclude<ExtArgs> | null
+  where?: Prisma.RefreshTokenWhereInput
+  orderBy?: Prisma.RefreshTokenOrderByWithRelationInput | Prisma.RefreshTokenOrderByWithRelationInput[]
+  cursor?: Prisma.RefreshTokenWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RefreshTokenScalarFieldEnum | Prisma.RefreshTokenScalarFieldEnum[]
+}
+
+/**
+ * User.uploadedPdfs
+ */
+export type User$uploadedPdfsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Book
+   */
+  select?: Prisma.BookSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Book
+   */
+  omit?: Prisma.BookOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BookInclude<ExtArgs> | null
+  where?: Prisma.BookWhereInput
+  orderBy?: Prisma.BookOrderByWithRelationInput | Prisma.BookOrderByWithRelationInput[]
+  cursor?: Prisma.BookWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BookScalarFieldEnum | Prisma.BookScalarFieldEnum[]
+}
+
+/**
+ * User.searchHistory
+ */
+export type User$searchHistoryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SearchHistory
+   */
+  select?: Prisma.SearchHistorySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SearchHistory
+   */
+  omit?: Prisma.SearchHistoryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SearchHistoryInclude<ExtArgs> | null
+  where?: Prisma.SearchHistoryWhereInput
+  orderBy?: Prisma.SearchHistoryOrderByWithRelationInput | Prisma.SearchHistoryOrderByWithRelationInput[]
+  cursor?: Prisma.SearchHistoryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SearchHistoryScalarFieldEnum | Prisma.SearchHistoryScalarFieldEnum[]
 }
 
 /**

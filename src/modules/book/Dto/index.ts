@@ -1,1 +1,1 @@
-export * from './book.dto';
+export { CreateBookDto, UpdateBookDto } from './book.dto';

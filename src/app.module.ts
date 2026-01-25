@@ -10,13 +10,22 @@ import { MyJwtGuard } from './common/guards';
 import { BookModule } from './modules/book/book.module';
 import { CategoryModule } from './modules/category/category.module';
 import { RatingModule } from './modules/rating/rating.module';
+import { Reflector } from '@nestjs/core';
 
 @Global()
 @Module({
-  imports: [UserModule, AuthModule, PrismaModule, BookModule, CategoryModule, RatingModule],
+  imports: [
+    UserModule,
+    AuthModule,
+    PrismaModule,
+    BookModule,
+    CategoryModule,
+    RatingModule,
+  ],
   controllers: [AppController],
   providers: [
     AppService,
+    Reflector,
     {
       provide: APP_GUARD,
       useClass: MyJwtGuard,

@@ -1,18 +1,31 @@
 import { SetMetadata } from '@nestjs/common';
 
+export const CACHE_KEY_METADATA = 'cache_key';
+export const CACHE_TTL_METADATA = 'cache_ttl';
+
 /**
- * Options cho Cache
+ * Cache decorator để đánh dấu endpoint cần cache
+ * @param key - Cache key prefix
+ * @param ttl - Time to live in seconds (default: 300 = 5 phút)
  *
- * - ttl: Thời gian sống của cache tính bằng giây (Time To Live)
- * - key: Tên key cache (nếu không cung cấp, dùng endpoint URL)
+ * @example
+ * ```typescript
+ * @Cache('books:all', 600) // Cache 10 phút
+ * @Get()
+ * async getAllBooks() {
+ *   return this.bookService.getAllBooks();
+ * }
+ * ```
  */
-export interface CacheOptions {
-  ttl: number; // Thời gian cache tồn tại (seconds)
-  key?: string; // Cache key (tùy chọn)
-}
-
-// Tên key để lưu metadata
-export const CACHE_KEY_METADATA = 'cache';
-
-export const Cache = (options: CacheOptions) =>
-  SetMetadata(CACHE_KEY_METADATA, options);
+export const Cache = (key: string, ttl?: number) => {
+  return (
+    target: object,
+    propertyKey: string,
+    descriptor: PropertyDescriptor,
+  ) => {
+    SetMetadata(CACHE_KEY_METADATA, key)(target, propertyKey, descriptor);
+    if (ttl) {
+      SetMetadata(CACHE_TTL_METADATA, ttl)(target, propertyKey, descriptor);
+    }
+  };
+};

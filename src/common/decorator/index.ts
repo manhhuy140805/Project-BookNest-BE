@@ -11,4 +11,8 @@ export * from './user-data.decorator'; // @UserData() - Extract user data
 export * from './is-public.decorator'; // @IsPublic() - Bỏ qua JWT check
 export { Role, Roles, ROLES_KEY } from './roles.decorator'; // @Roles() - Role-based access
 export * from './rate-limit.decorator'; // @RateLimit() - Giới hạn request
-export * from './cache.decorator'; // @Cache() - Cache response
+export {
+  Cache,
+  CACHE_KEY_METADATA,
+  CACHE_TTL_METADATA,
+} from './cache.decorator'; // @Cache() - Cache response

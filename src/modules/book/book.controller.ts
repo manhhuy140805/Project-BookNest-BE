@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { BookService } from './book.service';
 import { CreateBookDto, UpdateBookDto } from './Dto';
-import { IsPublic, Role, Roles } from 'src/common/decorator';
+import { IsPublic, Role, Roles, Cache } from 'src/common/decorator';
 import { RolesGuard } from 'src/common/guards';
 
 @Controller('book')
@@ -25,12 +25,14 @@ export class BookController {
   }
 
   @IsPublic()
+  @Cache('books:all', 300) // Cache 5 phút
   @Get()
   async getAllBooks() {
     return this.bookService.getAllBooks();
   }
 
   @IsPublic()
+  @Cache('books:detail', 600) // Cache 10 phút
   @Get('id/:id')
   async getBookById(@Param('id') id: string) {
     return this.bookService.getBookById(Number(id));

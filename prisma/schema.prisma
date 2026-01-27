@@ -104,6 +104,9 @@ model Book {
   
   @@index([categoryId])
   @@index([pdfUploadedBy])
+  @@index([title])
+  @@index([author])
+  @@index([createdAt])
 }
 
 model Category {
@@ -112,6 +115,8 @@ model Category {
   books     Book[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  
+  @@index([name])
 }
 
 model Rating {

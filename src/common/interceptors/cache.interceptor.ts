@@ -43,11 +43,8 @@ export class CacheInterceptor implements NestInterceptor {
       const cachedData = await this.redis.get(fullCacheKey);
 
       if (cachedData) {
-        console.log(`✅ Cache HIT: ${fullCacheKey}`);
         return of(cachedData);
       }
-
-      console.log(`❌ Cache MISS: ${fullCacheKey}`);
 
       // Nếu không có cache, execute handler và lưu kết quả
       return next.handle().pipe(
@@ -56,7 +53,6 @@ export class CacheInterceptor implements NestInterceptor {
           await this.redis.set(fullCacheKey, data, {
             ex: ttl || 300, // TTL in seconds
           });
-          console.log(`💾 Cached: ${fullCacheKey} (TTL: ${ttl || 300}s)`);
         }),
       );
     } catch (error) {

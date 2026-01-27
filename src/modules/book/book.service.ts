@@ -33,14 +33,50 @@ export class BookService {
 
   async getAllBooks() {
     const books = await this.prismaService.book.findMany({
-      orderBy: { id: 'desc' },
-      include: { category: true },
+      select: {
+        id: true,
+        title: true,
+        author: true,
+        description: true,
+        coverUrl: true,
+        categoryId: true,
+        category: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        createdAt: true,
+        updatedAt: true,
+      },
+      orderBy: { createdAt: 'desc' },
     });
     return books;
   }
 
   async getBookById(id: number) {
-    const book = await this.prismaService.book.findUnique({ where: { id } });
+    const book = await this.prismaService.book.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        title: true,
+        author: true,
+        description: true,
+        coverUrl: true,
+        pdfUrl: true,
+        pdfFileName: true,
+        pdfSize: true,
+        categoryId: true,
+        category: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
     if (!book) {
       throw new NotFoundException('Book not found');
     }
@@ -127,81 +163,57 @@ export class BookService {
   ) {
     const skip = (page - 1) * limit;
 
-    // Tách keyword thành các từ để tìm kiếm linh hoạt hơn
-    const keywords = keyword
-      .trim()
-      .split(/\s+/)
-      .filter((word) => word.length > 0);
+    // Build điều kiện search đơn giản
+    const whereClause: any = {};
 
-    // Build điều kiện search cho từng từ khóa
-    const searchConditions = keywords.flatMap((word) => [
-      { title: { contains: word, mode: 'insensitive' as const } },
-      { author: { contains: word, mode: 'insensitive' as const } },
-      { description: { contains: word, mode: 'insensitive' as const } },
-    ]);
+    if (keyword && keyword.trim()) {
+      whereClause.OR = [
+        { title: { contains: keyword.trim(), mode: 'insensitive' as const } },
+        { author: { contains: keyword.trim(), mode: 'insensitive' as const } },
+        {
+          description: {
+            contains: keyword.trim(),
+            mode: 'insensitive' as const,
+          },
+        },
+      ];
+    }
 
-    const whereClause = {
-      ...(searchConditions.length > 0 ? { OR: searchConditions } : {}),
-      ...(categoryId ? { categoryId } : {}),
-    };
+    if (categoryId) {
+      whereClause.categoryId = categoryId;
+    }
 
+    // Parallel queries để tăng tốc
     const [books, total] = await Promise.all([
       this.prismaService.book.findMany({
         where: whereClause,
-        include: { category: true, ratings: true },
+        select: {
+          id: true,
+          title: true,
+          author: true,
+          description: true,
+          coverUrl: true,
+          categoryId: true,
+          category: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          createdAt: true,
+          updatedAt: true,
+        },
+        orderBy: { createdAt: 'desc' },
         skip,
-        take: limit * 3, // Lấy nhiều hơn để sort theo relevance
+        take: limit,
       }),
       this.prismaService.book.count({
         where: whereClause,
       }),
     ]);
 
-    // Tính relevance score: title match = 3 điểm, author = 2, description = 1
-    const booksWithScore = books.map((book) => {
-      let relevanceScore = 0;
-      const titleLower = book.title.toLowerCase();
-      const authorLower = book.author.toLowerCase();
-      const descLower = (book.description || '').toLowerCase();
-
-      keywords.forEach((word) => {
-        const wordLower = word.toLowerCase();
-        // Exact match > partial match
-        if (titleLower === wordLower) relevanceScore += 10;
-        else if (titleLower.includes(wordLower)) relevanceScore += 3;
-
-        if (authorLower === wordLower) relevanceScore += 8;
-        else if (authorLower.includes(wordLower)) relevanceScore += 2;
-
-        if (descLower.includes(wordLower)) relevanceScore += 1;
-      });
-
-      // Tính avgRating
-      const totalRatings = book.ratings.length;
-      const avgRating =
-        totalRatings > 0
-          ? book.ratings.reduce((sum, rating) => sum + rating.score, 0) /
-            totalRatings
-          : 0;
-
-      return {
-        ...book,
-        avgRating: parseFloat(avgRating.toFixed(2)),
-        relevanceScore,
-      };
-    });
-
-    // Sort theo relevance score (cao -> thấp), sau đó paginate
-    const sortedBooks = booksWithScore
-      .sort((a, b) => b.relevanceScore - a.relevanceScore)
-      .slice(0, limit)
-      .map((book) => {
-        const { relevanceScore, ...rest } = book;
-        return rest;
-      });
-
     return {
-      data: sortedBooks,
+      data: books,
       total,
       page,
       limit,

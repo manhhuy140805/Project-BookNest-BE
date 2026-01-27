@@ -10,7 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { Roles, Role, UserData } from 'src/common/decorator';
+import { Roles, Role, UserData, Cache } from 'src/common/decorator';
 import { RolesGuard } from 'src/common/guards';
 import { UserCreate, UserUpdate } from './Dto';
 import type { User } from 'src/generated/prisma/client';
@@ -21,6 +21,7 @@ export class UserController {
 
   @UseGuards(RolesGuard)
   @Roles(Role.ADMIN)
+  @Cache('users:all', 300) // Cache 5 phút
   @Get()
   getAll() {
     return this.userService.findAll();
@@ -28,6 +29,7 @@ export class UserController {
 
   @UseGuards(RolesGuard)
   @Roles(Role.ADMIN)
+  @Cache('users:detail', 300) // Cache 5 phút
   @Get('id/:id')
   getById(@Param('id') id: string) {
     return this.userService.findOne(Number(id));
@@ -64,6 +66,7 @@ export class UserController {
     return this.userService.removeFavoriteBook(user, Number(bookId));
   }
 
+  @Cache('users:favorites', 120) // Cache 2 phút
   @Get('favoriteBoks')
   checkFavorite(@Param('bookId') bookId: string, @UserData() user: User) {
     return this.userService.getListFavoriteBooks(user);

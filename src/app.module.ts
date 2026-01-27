@@ -10,6 +10,7 @@ import { MyJwtGuard } from './common/guards';
 import { BookModule } from './modules/book/book.module';
 import { CategoryModule } from './modules/category/category.module';
 import { RatingModule } from './modules/rating/rating.module';
+import { CloudinaryModule } from './modules/cloudinary/cloudinary.module';
 import { Reflector } from '@nestjs/core';
 
 @Global()
@@ -21,6 +22,7 @@ import { Reflector } from '@nestjs/core';
     BookModule,
     CategoryModule,
     RatingModule,
+    CloudinaryModule,
   ],
   controllers: [AppController],
   providers: [

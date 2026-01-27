@@ -25,14 +25,14 @@ export class BookController {
   }
 
   @IsPublic()
-  @Cache('books:all', 300) // Cache 5 phút
+  @Cache('books:all', 600)
   @Get()
   async getAllBooks() {
     return this.bookService.getAllBooks();
   }
 
   @IsPublic()
-  @Cache('books:detail', 600) // Cache 10 phút
+  @Cache('books:detail', 600)
   @Get('id/:id')
   async getBookById(@Param('id') id: string) {
     return this.bookService.getBookById(Number(id));
@@ -48,6 +48,8 @@ export class BookController {
     return this.bookService.updateBook(Number(id), updateBookDto);
   }
 
+  @Delete('delete/:id')
+  @UseGuards(RolesGuard)
   @Delete('delete/:id')
   @UseGuards(RolesGuard)
   @Roles(Role.ADMIN)

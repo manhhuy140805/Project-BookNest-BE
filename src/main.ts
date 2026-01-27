@@ -2,9 +2,18 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common/pipes/validation.pipe';
 import { PrismaExceptionFilter } from './common/filters';
+import compression from 'compression';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // Enable compression để giảm kích thước response
+  app.use(
+    compression({
+      level: 6, // Compression level (0-9)
+      threshold: 1024, // Only compress responses larger than 1KB
+    }),
+  );
 
   // Đăng ký global validation pipe
   app.useGlobalPipes(

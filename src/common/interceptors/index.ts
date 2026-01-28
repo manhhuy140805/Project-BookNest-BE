@@ -4,5 +4,6 @@
  * import { CacheInterceptor, RateLimitInterceptor } from 'src/common/interceptors';
  */
 
-export { CacheInterceptor } from './cache.interceptor';
-export { RateLimitInterceptor } from './rate-limit.interceptor';
+export * from './cache.interceptor';
+export * from './rate-limit.interceptor';
+export * from './clear-cache.interceptor';

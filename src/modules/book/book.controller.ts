@@ -5,12 +5,19 @@ import {
   Get,
   Param,
   Post,
+  Put,
   Query,
   UseGuards,
 } from '@nestjs/common';
 import { BookService } from './book.service';
 import { CreateBookDto, UpdateBookDto } from './Dto';
-import { IsPublic, Role, Roles, Cache } from 'src/common/decorator';
+import {
+  IsPublic,
+  Role,
+  Roles,
+  IsCache,
+  ClearCache,
+} from 'src/common/decorator';
 import { RolesGuard } from 'src/common/guards';
 
 @Controller('book')
@@ -25,20 +32,21 @@ export class BookController {
   }
 
   @IsPublic()
-  @Cache('books:all', 600)
+  @IsCache('books:all', 600)
   @Get()
   async getAllBooks() {
     return this.bookService.getAllBooks();
   }
 
   @IsPublic()
-  @Cache('books:detail', 600)
+  @IsCache('books:detail', 600)
   @Get('id/:id')
   async getBookById(@Param('id') id: string) {
     return this.bookService.getBookById(Number(id));
   }
 
-  @Post('update/:id')
+  @Put('update/:id')
+  @ClearCache('books:detail', 'books:all')
   @UseGuards(RolesGuard)
   @Roles(Role.ADMIN)
   async updateBook(
@@ -48,8 +56,6 @@ export class BookController {
     return this.bookService.updateBook(Number(id), updateBookDto);
   }
 
-  @Delete('delete/:id')
-  @UseGuards(RolesGuard)
   @Delete('delete/:id')
   @UseGuards(RolesGuard)
   @Roles(Role.ADMIN)

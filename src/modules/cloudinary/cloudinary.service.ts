@@ -25,7 +25,33 @@ export class UploadService {
     });
   }
 
+  async uploadPdf(
+    file: Express.Multer.File,
+    folder: string,
+  ): Promise<UploadApiResponse> {
+    return new Promise((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        {
+          folder: folder,
+          resource_type: 'raw',
+          format: 'pdf',
+        },
+        (error, result) => {
+          if (error) return reject(new Error(error.message));
+          if (!result) return reject(new Error('Upload failed'));
+          resolve(result);
+        },
+      );
+
+      uploadStream.end(file.buffer);
+    });
+  }
+
   async deleteImage(publicId: string): Promise<any> {
     return cloudinary.uploader.destroy(publicId);
+  }
+
+  async deletePdf(publicId: string): Promise<any> {
+    return cloudinary.uploader.destroy(publicId, { resource_type: 'raw' });
   }
 }

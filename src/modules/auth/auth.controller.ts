@@ -2,7 +2,7 @@ import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthRegisterDto, AuthLoginDto } from './dto';
 import 'dotenv/config';
-import { IsPublic, UserData } from 'src/common/decorator';
+import { IsCache, IsPublic, UserData } from 'src/common/decorator';
 import type { User } from 'src/generated/prisma/client';
 
 @Controller('auth')
@@ -22,6 +22,7 @@ export class AuthController {
   }
 
   @Get('me')
+  @IsCache('auth:me', 3600) // Cache 1 hour
   getMe(@UserData() user: User) {
     return this.authService.getMe(user);
   }

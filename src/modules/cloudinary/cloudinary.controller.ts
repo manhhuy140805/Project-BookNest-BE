@@ -47,4 +47,44 @@ export class UploadController {
       result,
     };
   }
+
+  @Post('pdf')
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadPdf(
+    @UploadedFile() file: Express.Multer.File,
+    @Body('folder') folder: string,
+  ) {
+    if (!file) {
+      throw new BadRequestException('No file uploaded');
+    }
+
+    if (file.mimetype !== 'application/pdf') {
+      throw new BadRequestException('Only PDF files are allowed');
+    }
+
+    const result = await this.uploadService.uploadPdf(
+      file,
+      folder || 'booknest/pdfs',
+    );
+
+    return {
+      url: result.secure_url,
+      publicId: result.public_id,
+      format: result.format,
+      bytes: result.bytes,
+    };
+  }
+
+  @Delete('pdf')
+  async deletePdf(@Body('publicId') publicId: string) {
+    if (!publicId) {
+      throw new BadRequestException('Public ID is required');
+    }
+
+    const result = await this.uploadService.deletePdf(publicId);
+    return {
+      message: 'PDF deleted successfully',
+      result,
+    };
+  }
 }

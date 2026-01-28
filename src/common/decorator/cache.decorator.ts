@@ -17,7 +17,7 @@ export const CACHE_TTL_METADATA = 'cache_ttl';
  * }
  * ```
  */
-export const Cache = (key: string, ttl?: number) => {
+export const IsCache = (key: string, ttl?: number) => {
   return (
     target: object,
     propertyKey: string,

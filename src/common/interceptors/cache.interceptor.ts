@@ -30,7 +30,7 @@ export class CacheInterceptor implements NestInterceptor {
       context.getHandler(),
     );
 
-    // Chỉ cache GET requests và có @Cache() decorator
+    // Chỉ cache GET requests và có @IsCache() decorator
     if (request.method !== 'GET' || !cacheKey) {
       return next.handle();
     }

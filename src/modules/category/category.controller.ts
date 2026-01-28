@@ -9,7 +9,13 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
-import { Cache, IsPublic, Role, Roles } from 'src/common/decorator';
+import {
+  ClearCache,
+  IsCache,
+  IsPublic,
+  Role,
+  Roles,
+} from 'src/common/decorator';
 import { RolesGuard } from 'src/common/guards';
 
 @Controller('category')
@@ -17,14 +23,14 @@ export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
   @Get()
-  @Cache('categories:all', 3600) // Cache 1 hour
+  @IsCache('categories:all', 3600) // Cache 1 hour
   @IsPublic()
   async getAll() {
     return this.categoryService.getAll();
   }
 
   @Get(':id')
-  @Cache('categories:detail', 3600) // Cache 1 hour
+  @IsCache('categories:detail', 3600) // Cache 1 hour
   @IsPublic()
   async getById(@Param('id') id: string) {
     return this.categoryService.getById(Number(id));
@@ -45,6 +51,10 @@ export class CategoryController {
   }
 
   @Put(':id')
+  @ClearCache('categories:detail')
+  @ClearCache('categories:all')
+  @UseGuards(RolesGuard)
+  @Roles(Role.ADMIN, Role.MODERATOR)
   async update(@Param('id') id: string, @Body('name') name: string) {
     return this.categoryService.update(Number(id), name);
   }

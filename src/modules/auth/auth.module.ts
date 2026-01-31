@@ -6,6 +6,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { MyJwtGuard, RolesGuard } from '../../common/guards';
 import { JwtStrategy } from './strategy';
 import { PrismaService } from '../prisma/prisma.service';
+import { MailModule } from '../email/mail.module';
+import { CleanupService } from './cleanup.service';
 
 @Module({
   imports: [
@@ -14,6 +16,7 @@ import { PrismaService } from '../prisma/prisma.service';
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '1h' },
     }),
+    MailModule,
   ],
   controllers: [AuthController],
   providers: [
@@ -22,6 +25,7 @@ import { PrismaService } from '../prisma/prisma.service';
     RolesGuard, // Role-based authorization guard
     JwtStrategy, // JWT validation strategy
     PrismaService, // Prisma service (dùng cho JWT strategy)
+    CleanupService, // Cleanup service (tự động xóa tài khoản chưa xác thực)
   ],
   exports: [
     AuthService, // Export để modules khác dùng auth service

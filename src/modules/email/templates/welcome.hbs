@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chào mừng đến với BookNest</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            padding: 40px 20px;
+            text-align: center;
+            color: #ffffff;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 32px;
+            font-weight: 700;
+        }
+        .emoji {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        .content {
+            padding: 40px 30px;
+        }
+        .content h2 {
+            color: #333333;
+            font-size: 24px;
+            margin: 0 0 20px;
+        }
+        .content p {
+            color: #666666;
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 0 0 20px;
+        }
+        .features {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        .feature-item {
+            display: flex;
+            align-items: start;
+            margin-bottom: 15px;
+        }
+        .feature-item:last-child {
+            margin-bottom: 0;
+        }
+        .feature-icon {
+            font-size: 24px;
+            margin-right: 15px;
+        }
+        .feature-text {
+            flex: 1;
+        }
+        .feature-text h3 {
+            margin: 0 0 5px;
+            color: #333333;
+            font-size: 16px;
+        }
+        .feature-text p {
+            margin: 0;
+            font-size: 14px;
+            color: #666666;
+        }
+        .button-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .login-button {
+            display: inline-block;
+            padding: 16px 40px;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+        .login-button:hover {
+            transform: translateY(-2px);
+        }
+        .footer {
+            background-color: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            color: #999999;
+            font-size: 14px;
+        }
+        .footer p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="emoji">🎉</div>
+            <h1>Chào mừng đến với BookNest!</h1>
+        </div>
+        
+        <div class="content">
+            <h2>Xin chào {{fullName}}! 👋</h2>
+            
+            <p>
+                Tài khoản của bạn đã được xác thực thành công! 
+                Giờ đây bạn có thể truy cập đầy đủ các tính năng của BookNest.
+            </p>
+            
+            <div class="features">
+                <div class="feature-item">
+                    <div class="feature-icon">📖</div>
+                    <div class="feature-text">
+                        <h3>Thư viện sách phong phú</h3>
+                        <p>Khám phá hàng ngàn cuốn sách từ nhiều thể loại khác nhau</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">⭐</div>
+                    <div class="feature-text">
+                        <h3>Đánh giá & Bình luận</h3>
+                        <p>Chia sẻ cảm nhận của bạn về những cuốn sách yêu thích</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">❤️</div>
+                    <div class="feature-text">
+                        <h3>Danh sách yêu thích</h3>
+                        <p>Lưu lại những cuốn sách bạn muốn đọc</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">🔍</div>
+                    <div class="feature-text">
+                        <h3>Tìm kiếm thông minh</h3>
+                        <p>Dễ dàng tìm kiếm sách theo tên, tác giả, thể loại</p>
+                    </div>
+                </div>
+            </div>
+            
+            <p>
+                Hãy bắt đầu hành trình khám phá tri thức của bạn ngay hôm nay!
+            </p>
+            
+            <div class="button-container">
+                <a href="{{loginUrl}}" class="login-button">
+                    Đăng nhập ngay
+                </a>
+            </div>
+            
+            <p style="text-align: center; color: #999999; font-size: 14px;">
+                Chúc bạn có những trải nghiệm tuyệt vời cùng BookNest! 📚
+            </p>
+        </div>
+        
+        <div class="footer">
+            <p><strong>BookNest Team</strong></p>
+            <p>Email này được gửi tự động, vui lòng không trả lời.</p>
+            <p>&copy; {{year}} BookNest. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

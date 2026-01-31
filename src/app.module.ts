@@ -1,5 +1,6 @@
 import { Global, Module } from '@nestjs/common';
 import { APP_INTERCEPTOR, APP_GUARD } from '@nestjs/core';
+import { ScheduleModule } from '@nestjs/schedule';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './modules/user/user.module';
@@ -21,6 +22,7 @@ import { SupabaseModule } from './modules/supabase/supabase.module';
 @Global()
 @Module({
   imports: [
+    ScheduleModule.forRoot(), // Enable cron jobs
     UserModule,
     AuthModule,
     PrismaModule,

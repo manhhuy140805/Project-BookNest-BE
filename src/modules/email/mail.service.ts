@@ -25,6 +25,7 @@ export class MailService {
       context: {
         fullName,
         verificationUrl,
+        url: process.env.APP_URL, // Thêm biến url
         year: new Date().getFullYear(),
       },
     });
@@ -50,6 +51,7 @@ export class MailService {
       context: {
         fullName,
         resetUrl,
+        url: process.env.APP_URL, // Thêm biến url
         year: new Date().getFullYear(),
       },
     });
@@ -68,6 +70,7 @@ export class MailService {
       context: {
         fullName,
         loginUrl: `${process.env.APP_URL}/auth/login`,
+        url: process.env.APP_URL, // Thêm biến url
         year: new Date().getFullYear(),
       },
     });

@@ -34,20 +34,18 @@ export class AuthController {
   }
 
   @Get('me')
-  @IsCache('auth:me', 3600) // Cache 1 hour
+  @IsCache('auth:me', 3600)
   getMe(@UserData() user: User) {
     return this.authService.getMe(user);
   }
 
-  /**
-   * Đổi mật khẩu (user đã đăng nhập)
-   */
   @Post('change-password')
   changePassword(@UserData() user: User, @Body() dto: ChangePasswordDto) {
     return this.authService.changePassword(
-      user.id,
+      user,
       dto.currentPassword,
       dto.newPassword,
+      dto.confirmPassword,
     );
   }
 
@@ -63,30 +61,20 @@ export class AuthController {
     return this.authService.resendVerificationEmail(dto.email);
   }
 
-  /**
-   * Yêu cầu reset mật khẩu - Gửi email với link reset
-   */
   @Post('forgot-password')
   @IsPublic()
   forgotPassword(@Body() dto: ForgotPasswordDto) {
     return this.authService.forgotPassword(dto.email);
   }
 
-  /**
-   * Reset mật khẩu bằng token từ email
-   */
   @Post('reset-password')
   @IsPublic()
   resetPassword(@Body() dto: ResetPasswordDto) {
-    return this.authService.resetPassword(dto.token, dto.newPassword);
+    return this.authService.resetPassword(dto.token, dto.newPassword, dto.confirmPassword);
   }
 
-  /**
-   * Endpoint để admin test cleanup service
-   * Xóa tất cả tài khoản chưa xác thực sau 3 ngày
-   */
   @Post('cleanup-unverified')
-  @Roles(Role.ADMIN) // Chỉ admin mới được gọi
+  @Roles(Role.ADMIN)
   async cleanupUnverifiedUsers() {
     return this.cleanupService.manualCleanup();
   }

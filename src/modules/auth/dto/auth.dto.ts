@@ -52,6 +52,11 @@ export class ResetPasswordDto {
   @IsNotEmpty()
   @MinLength(6, { message: 'Mật khẩu phải có ít nhất 6 ký tự' })
   newPassword: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(6, { message: 'Mật khẩu phải có ít nhất 6 ký tự' })
+  confirmPassword: string;
 }
 
 export class ChangePasswordDto {
@@ -63,4 +68,9 @@ export class ChangePasswordDto {
   @IsNotEmpty()
   @MinLength(6, { message: 'Mật khẩu mới phải có ít nhất 6 ký tự' })
   newPassword: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(6, { message: 'Mật khẩu mới phải có ít nhất 6 ký tự' })
+  confirmPassword: string;
 }

@@ -25,8 +25,9 @@ export class MailService {
       context: {
         fullName,
         verificationUrl,
-        url: process.env.APP_URL, // Thêm biến url
+        url: process.env.APP_URL,
         year: new Date().getFullYear(),
+        timestamp: new Date().getTime(), // Thêm timestamp để tránh Gmail clipping
       },
     });
   }
@@ -51,8 +52,9 @@ export class MailService {
       context: {
         fullName,
         resetUrl,
-        url: process.env.APP_URL, // Thêm biến url
+        url: process.env.APP_URL,
         year: new Date().getFullYear(),
+        timestamp: new Date().getTime(), // Thêm timestamp
       },
     });
   }
@@ -70,8 +72,9 @@ export class MailService {
       context: {
         fullName,
         loginUrl: `${process.env.APP_URL}/auth/login`,
-        url: process.env.APP_URL, // Thêm biến url
+        url: process.env.APP_URL,
         year: new Date().getFullYear(),
+        timestamp: new Date().getTime(), // Thêm timestamp
       },
     });
   }

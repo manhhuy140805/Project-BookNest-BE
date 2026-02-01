@@ -28,28 +28,56 @@
 </head>
 <body>
     <div class="container">
-        <div class="logo-container">
-            <img src="https://res.cloudinary.com/learnnestjs/image/upload/v1769938600/BetterImage_1769937414686-Photoroom_nqouhb.png" alt="BookNest Logo" class="logo">
+    <div class="logo-container">
+        <img src="https://res.cloudinary.com/learnnestjs/image/upload/v1769938600/BetterImage_1769937414686-Photoroom_nqouhb.png"
+             alt="BookNest Logo"
+             class="logo">
+    </div>
+    
+    <div class="content">
+        <p>Xin chào <strong>{{fullName}}</strong>,</p>
+        
+        <p>
+            <strong>Chào mừng bạn đến với BookNest!</strong><br>
+            Tài khoản của bạn đã được kích hoạt thành công.
+        </p>
+        
+        <p>
+            Từ bây giờ, bạn có thể:
+        </p>
+        <ul>
+            <li>Khám phá hàng ngàn đầu sách hấp dẫn</li>
+            <li>Lưu sách yêu thích để đọc sau</li>
+            <li>Quản lý danh sách đọc của riêng bạn</li>
+        </ul>
+        
+        <p>Bắt đầu hành trình đọc sách của bạn ngay hôm nay:</p>
+        
+        <div class="btn-container">
+            <a href="{{loginUrl}}" class="btn">Đăng nhập ngay</a>
         </div>
         
-        <div class="content">
-            <p>Xin chào <strong>{{fullName}}</strong>,</p>
-            
-            <p>Chào mừng bạn đến với BookNest! Tài khoản của bạn đã được kích hoạt thành công.</p>
-            
-            <p>Bắt đầu khám phá hàng ngàn cuốn sách ngay hôm nay:</p>
-            
-            <div class="btn-container">
-                <a href="{{loginUrl}}" class="btn">Đăng nhập ngay</a>
-            </div>
-            
-            <p>Trân trọng,<br>BookNest Team</p>
-        </div>
+        <p>
+            Nếu bạn cần hỗ trợ hoặc có bất kỳ câu hỏi nào,
+            đừng ngần ngại liên hệ với chúng tôi qua email
+            <strong>support@booknest.com</strong>.
+        </p>
         
-        <div class="footer">
-            <p>Đây là thư tự động, vui lòng không trả lời.</p>
-            <p>&copy; {{year}} BookNest. All rights reserved.</p>
-        </div>
+        <p>
+            Chúc bạn có những trải nghiệm đọc sách tuyệt vời cùng BookNest! 📖✨
+        </p>
+        
+        <p>Trân trọng,<br><strong>BookNest Team</strong></p>
+    </div>
+    
+    <div class="footer">
+        <p>Đây là thư tự động, vui lòng không trả lời.</p>
+        <p>&copy; {{year}} BookNest. All rights reserved.</p>
+    </div>
+</div>
+
+    <div style="display:none; opacity:0; font-size:1px; color:transparent; max-height:0; max-width:0; overflow:hidden;">
+        Email ID: {{timestamp}}
     </div>
 </body>
 </html>

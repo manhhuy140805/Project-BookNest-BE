@@ -5,13 +5,16 @@ import {
   CallHandler,
   HttpException,
   HttpStatus,
+  Inject,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { Reflector } from '@nestjs/core';
 import { RATE_LIMIT_KEY, RateLimitOptions } from 'src/common/decorator';
+import { RedisService } from '@liaoliaots/nestjs-redis';
+import Redis from 'ioredis';
 
 /**
- * RateLimitInterceptor - Giới hạn số lần request
+ * RateLimitInterceptor - Giới hạn số lần request (Redis-backed)
  *
  * Dùng để:
  * - Bảo vệ chống brute force attack (login)
@@ -23,10 +26,10 @@ import { RATE_LIMIT_KEY, RateLimitOptions } from 'src/common/decorator';
  * 1. Kiểm tra decorator @RateLimit() có metadata không
  * 2. Nếu không có metadata, allow request
  * 3. Lấy IP address hoặc User ID từ request
- * 4. Kiểm tra có bao nhiêu request từ IP/User trong time window
+ * 4. Kiểm tra Redis: có bao nhiêu request từ IP/User trong time window
  * 5. Nếu vượt quá limit, throw TooManyRequestsException (429)
- * 6. Nếu còn trong giới hạn, cho request đi
- * 7. Tự động xóa old requests sau khi hết time window
+ * 6. Nếu còn trong giới hạn, cho request đi và increment counter
+ * 7. Tự động expire key sau khi hết time window
  *
  * Ví dụ sử dụng:
  * @Post('login')
@@ -35,39 +38,29 @@ import { RATE_LIMIT_KEY, RateLimitOptions } from 'src/common/decorator';
  *   return this.authService.login(authDto);
  * }
  *
- * @Post('send-otp')
- * @RateLimit({ max: 3, windowMs: 300000 })  // 3 requests per 5 minutes
- * sendOtp(@Body() body: SendOtpDto) {
- *   return this.authService.sendOtp(body);
- * }
- *
  * Lưu ý:
- * - Rate limiting lưu trong memory (restart sẽ reset)
- * - Production nên dùng Redis
+ * - Rate limiting lưu trong Redis (persistent, scalable)
  * - Identifier = IP address (nếu user chưa login) hoặc User ID
  * - windowMs = khoảng thời gian tính bằng milliseconds
  * - max = số request tối đa trong time window
- * - Headers trả về: Retry-After (khi exceed limit)
  */
-
-// Interface để lưu request tracking
-interface RequestRecord {
-  timestamp: number;
-}
-
-interface RateLimitStore {
-  [key: string]: RequestRecord[];
-}
-
-// In-memory storage để lưu request history
-// Key: IP hoặc User ID, Value: Array of timestamps
-const rateLimitStore: RateLimitStore = {};
 
 @Injectable()
 export class RateLimitInterceptor implements NestInterceptor {
-  constructor(private reflector: Reflector) {}
+  private redis: Redis;
 
-  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+  constructor(
+    private reflector: Reflector,
+    private readonly redisService: RedisService,
+  ) {
+    // Get Redis client from RedisService
+    this.redis = this.redisService.getOrThrow();
+  }
+
+  async intercept(
+    context: ExecutionContext,
+    next: CallHandler,
+  ): Promise<Observable<any>> {
     // Lấy rate limit metadata từ @RateLimit() decorator
     const rateLimitOptions = this.reflector.get<RateLimitOptions>(
       RATE_LIMIT_KEY,
@@ -85,17 +78,28 @@ export class RateLimitInterceptor implements NestInterceptor {
     // Lấy identifier (IP hoặc User ID)
     const identifier = this.getIdentifier(request);
 
+    // Tạo Redis key
+    const redisKey = `ratelimit:${identifier}:${context.getHandler().name}`;
+
     // Kiểm tra xem có vượt quá limit không
-    const isLimitExceeded = this.checkRateLimit(
-      identifier,
+    const isLimitExceeded = await this.checkRateLimit(
+      redisKey,
       rateLimitOptions.max,
       rateLimitOptions.windowMs,
     );
 
     if (isLimitExceeded) {
+      // Lấy TTL còn lại để hiển thị cho user
+      const ttl = await this.redis.ttl(redisKey);
+      const retryAfter = ttl > 0 ? ttl : Math.ceil(rateLimitOptions.windowMs / 1000);
+
       // Vượt quá limit, throw 429 Too Many Requests
       throw new HttpException(
-        `Bạn đã gửi quá nhiều request. Vui lòng thử lại sau ${Math.ceil(rateLimitOptions.windowMs / 1000)}s`,
+        {
+          statusCode: HttpStatus.TOO_MANY_REQUESTS,
+          message: `Bạn đã gửi quá nhiều request. Vui lòng thử lại sau ${retryAfter}s`,
+          retryAfter,
+        },
         HttpStatus.TOO_MANY_REQUESTS,
       );
     }
@@ -116,7 +120,6 @@ export class RateLimitInterceptor implements NestInterceptor {
     }
 
     // Nếu chưa authenticate, dùng IP address
-    // Kiểm tra nhiều headers vì có thể có proxy/load balancer
     const ip =
       request.headers['x-forwarded-for'] ||
       request.headers['x-real-ip'] ||
@@ -131,94 +134,74 @@ export class RateLimitInterceptor implements NestInterceptor {
   }
 
   /**
-   * Kiểm tra xem có vượt quá rate limit không
-   * - Clean up old requests ngoài time window
-   * - Đếm request trong time window
-   * - Nếu >= max, return true (exceeded)
-   * - Nếu < max, lưu request mới, return false (ok)
+   * Kiểm tra xem có vượt quá rate limit không (Redis)
+   * - Sử dụng Redis INCR để atomic increment
+   * - Set EXPIRE nếu là lần đầu tiên
+   * - Return true nếu vượt quá limit
    */
-  private checkRateLimit(
-    identifier: string,
+  private async checkRateLimit(
+    redisKey: string,
     maxRequests: number,
     windowMs: number,
-  ): boolean {
-    const now = Date.now();
+  ): Promise<boolean> {
+    try {
+      // Increment counter (atomic operation)
+      const currentCount = await this.redis.incr(redisKey);
 
-    // Khởi tạo store nếu chưa có identifier
-    if (!rateLimitStore[identifier]) {
-      rateLimitStore[identifier] = [];
+      // Nếu là lần đầu tiên (count = 1), set expire time
+      if (currentCount === 1) {
+        await this.redis.pexpire(redisKey, windowMs);
+      }
+
+      // Kiểm tra xem có vượt quá limit không
+      return currentCount > maxRequests;
+    } catch (error) {
+      // Nếu Redis lỗi, log và cho request đi (fail-open)
+      console.error('❌ Redis Rate Limit Error:', error);
+      return false; // Không block request nếu Redis lỗi
     }
-
-    // Lấy array requests của identifier này
-    const requests = rateLimitStore[identifier];
-
-    // Clean up: xóa requests cũ (ngoài time window)
-    const cutoffTime = now - windowMs;
-    rateLimitStore[identifier] = requests.filter(
-      (record) => record.timestamp > cutoffTime,
-    );
-
-    // Kiểm tra xem có vượt quá limit không
-    const currentRequestCount = rateLimitStore[identifier].length;
-
-    if (currentRequestCount >= maxRequests) {
-      // Vượt quá limit, không thêm request này
-      return true;
-    }
-
-    // Còn trong giới hạn, thêm request này vào store
-    rateLimitStore[identifier].push({ timestamp: now });
-    return false;
   }
 
   /**
    * Manual method để reset rate limit của một identifier
    * Dùng nếu cần unblock user (admin panel)
    */
-  static resetLimit(identifier: string): void {
-    delete rateLimitStore[identifier];
-    console.log(`🔓 Rate limit RESET: ${identifier}`);
+  async resetLimit(identifier: string, handlerName: string): Promise<void> {
+    const redisKey = `ratelimit:${identifier}:${handlerName}`;
+    await this.redis.del(redisKey);
+    console.log(`🔓 Rate limit RESET: ${redisKey}`);
   }
 
   /**
    * Reset toàn bộ rate limit
    */
-  static resetAllLimits(): void {
-    for (const key in rateLimitStore) {
-      delete rateLimitStore[key];
+  async resetAllLimits(): Promise<void> {
+    const keys = await this.redis.keys('ratelimit:*');
+    if (keys.length > 0) {
+      await this.redis.del(...keys);
     }
-    console.log('🔓 All rate limits RESET');
+    console.log(`🔓 All rate limits RESET (${keys.length} keys)`);
   }
 
   /**
    * Kiểm tra rate limit stats (debugging)
    */
-  static getStats(): {
-    totalIdentifiers: number;
-    identifiers: {
-      identifier: string;
-      requestCount: number;
-      oldestRequest: number;
-    }[];
-  } {
-    const identifiers = Object.entries(rateLimitStore).map(
-      ([identifier, requests]) => ({
-        identifier,
-        requestCount: requests.length,
-        oldestRequest: requests.length > 0 ? requests[0].timestamp : 0,
-      }),
+  async getStats(): Promise<{
+    totalKeys: number;
+    keys: { key: string; count: number; ttl: number }[];
+  }> {
+    const keys = await this.redis.keys('ratelimit:*');
+    const stats = await Promise.all(
+      keys.map(async (key) => ({
+        key,
+        count: parseInt((await this.redis.get(key)) || '0'),
+        ttl: await this.redis.ttl(key),
+      })),
     );
 
     return {
-      totalIdentifiers: identifiers.length,
-      identifiers,
+      totalKeys: keys.length,
+      keys: stats,
     };
-  }
-
-  /**
-   * Lấy request count của một identifier
-   */
-  static getRequestCount(identifier: string): number {
-    return rateLimitStore[identifier]?.length || 0;
   }
 }

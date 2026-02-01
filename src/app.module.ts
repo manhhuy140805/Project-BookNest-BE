@@ -1,11 +1,13 @@
 import { Global, Module } from '@nestjs/common';
 import { APP_INTERCEPTOR, APP_GUARD } from '@nestjs/core';
 import { ScheduleModule } from '@nestjs/schedule';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { PrismaModule } from './modules/prisma/prisma.module';
+import { RedisModule } from './modules/redis/redis.module';
 import {
   CacheInterceptor,
   ClearCacheInterceptor,
@@ -23,6 +25,14 @@ import { SupabaseModule } from './modules/supabase/supabase.module';
 @Module({
   imports: [
     ScheduleModule.forRoot(), // Enable cron jobs
+    // Global Rate Limiting: 100 requests per minute per IP
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000, // Time window: 60 seconds
+        limit: 100, // Max 100 requests per window
+      },
+    ]),
+    RedisModule, // Redis for rate limiting storage
     UserModule,
     AuthModule,
     PrismaModule,
@@ -41,16 +51,20 @@ import { SupabaseModule } from './modules/supabase/supabase.module';
       useClass: MyJwtGuard,
     },
     {
-      provide: APP_INTERCEPTOR,
-      useClass: RateLimitInterceptor, // Kiểm tra rate limit trước
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard, // Global rate limiting guard
     },
     {
       provide: APP_INTERCEPTOR,
-      useClass: CacheInterceptor, // Cache response sau
+      useClass: RateLimitInterceptor, // Custom rate limit cho endpoints nhạy cảm
     },
     {
       provide: APP_INTERCEPTOR,
-      useClass: ClearCacheInterceptor, // Kiểm tra rate limit trước
+      useClass: CacheInterceptor, // Cache response
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ClearCacheInterceptor,
     },
   ],
 })

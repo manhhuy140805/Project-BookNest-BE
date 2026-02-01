@@ -20,6 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@liaoliaots/nestjs-redis": "^10.0.0",
     "@nestjs-modules/mailer": "^2.0.2",
     "@nestjs/cache-manager": "^3.1.0",
     "@nestjs/common": "^11.0.1",
@@ -29,6 +30,7 @@
     "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^11.1.12",
     "@nestjs/schedule": "^6.1.0",
+    "@nestjs/throttler": "^6.5.0",
     "@prisma/adapter-pg": "^7.2.0",
     "@prisma/client": "^7.2.0",
     "@supabase/supabase-js": "^2.93.2",
@@ -45,6 +47,7 @@
     "compression": "^1.8.1",
     "dotenv": "^17.2.3",
     "handlebars": "^4.7.8",
+    "ioredis": "^5.9.2",
     "multer": "^2.0.2",
     "nodemailer": "^7.0.13",
     "passport": "^0.7.0",

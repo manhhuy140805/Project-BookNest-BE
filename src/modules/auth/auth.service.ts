@@ -16,9 +16,8 @@ export class AuthService {
   ) {}
 
   async register(authDto: AuthRegisterDto) {
-    
     const hashPassword = await bcrypt.hash(authDto.password, 10);
-    
+
     const verificationToken = crypto.randomBytes(32).toString('hex');
     const verificationExpires = new Date();
     verificationExpires.setHours(verificationExpires.getHours() + 24);
@@ -58,7 +57,8 @@ export class AuthService {
 
     return {
       ...user,
-      message: 'Đăng ký thành công! Vui lòng kiểm tra email để xác thực tài khoản.',
+      message:
+        'Đăng ký thành công! Vui lòng kiểm tra email để xác thực tài khoản.',
     };
   }
 
@@ -66,30 +66,30 @@ export class AuthService {
     const user = await this.prisma.user.findUnique({
       where: { email: authDto.email },
     });
-    
+
     if (!user) {
       throw new ForbiddenException('Tài khoản hoặc mật khẩu không đúng');
     }
-    
+
     if (!user.isActive) {
       throw new ForbiddenException('Tài khoản đã bị vô hiệu hóa');
     }
-    
+
     if (!user.isVerified) {
       throw new ForbiddenException(
         'Vui lòng xác thực email trước khi đăng nhập. Kiểm tra hộp thư của bạn.',
       );
     }
-    
+
     const passwordMatches = await bcrypt.compare(
       authDto.password,
       user.hashPassword,
     );
-    
+
     if (!passwordMatches) {
       throw new ForbiddenException('Tài khoản hoặc mật khẩu không đúng');
     }
-    
+
     return this.signToken(user.id, user.email);
   }
 
@@ -103,7 +103,6 @@ export class AuthService {
     newPassword: string,
     confirmPassword: string,
   ) {
-
     const passwordMatches = await bcrypt.compare(
       currentPassword,
       user.hashPassword,
@@ -115,13 +114,13 @@ export class AuthService {
 
     const sameAsOld = await bcrypt.compare(newPassword, user.hashPassword);
     if (sameAsOld) {
-      throw new ForbiddenException(
-        'Mật khẩu mới không được giống mật khẩu cũ',
-      );
+      throw new ForbiddenException('Mật khẩu mới không được giống mật khẩu cũ');
     }
 
     if (newPassword !== confirmPassword) {
-      throw new ForbiddenException('Mật khẩu mới và mật khẩu xác nhận không khớp');
+      throw new ForbiddenException(
+        'Mật khẩu mới và mật khẩu xác nhận không khớp',
+      );
     }
 
     const hashPassword = await bcrypt.hash(newPassword, 10);
@@ -223,8 +222,7 @@ export class AuthService {
 
     if (!user) {
       return {
-        message:
-          'Email của bạn chưa được đăng ký.',
+        message: 'Email của bạn chưa được đăng ký.',
       };
     }
 
@@ -256,7 +254,11 @@ export class AuthService {
     };
   }
 
-  async resetPassword(token: string, newPassword: string, confirmPassword: string ) {
+  async resetPassword(
+    token: string,
+    newPassword: string,
+    confirmPassword: string,
+  ) {
     const user = await this.prisma.user.findFirst({
       where: {
         resetPasswordToken: token,
@@ -273,14 +275,14 @@ export class AuthService {
     }
 
     if (newPassword !== confirmPassword) {
-      throw new ForbiddenException('Mật khẩu mới và mật khẩu xác nhận không khớp');
+      throw new ForbiddenException(
+        'Mật khẩu mới và mật khẩu xác nhận không khớp',
+      );
     }
 
     const sameAsOld = await bcrypt.compare(newPassword, user.hashPassword);
     if (sameAsOld) {
-      throw new ForbiddenException(
-        'Mật khẩu mới không được giống mật khẩu cũ',
-      );
+      throw new ForbiddenException('Mật khẩu mới không được giống mật khẩu cũ');
     }
 
     const hashPassword = await bcrypt.hash(newPassword, 10);
@@ -295,8 +297,52 @@ export class AuthService {
     });
 
     return {
-      message: 'Mật khẩu đã được đặt lại thành công. Bạn có thể đăng nhập ngay.',
+      message:
+        'Mật khẩu đã được đặt lại thành công. Bạn có thể đăng nhập ngay.',
     };
+  }
+
+  async validateGoogleUser(googleData: {
+    googleId: string;
+    email: string;
+    fullName: string;
+    avatarUrl?: string;
+  }) {
+    let user = await this.prisma.user.findUnique({
+      where: { googleId: googleData.googleId },
+    });
+
+    if (!user) {
+      user = await this.prisma.user.findUnique({
+        where: { email: googleData.email },
+      });
+
+      if (user) {
+        user = await this.prisma.user.update({
+          where: { id: user.id },
+          data: {
+            googleId: googleData.googleId,
+            googleEmail: googleData.email,
+          },
+        });
+      } else {
+        user = await this.prisma.user.create({
+          data: {
+            googleId: googleData.googleId,
+            googleEmail: googleData.email,
+            email: googleData.email,
+            hashPassword: '',
+            fullName: googleData.fullName,
+            avatarUrl: googleData.avatarUrl,
+            isVerified: true,
+            isActive: true,
+            role: 'USER',
+          },
+        });
+      }
+    }
+
+    return user;
   }
 
   async signToken(

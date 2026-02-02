@@ -5,6 +5,7 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { MyJwtGuard, RolesGuard } from '../../common/guards';
 import { JwtStrategy } from './strategy';
+import { GoogleStrategy } from './strategy/google.strategy';
 import { PrismaService } from '../prisma/prisma.service';
 import { MailModule } from '../email/mail.module';
 import { CleanupService } from './cleanup.service';
@@ -21,11 +22,12 @@ import { CleanupService } from './cleanup.service';
   controllers: [AuthController],
   providers: [
     AuthService,
-    MyJwtGuard, // JWT authentication guard
-    RolesGuard, // Role-based authorization guard
-    JwtStrategy, // JWT validation strategy
-    PrismaService, // Prisma service (dùng cho JWT strategy)
-    CleanupService, // Cleanup service (tự động xóa tài khoản chưa xác thực)
+    MyJwtGuard,
+    RolesGuard,
+    JwtStrategy,
+    GoogleStrategy,
+    PrismaService,
+    CleanupService,
   ],
   exports: [
     AuthService, // Export để modules khác dùng auth service

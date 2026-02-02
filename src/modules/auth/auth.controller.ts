@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Query,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import {
   AuthRegisterDto,
@@ -10,9 +19,18 @@ import {
   ChangePasswordDto,
 } from './dto';
 import 'dotenv/config';
-import { IsCache, IsPublic, UserData, Roles, Role, RateLimit } from 'src/common/decorator';
+import {
+  IsCache,
+  IsPublic,
+  UserData,
+  Roles,
+  Role,
+  RateLimit,
+} from 'src/common/decorator';
 import type { User } from 'src/generated/prisma/client';
 import { CleanupService } from './cleanup.service';
+import { AuthGuard } from '@nestjs/passport';
+import type { Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -77,12 +95,61 @@ export class AuthController {
   @IsPublic()
   @RateLimit({ max: 5, windowMs: 60000 }) // 5 reset/phút
   resetPassword(@Body() dto: ResetPasswordDto) {
-    return this.authService.resetPassword(dto.token, dto.newPassword, dto.confirmPassword);
+    return this.authService.resetPassword(
+      dto.token,
+      dto.newPassword,
+      dto.confirmPassword,
+    );
   }
 
   @Post('cleanup-unverified')
   @Roles(Role.ADMIN)
   async cleanupUnverifiedUsers() {
     return this.cleanupService.manualCleanup();
+  }
+
+  @Get('google')
+  @IsPublic()
+  @UseGuards(AuthGuard('google'))
+  async googleAuth() {}
+
+  @Get('google/callback')
+  @IsPublic()
+  @UseGuards(AuthGuard('google'))
+  async googleAuthRedirect(@Req() req: any, @Res() res: Response) {
+    const user = req.user;
+    const token = await this.authService.signToken(user.id, user.email);
+
+    if (process.env.FRONTEND_URL) {
+      res.redirect(
+        `${process.env.FRONTEND_URL}/auth/callback?token=${token.access_token}`,
+      );
+    } else {
+      res.json({
+        message: 'Google login successful',
+        access_token: token.access_token,
+        user: {
+          id: user.id,
+          email: user.email,
+          fullName: user.fullName,
+          avatarUrl: user.avatarUrl,
+        },
+      });
+    }
+  }
+
+  @Post('google/token')
+  @IsPublic()
+  async googleTokenAuth(
+    @Body()
+    body: {
+      googleId: string;
+      email: string;
+      fullName: string;
+      avatarUrl?: string;
+    },
+  ) {
+    const user = await this.authService.validateGoogleUser(body);
+    return this.authService.signToken(user.id, user.email);
   }
 }

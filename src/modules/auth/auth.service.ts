@@ -1,4 +1,8 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import type { AuthLoginDto, AuthRegisterDto } from './dto';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../prisma/prisma.service';
@@ -348,17 +352,90 @@ export class AuthService {
   async signToken(
     userId: number,
     email: string,
-  ): Promise<{ access_token: string }> {
+  ): Promise<{ access_token: string; refresh_token: string }> {
     const payload = {
       sub: userId,
       email,
     };
-    const token = await this.jwtService.signAsync(payload, {
+
+    const access_token = await this.jwtService.signAsync(payload, {
       secret: process.env.JWT_SECRET,
       expiresIn: '1h',
     });
+
+    const refresh_token = await this.createRefreshToken(userId);
+
     return {
-      access_token: token,
+      access_token,
+      refresh_token,
     };
+  }
+
+  async createRefreshToken(userId: number): Promise<string> {
+    const token = crypto.randomBytes(32).toString('hex');
+    const expiresAt = new Date();
+    expiresAt.setDate(expiresAt.getDate() + 7);
+
+    await this.prisma.refreshToken.create({
+      data: {
+        userId,
+        token,
+        expiresAt,
+      },
+    });
+
+    return token;
+  }
+
+  async validateRefreshToken(refreshToken: string) {
+    const tokenRecord = await this.prisma.refreshToken.findUnique({
+      where: { token: refreshToken },
+      include: { user: true },
+    });
+
+    if (!tokenRecord) {
+      throw new UnauthorizedException('Refresh token không hợp lệ');
+    }
+
+    if (tokenRecord.expiresAt < new Date()) {
+      await this.prisma.refreshToken.delete({ where: { id: tokenRecord.id } });
+      throw new UnauthorizedException('Refresh token đã hết hạn');
+    }
+
+    if (!tokenRecord.user.isActive) {
+      throw new UnauthorizedException('Tài khoản đã bị vô hiệu hóa');
+    }
+
+    return tokenRecord.user;
+  }
+
+  async refreshAccessToken(refreshToken: string) {
+    const user = await this.validateRefreshToken(refreshToken);
+
+    const payload = {
+      sub: user.id,
+      email: user.email,
+    };
+
+    const access_token = await this.jwtService.signAsync(payload, {
+      secret: process.env.JWT_SECRET,
+      expiresIn: '1h',
+    });
+
+    return { access_token };
+  }
+
+  async revokeRefreshToken(refreshToken: string) {
+    await this.prisma.refreshToken.deleteMany({
+      where: { token: refreshToken },
+    });
+    return { message: 'Đăng xuất thành công' };
+  }
+
+  async revokeAllRefreshTokens(userId: number) {
+    await this.prisma.refreshToken.deleteMany({
+      where: { userId },
+    });
+    return { message: 'Đã đăng xuất khỏi tất cả thiết bị' };
   }
 }

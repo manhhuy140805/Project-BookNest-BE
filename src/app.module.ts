@@ -20,6 +20,7 @@ import { RatingModule } from './modules/rating/rating.module';
 import { CloudinaryModule } from './modules/cloudinary/cloudinary.module';
 import { Reflector } from '@nestjs/core';
 import { SupabaseModule } from './modules/supabase/supabase.module';
+import { SearchModule } from './modules/search/search.module';
 
 @Global()
 @Module({
@@ -41,6 +42,7 @@ import { SupabaseModule } from './modules/supabase/supabase.module';
     RatingModule,
     CloudinaryModule,
     SupabaseModule,
+    SearchModule,
   ],
   controllers: [AppController],
   providers: [

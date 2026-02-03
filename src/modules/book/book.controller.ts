@@ -17,12 +17,18 @@ import {
   Roles,
   IsCache,
   ClearCache,
+  UserData,
 } from 'src/common/decorator';
 import { RolesGuard } from 'src/common/guards';
+import { SearchService } from '../search/search.service';
+import type { User } from 'src/generated/prisma/client';
 
 @Controller('book')
 export class BookController {
-  constructor(private readonly bookService: BookService) {}
+  constructor(
+    private readonly bookService: BookService,
+    private readonly searchService: SearchService,
+  ) {}
 
   @Post('create')
   @UseGuards(RolesGuard)
@@ -70,12 +76,19 @@ export class BookController {
     @Query('categoryId') categoryId: string,
     @Query('page') page: string = '1',
     @Query('limit') limit: string = '10',
+    @UserData() user?: User,
   ) {
-    return this.bookService.searchBooks(
+    const result = await this.bookService.searchBooks(
       keyword,
       Number(categoryId),
       Number(page),
       Number(limit),
     );
+
+    if (user && keyword) {
+      await this.searchService.saveSearch(user.id, keyword, result.total || 0);
+    }
+
+    return result;
   }
 }

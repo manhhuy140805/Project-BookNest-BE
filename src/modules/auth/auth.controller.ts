@@ -17,6 +17,7 @@ import {
   ForgotPasswordDto,
   ResetPasswordDto,
   ChangePasswordDto,
+  RefreshTokenDto,
 } from './dto';
 import 'dotenv/config';
 import {
@@ -151,5 +152,23 @@ export class AuthController {
   ) {
     const user = await this.authService.validateGoogleUser(body);
     return this.authService.signToken(user.id, user.email);
+  }
+
+  @Post('refresh')
+  @IsPublic()
+  @RateLimit({ max: 10, windowMs: 60000 })
+  async refreshToken(@Body() dto: RefreshTokenDto) {
+    return this.authService.refreshAccessToken(dto.refresh_token);
+  }
+
+  @Post('logout')
+  @IsPublic()
+  async logout(@Body() dto: RefreshTokenDto) {
+    return this.authService.revokeRefreshToken(dto.refresh_token);
+  }
+
+  @Post('logout-all')
+  async logoutAll(@UserData() user: User) {
+    return this.authService.revokeAllRefreshTokens(user.id);
   }
 }

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateBookDto, UpdateBookDto } from './Dto';
 import { PrismaService } from '../prisma/prisma.service';

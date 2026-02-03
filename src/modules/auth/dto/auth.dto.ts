@@ -74,3 +74,9 @@ export class ChangePasswordDto {
   @MinLength(6, { message: 'Mật khẩu mới phải có ít nhất 6 ký tự' })
   confirmPassword: string;
 }
+
+export class RefreshTokenDto {
+  @IsString()
+  @IsNotEmpty()
+  refresh_token: string;
+}

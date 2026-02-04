@@ -15,6 +15,14 @@ import { MailService } from './mail.service';
           user: process.env.MAIL_USER,
           pass: process.env.MAIL_PASSWORD,
         },
+        // Tăng timeout cho SMTP connection trên Render
+        connectionTimeout: 60000, // 60 seconds
+        greetingTimeout: 30000, // 30 seconds
+        socketTimeout: 60000, // 60 seconds
+        // Thử kết nối lại nếu thất bại
+        pool: true,
+        maxConnections: 5,
+        maxMessages: 100,
       },
       defaults: {
         from: process.env.MAIL_FROM,

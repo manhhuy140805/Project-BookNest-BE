@@ -20,7 +20,7 @@ import { MailService } from './mail.service';
         from: process.env.MAIL_FROM,
       },
       template: {
-        dir: join(__dirname, 'templates'),
+        dir: join(process.cwd(), 'dist', 'modules', 'email', 'templates'),
         adapter: new HandlebarsAdapter(),
         options: {
           strict: true,

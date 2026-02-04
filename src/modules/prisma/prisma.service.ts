@@ -15,9 +15,12 @@ export class PrismaService
     // Tạo connection pool cho PostgreSQL
     const pool = new Pool({
       connectionString: process.env.DATABASE_URL as string,
-      max: 20, // Maximum pool size
+      max: 10, // Maximum pool size (giảm xuống cho cloud database)
       idleTimeoutMillis: 30000, // Close idle connections after 30s
-      connectionTimeoutMillis: 2000, // Timeout after 2s
+      connectionTimeoutMillis: 30000, // Timeout after 30s (tăng lên cho cloud DB)
+      ssl: {
+        rejectUnauthorized: false, // Accept self-signed certificates
+      },
     });
 
     const adapter = new PrismaPg(pool);

@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { MailerService } from '@nestjs-modules/mailer';
+import { ResendService } from './resend.service';
 
 @Injectable()
 export class MailService {
-  constructor(private readonly mailerService: MailerService) {}
+  constructor(private readonly resendService: ResendService) {}
 
   /**
    * Gửi email xác thực tài khoản
@@ -16,20 +16,16 @@ export class MailService {
     fullName: string,
     verificationToken: string,
   ): Promise<void> {
-    const verificationUrl = `${process.env.APP_URL}/auth/verify-email?token=${verificationToken}`;
-
-    await this.mailerService.sendMail({
-      to: email,
-      subject: 'Xác thực tài khoản BookNest của bạn',
-      template: './verification', // tên file template (không cần .hbs)
-      context: {
+    try {
+      await this.resendService.sendVerificationEmail(
+        email,
+        verificationToken,
         fullName,
-        verificationUrl,
-        url: process.env.APP_URL,
-        year: new Date().getFullYear(),
-        timestamp: new Date().getTime(), // Thêm timestamp để tránh Gmail clipping
-      },
-    });
+      );
+    } catch (error) {
+      console.error('Lỗi khi gửi email xác thực:', error);
+      throw error;
+    }
   }
 
   /**
@@ -43,20 +39,16 @@ export class MailService {
     fullName: string,
     resetToken: string,
   ): Promise<void> {
-    const resetUrl = `${process.env.APP_URL}/auth/reset-password?token=${resetToken}`;
-
-    await this.mailerService.sendMail({
-      to: email,
-      subject: 'Đặt lại mật khẩu BookNest',
-      template: './reset-password',
-      context: {
+    try {
+      await this.resendService.sendPasswordResetEmail(
+        email,
+        resetToken,
         fullName,
-        resetUrl,
-        url: process.env.APP_URL,
-        year: new Date().getFullYear(),
-        timestamp: new Date().getTime(), // Thêm timestamp
-      },
-    });
+      );
+    } catch (error) {
+      console.error('Lỗi khi gửi email reset password:', error);
+      throw error;
+    }
   }
 
   /**
@@ -65,17 +57,11 @@ export class MailService {
    * @param fullName - Tên đầy đủ của người dùng
    */
   async sendWelcomeEmail(email: string, fullName: string): Promise<void> {
-    await this.mailerService.sendMail({
-      to: email,
-      subject: 'Chào mừng bạn đến với BookNest!',
-      template: './welcome',
-      context: {
-        fullName,
-        loginUrl: `${process.env.APP_URL}/auth/login`,
-        url: process.env.APP_URL,
-        year: new Date().getFullYear(),
-        timestamp: new Date().getTime(), // Thêm timestamp
-      },
-    });
+    try {
+      await this.resendService.sendWelcomeEmail(email, fullName);
+    } catch (error) {
+      console.error('Lỗi khi gửi email chào mừng:', error);
+      throw error;
+    }
   }
 }

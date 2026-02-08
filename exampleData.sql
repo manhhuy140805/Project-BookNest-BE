@@ -8,14 +8,6 @@ DELETE FROM "Book";
 DELETE FROM "Category";
 DELETE FROM "User";
 
--- Reset sequence IDs
-ALTER SEQUENCE "User_id_seq" RESTART WITH 101;
-ALTER SEQUENCE "Category_id_seq" RESTART WITH 101;
-ALTER SEQUENCE "Book_id_seq" RESTART WITH 101;
-ALTER SEQUENCE "Rating_id_seq" RESTART WITH 101;
-ALTER SEQUENCE "RefreshToken_id_seq" RESTART WITH 1;
-ALTER SEQUENCE "SearchHistory_id_seq" RESTART WITH 1;
-
 -- ===============================
 -- INSERT DATA FOR TABLE "User"
 -- ===============================

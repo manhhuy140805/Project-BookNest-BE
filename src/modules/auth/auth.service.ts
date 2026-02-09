@@ -26,6 +26,9 @@ export class AuthService {
     const verificationExpires = new Date();
     verificationExpires.setHours(verificationExpires.getHours() + 24);
 
+    // 🎯 DEMO MODE: Bypass verification if enabled
+    const isVerified = process.env.DEMO_BYPASS_VERIFY === 'true';
+
     const user = await this.prisma.user.create({
       data: {
         email: authDto.email,
@@ -33,11 +36,11 @@ export class AuthService {
         fullName: authDto.fullName,
         avatarUrl:
           'https://thumbs.dreamstime.com/b/d-icon-avatar-cute-smiling-woman-cartoon-hipster-character-people-close-up-portrait-isolated-transparent-png-background-352288997.jpg',
-        isVerified: false,
+        isVerified,
         isActive: true,
         role: 'USER',
-        verificationToken,
-        verificationExpires,
+        verificationToken: isVerified ? null : verificationToken,
+        verificationExpires: isVerified ? null : verificationExpires,
       },
       select: {
         id: true,
@@ -49,21 +52,39 @@ export class AuthService {
       },
     });
 
-    try {
-      await this.mailService.sendVerificationEmail(
-        user.email,
-        user.fullName || 'Người dùng',
-        verificationToken,
-      );
-    } catch (error) {
-      console.error('Lỗi khi gửi email xác thực:', error);
+    let verificationUrl: string | undefined;
+
+    if (!isVerified) {
+      try {
+        const emailResult = await this.mailService.sendVerificationEmail(
+          user.email,
+          user.fullName || 'Người dùng',
+          verificationToken,
+        );
+
+        // Get verification URL from email result (ResendService returns it)
+        verificationUrl = (emailResult as any)?.verificationUrl;
+      } catch (error) {
+        console.error('Lỗi khi gửi email xác thực:', error);
+      }
     }
 
-    return {
+    const response: any = {
       ...user,
-      message:
-        'Đăng ký thành công! Vui lòng kiểm tra email để xác thực tài khoản.',
+      message: isVerified
+        ? '🎯 [DEMO MODE] Đăng ký thành công! Tài khoản đã được tự động xác thực (DEMO_BYPASS_VERIFY=true)'
+        : 'Đăng ký thành công! Vui lòng kiểm tra email để xác thực tài khoản.',
     };
+
+    // 🎯 DEMO MODE: Return verification URL in response
+    if (process.env.EMAIL_MODE === 'demo' && verificationUrl) {
+      response.verificationUrl = verificationUrl;
+      response.demoMode = true;
+      response.message +=
+        ' \n🔗 [DEMO] Verification link included in response.';
+    }
+
+    return response;
   }
 
   async login(authDto: AuthLoginDto) {
@@ -203,20 +224,35 @@ export class AuthService {
       },
     });
 
+    let verificationUrl: string | undefined;
+
     try {
-      await this.mailService.sendVerificationEmail(
+      const emailResult = await this.mailService.sendVerificationEmail(
         user.email,
         user.fullName || 'Người dùng',
         verificationToken,
       );
+
+      // Get verification URL from email result
+      verificationUrl = (emailResult as any)?.verificationUrl;
     } catch (error) {
       console.error('Lỗi khi gửi email xác thực:', error);
       throw new ForbiddenException('Không thể gửi email xác thực');
     }
 
-    return {
+    const response: any = {
       message: 'Email xác thực đã được gửi lại. Vui lòng kiểm tra hộp thư.',
     };
+
+    // 🎯 DEMO MODE: Return verification URL in response
+    if (process.env.EMAIL_MODE === 'demo' && verificationUrl) {
+      response.verificationUrl = verificationUrl;
+      response.demoMode = true;
+      response.message +=
+        ' \n🔗 [DEMO] Verification link included in response.';
+    }
+
+    return response;
   }
 
   async forgotPassword(email: string) {
@@ -242,20 +278,35 @@ export class AuthService {
       },
     });
 
+    let resetUrl: string | undefined;
+
     try {
-      await this.mailService.sendPasswordResetEmail(
+      const emailResult = await this.mailService.sendPasswordResetEmail(
         user.email,
         user.fullName || 'Người dùng',
         resetToken,
       );
+
+      // Get reset URL from email result
+      resetUrl = (emailResult as any)?.resetUrl;
     } catch (error) {
       console.error('Lỗi khi gửi email reset password:', error);
     }
 
-    return {
+    const response: any = {
       message:
         'Nếu email tồn tại trong hệ thống, bạn sẽ nhận được email hướng dẫn reset mật khẩu.',
     };
+
+    // 🎯 DEMO MODE: Return reset URL in response
+    if (process.env.EMAIL_MODE === 'demo' && resetUrl) {
+      response.resetUrl = resetUrl;
+      response.demoMode = true;
+      response.message +=
+        ' \n🔗 [DEMO] Reset password link included in response.';
+    }
+
+    return response;
   }
 
   async resetPassword(

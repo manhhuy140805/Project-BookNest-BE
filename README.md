@@ -25,6 +25,118 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## 🎯 DEMO MODE Configuration
+
+This project supports **DEMO MODE** for easy demonstration and testing without relying on actual email delivery. This is especially useful for recruiters, demos, and development environments.
+
+### Environment Variables
+
+Add these to your `.env` file:
+
+```env
+# Set to 'demo' for development/demo mode, 'prod' for production
+EMAIL_MODE=demo
+
+# Set to 'true' to auto-verify users in demo mode (no email check needed)
+DEMO_BYPASS_VERIFY=false
+```
+
+### Features
+
+#### 1. **Email Link Logging** (`EMAIL_MODE=demo`)
+
+When `EMAIL_MODE=demo`, all email verification and password reset links are:
+
+- ✅ **Logged to console** with clear formatting
+- ✅ **Included in API responses** for easy access
+- ✅ **Still sent via Resend** (best practice: works if email succeeds)
+
+**Example Console Output:**
+
+```
+================================================================================
+🔗 [DEMO MODE] VERIFICATION EMAIL
+📧 To: user@example.com
+👤 Name: John Doe
+🔑 Verification Link: http://localhost:8080/auth/verify-email?token=abc123...
+✅ Click this link to verify (no email needed in demo)
+================================================================================
+```
+
+**Example API Response (Register):**
+
+```json
+{
+  "id": 1,
+  "email": "user@example.com",
+  "fullName": "John Doe",
+  "message": "Đăng ký thành công! Vui lòng kiểm tra email để xác thực tài khoản.\n🔗 [DEMO] Verification link included in response.",
+  "verificationUrl": "http://localhost:8080/auth/verify-email?token=abc123...",
+  "demoMode": true
+}
+```
+
+#### 2. **Auto-Verify Users** (`DEMO_BYPASS_VERIFY=true`)
+
+When enabled, users are automatically verified on registration:
+
+- ✅ No email verification needed
+- ✅ Can login immediately after registration
+- ✅ Perfect for quick demos
+
+**Example Response:**
+
+```json
+{
+  "id": 1,
+  "email": "user@example.com",
+  "isVerified": true,
+  "message": "🎯 [DEMO MODE] Đăng ký thành công! Tài khoản đã được tự động xác thực (DEMO_BYPASS_VERIFY=true)"
+}
+```
+
+### Affected Endpoints
+
+| Endpoint                         | Demo Mode Behavior                                  |
+| -------------------------------- | --------------------------------------------------- |
+| `POST /auth/register`            | Returns `verificationUrl` in response + console log |
+| `POST /auth/resend-verification` | Returns `verificationUrl` in response + console log |
+| `POST /auth/forgot-password`     | Returns `resetUrl` in response + console log        |
+
+### Production Mode
+
+Set `EMAIL_MODE=prod` to disable demo features:
+
+```env
+EMAIL_MODE=prod
+DEMO_BYPASS_VERIFY=false
+```
+
+In production mode:
+
+- ❌ Links are NOT logged to console
+- ❌ Links are NOT included in API responses
+- ✅ Only email delivery is used
+
+### Why This Approach?
+
+✅ **Professional**: Shows understanding of dev/demo/prod environments  
+✅ **Recruiter-Friendly**: No need to check email inbox during demos  
+✅ **Robust**: Email still sends (works if configured correctly)  
+✅ **Explicit**: Clear `[DEMO]` markers prevent confusion  
+✅ **Production-Ready**: Easy to switch to prod mode
+
+### Best Practice
+
+> **Recommended Setting for Demos:**
+>
+> ```env
+> EMAIL_MODE=demo
+> DEMO_BYPASS_VERIFY=false
+> ```
+>
+> This sends emails AND logs links, giving you both options without auto-bypassing verification flow.
+
 ## Project setup
 
 ```bash

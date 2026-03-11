@@ -196,6 +196,7 @@ export class AuthService {
 
     return {
       message: 'Email đã được xác thực thành công! Bạn có thể đăng nhập ngay.',
+      redirectUrl: `${process.env.FRONTEND_URL ?? 'http://localhost:5173'}/login`,
     };
   }
 

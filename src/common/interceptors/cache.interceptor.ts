@@ -35,8 +35,9 @@ export class CacheInterceptor implements NestInterceptor {
       return next.handle();
     }
 
-    // Tạo cache key unique cho mỗi request
-    const fullCacheKey = `${cacheKey}:${request.url}`;
+    // Tạo cache key unique cho mỗi request và mỗi user (nếu đã đăng nhập)
+    const userScope = request.user?.id ? `:user:${request.user.id}` : '';
+    const fullCacheKey = `${cacheKey}:${request.url}${userScope}`;
 
     try {
       // Kiểm tra cache

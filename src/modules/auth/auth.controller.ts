@@ -21,7 +21,6 @@ import {
 } from './dto';
 import 'dotenv/config';
 import {
-  IsCache,
   IsPublic,
   UserData,
   Roles,
@@ -55,7 +54,6 @@ export class AuthController {
   }
 
   @Get('me')
-  @IsCache('auth:me', 3600)
   getMe(@UserData() user: User) {
     return this.authService.getMe(user);
   }

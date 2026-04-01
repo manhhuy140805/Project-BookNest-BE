@@ -1,6 +1,5 @@
 import {
   BadRequestException,
-  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -151,23 +150,7 @@ export class UserService {
         },
       },
     });
-
-    const listFavoriteBooks = await this.prismaService.user.findUnique({
-      where: { id: user.id },
-      select: {
-        id: true,
-        fullName: true,
-        favoriteBooks: {
-          where: { id: bookId },
-          select: {
-            id: true,
-            title: true,
-            author: true,
-          },
-        },
-      },
-    });
-
+    const listFavoriteBooks = await this.getListFavoriteBooks(user);
     return listFavoriteBooks;
   }
 
@@ -192,22 +175,7 @@ export class UserService {
         },
       },
     });
-
-    const listFavoriteBooks = await this.prismaService.user.findUnique({
-      where: { id: user.id },
-      select: {
-        id: true,
-        fullName: true,
-        favoriteBooks: {
-          where: { id: bookId },
-          select: {
-            id: true,
-            title: true,
-            author: true,
-          },
-        },
-      },
-    });
+    const listFavoriteBooks = await this.getListFavoriteBooks(user);
     return listFavoriteBooks;
   }
 
@@ -234,6 +202,20 @@ export class UserService {
             id: true,
             title: true,
             author: true,
+            description: true,
+            coverUrl: true,
+            pdfUrl: true,
+            pdfFileName: true,
+            pdfSize: true,
+            categoryId: true,
+            category: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+            createdAt: true,
+            updatedAt: true,
           },
         },
       },

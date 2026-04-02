@@ -38,6 +38,9 @@ export class BookService {
         author: true,
         description: true,
         coverUrl: true,
+        pdfUrl: true,
+        pdfFileName: true,
+        pdfSize: true,
         categoryId: true,
         category: {
           select: {
@@ -192,6 +195,9 @@ export class BookService {
           author: true,
           description: true,
           coverUrl: true,
+          pdfUrl: true,
+          pdfFileName: true,
+          pdfSize: true,
           categoryId: true,
           category: {
             select: {

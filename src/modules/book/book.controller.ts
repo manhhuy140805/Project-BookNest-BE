@@ -31,6 +31,7 @@ export class BookController {
   ) {}
 
   @Post('create')
+  @ClearCache('books:all', 'books:detail')
   @UseGuards(RolesGuard)
   @Roles(Role.ADMIN)
   async createBook(@Body() createBookDto: CreateBookDto) {
@@ -63,6 +64,7 @@ export class BookController {
   }
 
   @Delete('delete/:id')
+  @ClearCache('books:all', 'books:detail')
   @UseGuards(RolesGuard)
   @Roles(Role.ADMIN)
   async deleteBook(@Param('id') id: string) {

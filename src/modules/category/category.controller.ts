@@ -37,6 +37,7 @@ export class CategoryController {
   }
 
   @Post()
+  @ClearCache('categories:all', 'categories:detail')
   @UseGuards(RolesGuard)
   @Roles(Role.ADMIN, Role.MODERATOR)
   async create(@Body('name') name: string) {
@@ -44,6 +45,7 @@ export class CategoryController {
   }
 
   @Delete(':id')
+  @ClearCache('categories:all', 'categories:detail')
   @UseGuards(RolesGuard)
   @Roles(Role.ADMIN, Role.MODERATOR)
   async delete(@Param('id') id: string) {
@@ -51,8 +53,7 @@ export class CategoryController {
   }
 
   @Put(':id')
-  @ClearCache('categories:detail')
-  @ClearCache('categories:all')
+  @ClearCache('categories:all', 'categories:detail')
   @UseGuards(RolesGuard)
   @Roles(Role.ADMIN, Role.MODERATOR)
   async update(@Param('id') id: string, @Body('name') name: string) {

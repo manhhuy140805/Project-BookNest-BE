@@ -40,6 +40,12 @@ export class RatingController {
   }
 
   @Post()
+  @ClearCache(
+    'ratings:all',
+    'ratings:detail',
+    'ratings:by-book',
+    'ratings:by-user',
+  )
   async create(
     @UserData('id') userId: string,
     @Body() createRatingDto: CreateRatingDto,
@@ -48,6 +54,12 @@ export class RatingController {
   }
 
   @Delete(':id')
+  @ClearCache(
+    'ratings:all',
+    'ratings:detail',
+    'ratings:by-book',
+    'ratings:by-user',
+  )
   async delete(@Param('id') id: string) {
     return this.ratingService.delete(Number(id));
   }

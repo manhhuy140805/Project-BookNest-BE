@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { SearchService } from './search.service';
 import { SearchQueryDto } from './dto';
-import { UserData } from 'src/common/decorator';
+import { UserData, ClearCache } from 'src/common/decorator';
 import type { User } from 'src/generated/prisma/client';
 import { IsPublic, IsCache } from 'src/common/decorator';
 
@@ -38,11 +38,13 @@ export class SearchController {
   }
 
   @Post('clear-history')
+  @ClearCache('search:history', 'search:trending')
   clearHistory(@UserData() user: User) {
     return this.searchService.clearHistory(user.id);
   }
 
   @Delete('history/:id')
+  @ClearCache('search:history', 'search:trending')
   deleteSearch(@UserData() user: User, @Param('id', ParseIntPipe) id: number) {
     return this.searchService.deleteSearch(user.id, id);
   }

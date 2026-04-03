@@ -44,6 +44,7 @@ export class UserController {
   @UseGuards(RolesGuard)
   @Roles(Role.ADMIN)
   @Delete('remove/:id')
+  @ClearCache('users:all', 'users:detail')
   remove(@Param('id') id: string) {
     return this.userService.remove(Number(id));
   }
@@ -51,8 +52,7 @@ export class UserController {
   @UseGuards(RolesGuard)
   @Roles(Role.ADMIN)
   @Put('update/:id')
-  @ClearCache('users:detail')
-  @ClearCache('users:all')
+  @ClearCache('users:all', 'users:detail')
   update(@Param('id') id: string, @Body() userUpdate: UserUpdate) {
     return this.userService.update(Number(id), userUpdate);
   }
@@ -60,16 +60,19 @@ export class UserController {
   @UseGuards(RolesGuard)
   @Roles(Role.ADMIN)
   @Post('create')
+  @ClearCache('users:all', 'users:detail')
   create(@Body() userCreate: UserCreate) {
     return this.userService.create(userCreate);
   }
 
   @Post('favorite/add/:bookId')
+  @ClearCache('users:favorites')
   addFavoriteBook(@Param('bookId') bookId: string, @UserData() user: User) {
     return this.userService.addFavoriteBook(user, Number(bookId));
   }
 
   @Delete('favorite/remove/:bookId')
+  @ClearCache('users:favorites')
   removeFavoriteBook(@Param('bookId') bookId: string, @UserData() user: User) {
     return this.userService.removeFavoriteBook(user, Number(bookId));
   }

@@ -263,7 +263,8 @@ export class AuthService {
 
     if (!user) {
       return {
-        message: 'Email của bạn chưa được đăng ký.',
+        message:
+          'Nếu email tồn tại trong hệ thống, bạn sẽ nhận được email hướng dẫn reset mật khẩu.',
       };
     }
 
@@ -280,6 +281,7 @@ export class AuthService {
     });
 
     let resetUrl: string | undefined;
+    let emailSentSuccessfully = false;
 
     try {
       const emailResult = await this.mailService.sendPasswordResetEmail(
@@ -290,8 +292,13 @@ export class AuthService {
 
       // Get reset URL from email result
       resetUrl = (emailResult as any)?.resetUrl;
+      emailSentSuccessfully = true;
     } catch (error) {
       console.error('Lỗi khi gửi email reset password:', error);
+      // 🎯 DEMO MODE: Still return resetUrl even if email fails
+      if (process.env.EMAIL_MODE === 'demo') {
+        resetUrl = `${process.env.APP_URL}/auth/reset-password?token=${resetToken}`;
+      }
     }
 
     const response: any = {
@@ -299,12 +306,21 @@ export class AuthService {
         'Nếu email tồn tại trong hệ thống, bạn sẽ nhận được email hướng dẫn reset mật khẩu.',
     };
 
-    // 🎯 DEMO MODE: Return reset URL in response
+    // 🎯 DEMO MODE: Return reset URL in response for testing
     if (process.env.EMAIL_MODE === 'demo' && resetUrl) {
       response.resetUrl = resetUrl;
       response.demoMode = true;
       response.message +=
         ' \n🔗 [DEMO] Reset password link included in response.';
+      if (emailSentSuccessfully) {
+        response.emailStatus = 'sent';
+      } else {
+        response.emailStatus = 'fallback';
+        response.message +=
+          ' (Email sending failed, but demo link is available)';
+      }
+    } else if (emailSentSuccessfully) {
+      response.emailStatus = 'sent';
     }
 
     return response;
@@ -352,9 +368,18 @@ export class AuthService {
       },
     });
 
+    // 🎯 DEMO MODE: Log successful password reset
+    if (process.env.EMAIL_MODE === 'demo') {
+      console.log('\n🔐 [DEMO MODE] Password Reset Successful');
+      console.log('📧 User:', user.email);
+      console.log('✅ Password has been reset. You can now login.');
+      console.log('---\n');
+    }
+
     return {
       message:
         'Mật khẩu đã được đặt lại thành công. Bạn có thể đăng nhập ngay.',
+      redirectUrl: `${process.env.FRONTEND_URL ?? 'http://localhost:5173'}/login`,
     };
   }
 
@@ -462,7 +487,9 @@ export class AuthService {
   }
 
   async refreshAccessToken(refreshToken: string) {
+    console.log('🔄 Refresh token request received');
     const user = await this.validateRefreshToken(refreshToken);
+    console.log('✅ Refresh token validated for user:', user.id);
 
     const payload = {
       sub: user.id,
@@ -474,6 +501,7 @@ export class AuthService {
       expiresIn: '1h',
     });
 
+    console.log('✅ New access token generated for user:', user.id);
     return { access_token };
   }
 
